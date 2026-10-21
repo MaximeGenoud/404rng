@@ -283,6 +283,140 @@ select{background:#0e131c;border:2px solid var(--line);color:var(--fg);padding:8
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:50;width:100%;height:100%}
 
 .chip{cursor:pointer;font:500 14px var(--f-mono)}
+
+/* ===== v4 : navigation par onglets ===== */
+:root{--c-uncommon:#55ff55;--c-rare:#6f8bff;--c-epic:#c95cff;--c-legendary:#ffaa00;--c-mythic:#ff6bff;--c-divine:#55ffff;--rare:#6f8bff;--mythic:#ff6bff;--divine:#55ffff}
+.hero{height:min(500px,66vh);min-height:400px}
+.hero h1{font-size:clamp(34px,6vw,68px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(20,26,38,.94);backdrop-filter:blur(8px);border-bottom:2px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:4px;overflow-x:auto;scrollbar-width:none}
+.nav .wrap::-webkit-scrollbar{display:none}
+.nav a{flex:none;color:var(--muted);text-decoration:none;font:700 16px var(--f-display);padding:14px 14px 12px;border-bottom:3px solid transparent;margin-bottom:-2px;display:flex;align-items:center;gap:6px}
+.nav a[aria-current="page"]{color:var(--gold);border-bottom-color:var(--gold)}
+.nav a .count{background:var(--danger);color:#fff;font:700 11px/1.4 var(--f-mono);padding:1px 5px}
+.nav .spacer{flex:1}
+.nav .help{flex:none;appearance:none;border:2px solid var(--line);background:none;color:var(--fg);width:34px;height:34px;font:700 16px var(--f-display);cursor:pointer}
+.view{display:flex;flex-direction:column;gap:48px}
+.view > section{margin:0}
+main{padding-block:28px 64px}
+
+/* bandeaux */
+.banners{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.banner-live{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:12px 16px;border:2px solid var(--gold);background:linear-gradient(90deg,#3a2c08,var(--panel));font:500 15px var(--f-body)}
+.banner-live b{font:700 18px var(--f-display);color:var(--gold)}
+.banner-live .t{margin-left:auto;font:700 16px var(--f-mono);color:var(--gold);font-variant-numeric:tabular-nums}
+.banner-live.event{border-color:#ff8a3d;background:linear-gradient(90deg,#3a1d08,var(--panel))}
+.banner-live.event b{color:#ff8a3d}
+
+/* ligne coffre + série + rival */
+.today-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px}
+@media (max-width:860px){.today-row{grid-template-columns:1fr}}
+.card{background:var(--panel);border:2px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card h3{margin:0;font:700 20px var(--f-display)}
+.card p{margin:0;color:var(--muted)}
+.chest-box{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.chest-box canvas{width:96px;height:96px;image-rendering:pixelated;flex:none}
+.chest-box.shake canvas{animation:shake .5s steps(2) 2}
+@keyframes shake{0%{transform:translate(0,0) rotate(0)}25%{transform:translate(-3px,0) rotate(-4deg)}50%{transform:translate(3px,-2px) rotate(3deg)}75%{transform:translate(-2px,0) rotate(-2deg)}100%{transform:translate(0,0)}}
+.chest-box .grow{flex:1 1 200px;min-width:0;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.loot{border:2px solid var(--r,var(--line));background:#100010;padding:10px 12px;width:100%}
+.loot b{display:block;font:700 17px var(--f-display);color:var(--r,var(--fg))}
+.loot small{color:#c9c9dc}
+.statline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.statline div{background:#0e131c;border:2px solid var(--line);padding:10px;text-align:center}
+.statline b{display:block;font:700 24px var(--f-mono);font-variant-numeric:tabular-nums}
+.statline span{font:500 11px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.rival{font:500 15px var(--f-body);color:var(--fg)}
+.rival b{color:var(--gold)}
+
+/* primes */
+.bounties{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.bounties{grid-template-columns:1fr}}
+.bounty{background:#1d1408;border:2px solid #7a5200;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.bounty .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.bounty b{font:700 18px var(--f-display);color:var(--gold)}
+.bounty .pts{font:700 18px var(--f-mono);color:var(--gold);white-space:nowrap}
+.bounty p{margin:0;color:#e6dcc4}
+.bounty small{color:#bfae8a;font:500 12px var(--f-mono)}
+.bounty.won{opacity:.7;border-color:var(--line);background:var(--panel)}
+
+/* saison */
+.season{background:var(--tooltip);border:3px solid var(--tooltip-edge);padding:18px;display:flex;flex-direction:column;gap:14px}
+.season-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;align-items:baseline}
+.season-top b{font:700 26px var(--f-display);color:var(--c-mythic)}
+.season-top span{font:500 14px var(--f-mono);color:#c9c9dc}
+.track{display:grid;grid-template-columns:repeat(30,minmax(0,1fr));gap:3px}
+.track i{height:18px;background:#2a1a3a}
+.track i.on{background:var(--c-mythic)}
+.track i.rw{outline:2px solid var(--gold);outline-offset:-2px}
+.rewards{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+@media (max-width:760px){.rewards{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.rewards div{border:2px solid #3a2a52;padding:8px;text-align:center;font:500 12px/1.3 var(--f-mono);color:#a8a8c0;min-width:0;overflow-wrap:anywhere}
+.rewards div b{display:block;font:700 15px var(--f-display);color:#d4d4e4}
+.rewards div.on{border-color:var(--gold);color:var(--gold)}
+
+/* cosmétiques */
+.cos-grid{display:flex;flex-wrap:wrap;gap:8px}
+.cos{appearance:none;cursor:pointer;background:#0e131c;border:2px solid var(--line);color:var(--fg);padding:8px 12px;font:600 14px var(--f-body)}
+.cos[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold) inset}
+.cos.locked{opacity:.35;cursor:default}
+.nm{font-weight:700}
+.nm.c-uncommon{color:var(--c-uncommon)}.nm.c-rare{color:var(--c-rare)}.nm.c-epic{color:var(--c-epic)}.nm.c-legendary{color:var(--c-legendary)}.nm.c-mythic{color:var(--c-mythic)}.nm.c-divine{color:var(--c-divine)}
+.ttl{display:inline-block;margin-left:6px;font:500 11px var(--f-mono);color:var(--muted);border:1px solid var(--line);padding:1px 5px;vertical-align:middle}
+
+/* succès par catégorie */
+.ach-cat{display:flex;flex-direction:column;gap:10px}
+.ach-cat h3{margin:0;font:700 16px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.ach .bar{height:6px;background:#0e131c;margin-top:6px}
+.ach .bar i{display:block;height:100%;background:var(--c)}
+.ach-wrap{display:flex;flex-direction:column;gap:22px}
+
+/* équipes */
+.teams{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:860px){.teams{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.team{--t:#888;background:var(--panel);border:2px solid var(--line);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.team.mine{border-color:var(--t)}
+.team .tn{font:700 18px var(--f-display);color:var(--t)}
+.team .tp{font:700 26px var(--f-mono);font-variant-numeric:tabular-nums}
+.team small{color:var(--muted);font:500 12px var(--f-mono)}
+.team .meter{height:10px;background:#0e131c}
+.team .meter i{display:block;height:100%;background:var(--t)}
+.team.lead .tn::after{content:" · en tête";font:500 12px var(--f-mono);color:var(--gold)}
+
+/* mur des légendes */
+.fame{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.fame div{background:linear-gradient(180deg,#2b2614,var(--panel));border:2px solid var(--gold);padding:14px;display:flex;flex-direction:column;gap:4px}
+.fame b{font:700 18px var(--f-display);color:var(--gold)}
+.fame span{font:500 13px var(--f-mono);color:var(--muted)}
+
+/* duels */
+.duel-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;gap:12px;align-items:end}
+@media (max-width:760px){.duel-form{grid-template-columns:1fr}}
+.duel-form select{width:100%}
+.duel-list{list-style:none;margin:0;padding:0;background:var(--panel);border:2px solid var(--line)}
+.duel-list li{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.duel-list li:last-child{border-bottom:0}
+.duel-list .grow{flex:1 1 240px;min-width:0}
+.duel-list .grow b{display:block}
+.duel-list .grow small{color:var(--muted)}
+.duel-list .actions{display:flex;flex-wrap:wrap;gap:6px}
+.vs{font:700 14px var(--f-display);color:var(--danger)}
+
+/* tuto */
+.tuto{max-width:560px}
+.tuto .art{height:120px;display:grid;place-items:center;background:linear-gradient(180deg,var(--sky-top),var(--sky-bot));border:3px solid var(--tooltip-edge)}
+.tuto .art span{font:700 44px var(--f-display);color:#fff;text-shadow:3px 3px 0 #1b3f6b}
+.tuto p{margin:0;color:#d4d4e4}
+.tuto ul{margin:0;padding-left:20px;color:#d4d4e4}
+.dots{display:flex;gap:6px;justify-content:center}
+.dots i{width:10px;height:10px;background:#3a2a52}
+.dots i.on{background:var(--gold)}
+.team-pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.team-pick button{--t:#888;appearance:none;cursor:pointer;background:#0e131c;border:2px solid var(--t);color:var(--t);font:700 15px var(--f-display);padding:12px 8px}
+.team-pick button small{display:block;font:500 11px var(--f-mono);color:var(--muted);margin-top:4px}
+.empty-note{color:var(--muted);padding:16px;background:var(--panel);border:2px dashed var(--line)}
+.staff-form{display:grid;gap:10px;background:#0e131c;border:2px solid var(--line);padding:14px;margin-bottom:14px}
 </style>
 </head>
 <body>
@@ -316,182 +450,324 @@ select{background:#0e131c;border:2px solid var(--line);color:var(--fg);padding:8
   </div>
 </header>
 
+<nav class="nav" aria-label="Sections du site">
+  <div class="wrap">
+    <a href="#aujourdhui" data-view="aujourdhui">Aujourd'hui</a>
+    <a href="#progression" data-view="progression">Progression</a>
+    <a href="#guilde" data-view="guilde">Guilde</a>
+    <a href="#duels" data-view="duels">Duels<span class="count" id="c-duels" hidden></span></a>
+    <a href="#staff" data-view="staff" id="nav-staff" hidden>Staff<span class="count" id="c-staff" hidden></span></a>
+    <span class="spacer"></span>
+    <button class="help" id="help-btn" type="button" aria-label="Revoir le tuto">?</button>
+  </div>
+</nav>
+
 <main class="wrap">
-  <section id="staff" hidden>
-    <div class="sec-head">
-      <h2>Panneau staff</h2>
-      <p>Visible uniquement par les officiers.</p>
-    </div>
-    <div class="staff">
-      <div class="tabs" role="tablist">
-        <button role="tab" data-tab="t-valid" aria-selected="true">Validations<span class="count" id="c-valid" hidden></span></button>
-        <button role="tab" data-tab="t-grades" aria-selected="false">Grades<span class="count" id="c-grades" hidden></span></button>
-        <button role="tab" data-tab="t-defis" aria-selected="false">Défis</button>
-        <button role="tab" data-tab="t-plan" aria-selected="false">Planning</button>
-        <button role="tab" data-tab="t-settings" aria-selected="false">Réglages</button>
-      </div>
+  <div class="banners" id="banners"></div>
 
-      <div class="tabpanel" id="t-valid" role="tabpanel">
-        <ul class="list" id="pending-list"></ul>
+  <!-- ============ AUJOURD'HUI ============ -->
+  <div class="view" id="v-aujourdhui">
+    <section>
+      <div class="sec-head">
+        <h2>Défis du jour</h2>
+        <p>Rotation à minuit (heure suisse). Facile rapporte 1 point, Moyen 2 et RNG carried 5, une fois approuvé par un officier.</p>
       </div>
+      <div class="cards" id="cards"></div>
+    </section>
 
-      <div class="tabpanel" id="t-grades" role="tabpanel" hidden>
-        <p class="hint">Les joueurs qui ont atteint un palier et demandent leur grade. Donne-le sur Discord, puis clique « Grade donné ».</p>
-        <ul class="list" id="claims-list"></ul>
-      </div>
-
-      <div class="tabpanel" id="t-defis" role="tabpanel" hidden>
-        <p class="hint" id="seed-hint" hidden>Les défis de base ne sont pas encore enregistrés dans la base. Ils le seront automatiquement à ta première modification, ou tout de suite avec ce bouton. <button class="btn small go" id="seed-btn">Enregistrer les défis de base</button></p>
-        <form class="editor" id="ch-form" novalidate>
-          <h4 id="ch-form-title">Nouveau défi</h4>
-          <div class="field"><label for="ch-tier">Catégorie</label>
-            <select id="ch-tier"><option value="facile">Facile (1 point)</option><option value="moyen">Moyen (2 points)</option><option value="rng">RNG carried (5 points)</option></select></div>
-          <div class="field"><label for="ch-name">Nom</label><input type="text" id="ch-name" maxlength="60" placeholder="ex. Judgement Core"></div>
-          <div class="field full"><label for="ch-desc">Ce qu'il faut faire</label><input type="text" id="ch-desc" maxlength="200" placeholder="ex. Drop un Judgement Core sur un Voidgloom Seraph."></div>
-          <div class="field full"><label for="ch-stat">Où le vérifier sur SkyCrypt</label><input type="text" id="ch-stat" maxlength="60" placeholder="ex. Slayer · Enderman"></div>
-          <p class="err full" id="ch-err"></p>
-          <div class="row">
-            <button type="submit" class="btn go" id="ch-save">Ajouter le défi</button>
-            <button type="button" class="btn ghost" id="ch-cancel" hidden>Annuler la modification</button>
-          </div>
-        </form>
-        <div class="toolbar">
-          <label for="ch-filter" class="hint" style="margin:0">Afficher</label>
-          <select id="ch-filter"><option value="all">Toutes les catégories</option><option value="facile">Facile</option><option value="moyen">Moyen</option><option value="rng">RNG carried</option></select>
-        </div>
-        <ul class="list" id="ch-list"></ul>
-      </div>
-
-      <div class="tabpanel" id="t-plan" role="tabpanel" hidden>
-        <p class="hint">« Auto » laisse la rotation choisir parmi les défis actifs. Choisis un défi pour l'imposer ce jour-là.</p>
-        <div class="plan-box"><table class="plan"><thead><tr><th>Jour</th><th>Facile</th><th>Moyen</th><th>RNG carried</th></tr></thead><tbody id="plan-body"></tbody></table></div>
-      </div>
-
-      <div class="tabpanel" id="t-settings" role="tabpanel" hidden>
-        <div class="settings-grid">
-          <div>
-            <h4>Annonces Discord</h4>
-            <p class="hint">Le site poste dans votre salon quand un défi est approuvé, qu'un palier est atteint ou qu'un grade est donné. Sur Discord : Paramètres du salon › Intégrations › Webhooks › Nouveau webhook › Copier l'URL du webhook. L'adresse reste visible uniquement par les officiers.</p>
-            <form id="hook-form" novalidate>
-              <div class="field"><label for="hook-url">URL du webhook</label><input type="url" id="hook-url" placeholder="https://discord.com/api/webhooks/…" autocomplete="off"></div>
-              <p class="err" id="hook-err"></p>
-              <div class="inline"><button class="btn go" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="hook-test">Envoyer un message de test</button></div>
-            </form>
-          </div>
-          <div>
-            <h4>Objectif commun de la semaine</h4>
-            <p class="hint">Le nombre de défis approuvés (défis du jour et quêtes perso) à atteindre tous ensemble avant dimanche minuit. Mets 0 pour masquer l'objectif.</p>
-            <form id="goal-form" novalidate>
-              <div class="inline">
-                <div class="field"><label for="goal-target">Défis à atteindre</label><input type="text" inputmode="numeric" id="goal-target" maxlength="5"></div>
-                <div class="field"><label for="goal-reward">Récompense annoncée</label><input type="text" id="goal-reward" maxlength="80" placeholder="ex. Giveaway de 50M coins"></div>
-              </div>
-              <div class="inline"><button class="btn go" type="submit">Enregistrer l'objectif</button></div>
-            </form>
-          </div>
-          <div>
-            <h4>Noms des grades</h4>
-            <form id="grades-form" novalidate>
-              <div class="grades-form" id="grades-fields"></div>
-              <div class="inline"><button class="btn go" type="submit">Enregistrer les noms</button></div>
-            </form>
-          </div>
+    <section class="today-row">
+      <div class="card">
+        <h3>Coffre RNG du jour</h3>
+        <div class="chest-box" id="chest-box">
+          <canvas id="chest-cv" width="16" height="16"></canvas>
+          <div class="grow" id="chest-ui"></div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="defis">
-    <div class="sec-head">
-      <h2>Défis du jour</h2>
-      <p>Rotation à minuit (heure suisse). Facile rapporte 1 point, Moyen 2 et RNG carried 5, une fois approuvé par un officier.</p>
-    </div>
-    <div class="cards" id="cards"></div>
-  </section>
-
-
-  <section id="quetes">
-    <div class="sec-head">
-      <h2>Tes quêtes de la semaine</h2>
-      <p>10 défis rien que pour toi, à faire quand tu veux avant dimanche minuit. Chaque quête approuvée rapporte ses points et fait avancer le grand défi de guilde.</p>
-    </div>
-    <div class="quests">
-      <div class="quests-head"><b id="q-count">0 / 10</b><small id="q-sub"></small></div>
-      <div class="progress"><i id="q-bar"></i></div>
-      <ul class="qlist" id="q-list"></ul>
-    </div>
-    <div class="goal" id="goal" hidden>
-      <div><b>Grand défi de guilde</b><div class="reward" id="goal-reward-label"></div></div>
-      <div class="count" id="goal-count"></div>
-      <div class="progress"><i id="goal-bar"></i></div>
-      <div class="sub" id="goal-sub"></div>
-    </div>
-  </section>
-
-  <section id="paliers">
-    <div class="sec-head">
-      <h2>Paliers</h2>
-      <p>Chaque palier atteint rend son emblème doré et débloque un grade à réclamer sur Discord.</p>
-    </div>
-    <div class="emblems" id="emblems"></div>
-    <div class="progress"><i id="bar"></i></div>
-    <div class="progress-label" id="bar-label">Connecte-toi pour voir ta progression.</div>
-  </section>
-
-
-  <section id="succes">
-    <div class="sec-head">
-      <h2>Succès</h2>
-      <p class="ach-count" id="ach-count">Débloque-les au fil des défis.</p>
-    </div>
-    <div class="ach-grid" id="ach-grid"></div>
-  </section>
-
-  <section id="classement">
-    <div class="sec-head">
-      <h2>Classement de la guilde</h2>
-      <p>En points. Clique sur un joueur pour voir son profil.</p>
-    </div>
-    <div class="board-tabs" role="group" aria-label="Période du classement">
-      <button type="button" data-period="all" aria-pressed="true">Général</button>
-      <button type="button" data-period="week" aria-pressed="false">Cette semaine</button>
-      <button type="button" data-period="month" aria-pressed="false">Ce mois</button>
-    </div>
-    <div class="board-box">
-      <table class="board">
-        <thead id="board-head"></thead>
-        <tbody id="board"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <section id="activite">
-    <div class="two">
-      <div>
-        <div class="sec-head"><h2>Validations du jour</h2></div>
-        <ul class="feed" id="feed"></ul>
+      <div class="card">
+        <h3>Ta journée</h3>
+        <div class="statline" id="me-stats"></div>
+        <p class="rival" id="rival"></p>
       </div>
-      <aside class="rules">
-        <h3>Comment valider</h3>
-        <ol>
-          <li>Connecte-toi avec Google et choisis ton pseudo Minecraft (une seule fois).</li>
-          <li>Réalise le défi en jeu et poste ta preuve dans le salon Discord des défis.</li>
-          <li>Clique « Valider » et colle le lien du message Discord.</li>
-          <li>Un officier vérifie et approuve. Tu gagnes tes points et ta série continue.</li>
-          <li>À 10, 25, 50, 100, 500 et 1000 défis, clique « Réclamer mon grade ».</li>
-        </ol>
-        <p class="note">Série : valide au moins un défi par jour pour faire grimper ta flamme. Un jour sans défi approuvé la remet à zéro.</p>
-        <div class="officer-box" id="uid-box" hidden>
-          Ton identifiant (utile pour devenir officier) :
-          <code id="uid-code"></code>
-          <button class="btn small ghost" id="uid-copy">Copier</button>
+    </section>
+
+    <section id="quetes">
+      <div class="sec-head">
+        <h2>Tes quêtes de la semaine</h2>
+        <p>10 défis rien que pour toi, à faire quand tu veux avant dimanche minuit. Chaque quête rapporte ses points et fait avancer le grand défi de guilde.</p>
+      </div>
+      <div class="quests">
+        <div class="quests-head"><b id="q-count">0 / 10</b><small id="q-sub"></small></div>
+        <div class="progress"><i id="q-bar"></i></div>
+        <ul class="qlist" id="q-list"></ul>
+      </div>
+    </section>
+
+    <section id="primes">
+      <div class="sec-head">
+        <h2>Primes</h2>
+        <p>Des récompenses spéciales posées par les officiers. Le premier validé remporte tout.</p>
+      </div>
+      <div class="bounties" id="bounties"></div>
+    </section>
+  </div>
+
+  <!-- ============ PROGRESSION ============ -->
+  <div class="view" id="v-progression" hidden>
+    <section>
+      <div class="sec-head">
+        <h2>Passe de saison</h2>
+        <p>Une saison par mois. Tes points et l'XP de tes coffres font monter ton niveau, jusqu'à 30.</p>
+      </div>
+      <div class="season" id="season"></div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <h2>Paliers</h2>
+        <p>Chaque palier atteint rend son emblème doré et débloque un grade à réclamer sur Discord.</p>
+      </div>
+      <div class="emblems" id="emblems"></div>
+      <div class="progress"><i id="bar"></i></div>
+      <div class="progress-label" id="bar-label">Connecte-toi pour voir ta progression.</div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <h2>Ma collection</h2>
+        <p>Titres et couleurs de pseudo gagnés dans les coffres, la saison, les primes et les événements. Clique pour les porter.</p>
+      </div>
+      <div class="card" id="collection"></div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <h2>Succès</h2>
+        <p class="ach-count" id="ach-count">Débloque-les au fil des défis.</p>
+      </div>
+      <div class="ach-wrap" id="ach-wrap"></div>
+    </section>
+  </div>
+
+  <!-- ============ GUILDE ============ -->
+  <div class="view" id="v-guilde" hidden>
+    <section>
+      <div class="sec-head">
+        <h2>Grand défi de guilde</h2>
+        <p>Tous les défis approuvés de la semaine comptent : défis du jour, quêtes, duels et primes.</p>
+      </div>
+      <div class="goal" id="goal" hidden>
+        <div><b id="goal-title">Objectif de la semaine</b><div class="reward" id="goal-reward-label"></div></div>
+        <div class="count" id="goal-count"></div>
+        <div class="progress"><i id="goal-bar"></i></div>
+        <div class="sub" id="goal-sub"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <h2>Équipes</h2>
+        <p id="team-hint">Chaque point gagné compte aussi pour ton équipe. Classement remis à zéro chaque lundi.</p>
+      </div>
+      <div class="teams" id="teams"></div>
+    </section>
+
+    <section id="classement">
+      <div class="sec-head">
+        <h2>Classement</h2>
+        <p>En points. Clique sur un joueur pour voir son profil.</p>
+      </div>
+      <div class="board-tabs" role="group" aria-label="Période du classement">
+        <button type="button" data-period="all" aria-pressed="true">Général</button>
+        <button type="button" data-period="week" aria-pressed="false">Cette semaine</button>
+        <button type="button" data-period="month" aria-pressed="false">Cette saison</button>
+      </div>
+      <div class="board-box">
+        <table class="board">
+          <thead><tr><th>#</th><th>Joueur</th><th>Grade</th><th>Points</th><th>Défis</th><th>Série</th><th>Niv.</th></tr></thead>
+          <tbody id="board"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <h2>Mur des légendes</h2>
+        <p>Les champions de chaque saison, pour toujours.</p>
+      </div>
+      <div class="fame" id="fame"></div>
+    </section>
+
+    <section id="activite">
+      <div class="two">
+        <div>
+          <div class="sec-head"><h2>Validations du jour</h2></div>
+          <ul class="feed" id="feed"></ul>
         </div>
-      </aside>
-    </div>
-  </section>
+        <aside class="rules">
+          <h3>Bonus de points</h3>
+          <ol>
+            <li><b>Série de 7 jours ou plus</b> : points ×1,5.</li>
+            <li><b>Happy hour</b> : points ×2 pendant que le bandeau est affiché.</li>
+            <li><b>Joker</b> : tous les 7 jours de série, tu gagnes un joker (3 max). Il protège ta série si tu rates un jour.</li>
+            <li><b>Duel gagné</b> : +3 points en plus du défi.</li>
+          </ol>
+          <div class="officer-box" id="uid-box" hidden>
+            Ton identifiant (utile pour devenir officier) :
+            <code id="uid-code"></code>
+            <button class="btn small ghost" id="uid-copy">Copier</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ DUELS ============ -->
+  <div class="view" id="v-duels" hidden>
+    <section>
+      <div class="sec-head">
+        <h2>Lancer un duel</h2>
+        <p>Choisis un adversaire et un défi. S'il accepte, le premier dont la validation est approuvée gagne le défi et 3 points bonus. Un duel dure jusqu'à dimanche minuit.</p>
+      </div>
+      <form class="card duel-form" id="duel-form" novalidate>
+        <div class="field"><label for="duel-to">Adversaire</label><select id="duel-to"></select></div>
+        <div class="field"><label for="duel-ch">Défi</label><select id="duel-ch"></select></div>
+        <button class="btn go" type="submit" id="duel-go">Défier</button>
+        <p class="err" id="duel-err" style="grid-column:1/-1"></p>
+      </form>
+    </section>
+    <section>
+      <div class="sec-head"><h2>Mes duels</h2></div>
+      <ul class="duel-list" id="duel-list"></ul>
+    </section>
+  </div>
+
+  <!-- ============ STAFF ============ -->
+  <div class="view" id="v-staff" hidden>
+    <section>
+      <div class="staff">
+        <div class="tabs" role="tablist">
+          <button role="tab" data-tab="t-valid" aria-selected="true">Validations<span class="count" id="c-valid" hidden></span></button>
+          <button role="tab" data-tab="t-grades" aria-selected="false">Grades<span class="count" id="c-grades" hidden></span></button>
+          <button role="tab" data-tab="t-defis" aria-selected="false">Défis</button>
+          <button role="tab" data-tab="t-plan" aria-selected="false">Planning</button>
+          <button role="tab" data-tab="t-primes" aria-selected="false">Primes</button>
+          <button role="tab" data-tab="t-events" aria-selected="false">Événements</button>
+          <button role="tab" data-tab="t-settings" aria-selected="false">Réglages</button>
+        </div>
+
+        <div class="tabpanel" id="t-valid" role="tabpanel"><ul class="list" id="pending-list"></ul></div>
+
+        <div class="tabpanel" id="t-grades" role="tabpanel" hidden>
+          <p class="hint">Les joueurs qui ont atteint un palier et demandent leur grade. Donne-le sur Discord, puis clique « Grade donné ».</p>
+          <ul class="list" id="claims-list"></ul>
+        </div>
+
+        <div class="tabpanel" id="t-defis" role="tabpanel" hidden>
+          <p class="hint" id="seed-hint" hidden>Les défis de base ne sont pas encore enregistrés dans la base. Ils le seront à ta première modification, ou tout de suite avec ce bouton. <button class="btn small go" id="seed-btn">Enregistrer les défis de base</button></p>
+          <form class="editor" id="ch-form" novalidate>
+            <h4 id="ch-form-title">Nouveau défi</h4>
+            <div class="field"><label for="ch-tier">Catégorie</label>
+              <select id="ch-tier"><option value="facile">Facile (1 point)</option><option value="moyen">Moyen (2 points)</option><option value="rng">RNG carried (5 points)</option></select></div>
+            <div class="field"><label for="ch-name">Nom</label><input type="text" id="ch-name" maxlength="60" placeholder="ex. Judgement Core"></div>
+            <div class="field full"><label for="ch-desc">Ce qu'il faut faire</label><input type="text" id="ch-desc" maxlength="200" placeholder="ex. Drop un Judgement Core sur un Voidgloom Seraph."></div>
+            <div class="field full"><label for="ch-stat">Où le vérifier sur SkyCrypt</label><input type="text" id="ch-stat" maxlength="60" placeholder="ex. Slayer · Enderman"></div>
+            <p class="err full" id="ch-err"></p>
+            <div class="row">
+              <button type="submit" class="btn go" id="ch-save">Ajouter le défi</button>
+              <button type="button" class="btn ghost" id="ch-cancel" hidden>Annuler la modification</button>
+            </div>
+          </form>
+          <div class="toolbar">
+            <label for="ch-filter" class="hint" style="margin:0">Afficher</label>
+            <select id="ch-filter"><option value="all">Toutes les catégories</option><option value="facile">Facile</option><option value="moyen">Moyen</option><option value="rng">RNG carried</option></select>
+          </div>
+          <ul class="list" id="ch-list"></ul>
+        </div>
+
+        <div class="tabpanel" id="t-plan" role="tabpanel" hidden>
+          <p class="hint">« Auto » laisse la rotation choisir parmi les défis actifs. Choisis un défi pour l'imposer ce jour-là.</p>
+          <div class="plan-box"><table class="plan"><thead><tr><th>Jour</th><th>Facile</th><th>Moyen</th><th>RNG carried</th></tr></thead><tbody id="plan-body"></tbody></table></div>
+        </div>
+
+        <div class="tabpanel" id="t-primes" role="tabpanel" hidden>
+          <form class="staff-form" id="b-form" novalidate>
+            <h4 style="margin:0;font:700 17px var(--f-display)">Nouvelle prime</h4>
+            <div class="inline">
+              <div class="field"><label for="b-title">Titre</label><input type="text" id="b-title" maxlength="60" placeholder="ex. Premier Judgement Core"></div>
+              <div class="field" style="flex:0 1 140px"><label for="b-pts">Points</label><input type="text" inputmode="numeric" id="b-pts" maxlength="3" value="20"></div>
+              <div class="field" style="flex:0 1 180px"><label for="b-until">Jusqu'au</label><input type="date" id="b-until"></div>
+            </div>
+            <div class="field"><label for="b-desc">Ce qu'il faut faire</label><input type="text" id="b-desc" maxlength="200" placeholder="ex. Le premier à drop un Judgement Core cette semaine."></div>
+            <p class="hint" style="margin:0">Le gagnant reçoit aussi le titre « Chasseur de primes ». La prime est annoncée sur Discord.</p>
+            <p class="err" id="b-err"></p>
+            <div class="inline"><button class="btn go" type="submit">Publier la prime</button></div>
+          </form>
+          <ul class="list" id="b-list"></ul>
+        </div>
+
+        <div class="tabpanel" id="t-events" role="tabpanel" hidden>
+          <div class="settings-grid">
+            <div>
+              <h4>Happy hour</h4>
+              <p class="hint">Points ×2 pour toutes les validations envoyées pendant la durée choisie. Annoncée sur Discord.</p>
+              <div class="inline" id="happy-ui"></div>
+            </div>
+            <div>
+              <h4>Semaine à thème</h4>
+              <p class="hint">Pendant la semaine choisie, les joueurs qui réussissent assez de défis gagnent un titre limité qu'on ne pourra plus jamais obtenir ensuite.</p>
+              <form id="ev-form" class="staff-form" novalidate>
+                <div class="inline">
+                  <div class="field"><label for="ev-name">Nom de l'événement</label><input type="text" id="ev-name" maxlength="40" placeholder="ex. Semaine Spooky"></div>
+                  <div class="field"><label for="ev-badge">Titre à gagner</label><input type="text" id="ev-badge" maxlength="30" placeholder="ex. Citrouille hantée"></div>
+                </div>
+                <div class="inline">
+                  <div class="field"><label for="ev-week">Semaine</label><select id="ev-week"></select></div>
+                  <div class="field"><label for="ev-target">Défis à réussir</label><input type="text" inputmode="numeric" id="ev-target" maxlength="2" value="5"></div>
+                </div>
+                <div class="inline"><button class="btn go" type="submit">Programmer l'événement</button><button class="btn ghost" type="button" id="ev-clear">Retirer l'événement</button></div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpanel" id="t-settings" role="tabpanel" hidden>
+          <div class="settings-grid">
+            <div>
+              <h4>Annonces Discord</h4>
+              <p class="hint">Sur Discord : Paramètres du salon › Intégrations › Webhooks › Nouveau webhook › Copier l'URL du webhook. L'adresse reste visible uniquement par les officiers.</p>
+              <form id="hook-form" novalidate>
+                <div class="field"><label for="hook-url">URL du webhook</label><input type="url" id="hook-url" placeholder="https://discord.com/api/webhooks/…" autocomplete="off"></div>
+                <p class="err" id="hook-err"></p>
+                <div class="inline"><button class="btn go" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="hook-test">Envoyer un message de test</button></div>
+              </form>
+            </div>
+            <div>
+              <h4>Grand défi de guilde</h4>
+              <p class="hint">Le nombre de défis approuvés à atteindre tous ensemble avant dimanche minuit. Mets 0 pour le masquer. Chaque lundi, le site poste sur Discord le récap de la semaine passée et le nouveau grand défi.</p>
+              <form id="goal-form" novalidate>
+                <div class="inline">
+                  <div class="field"><label for="goal-target">Défis à atteindre</label><input type="text" inputmode="numeric" id="goal-target" maxlength="5"></div>
+                  <div class="field"><label for="goal-reward">Récompense annoncée</label><input type="text" id="goal-reward" maxlength="80" placeholder="ex. Giveaway de 50M coins"></div>
+                </div>
+                <div class="inline"><button class="btn go" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="goal-post">Annoncer le grand défi sur Discord</button><button class="btn ghost" type="button" id="recap-post">Poster le récap de la semaine</button></div>
+              </form>
+            </div>
+            <div>
+              <h4>Noms des grades</h4>
+              <form id="grades-form" novalidate>
+                <div class="grades-form" id="grades-fields"></div>
+                <div class="inline"><button class="btn go" type="submit">Enregistrer les noms</button></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </main>
 <footer class="wrap">Site de guilde non officiel, sans lien avec Hypixel ni Mojang. Profils consultés via SkyCrypt.</footer>
 
+<!-- Validation -->
 <div class="modal" id="modal" hidden>
   <form class="dialog" id="form" novalidate>
     <h3 id="m-title">Valider</h3>
@@ -509,6 +785,7 @@ select{background:#0e131c;border:2px solid var(--line);color:var(--fg);padding:8
   </form>
 </div>
 
+<!-- Pseudo -->
 <div class="modal" id="pmodal" hidden>
   <form class="dialog" id="pform" novalidate>
     <h3>Ton pseudo Minecraft</h3>
@@ -526,6 +803,7 @@ select{background:#0e131c;border:2px solid var(--line);color:var(--fg);padding:8
   </form>
 </div>
 
+<!-- Profil -->
 <div class="modal" id="prof-modal" hidden>
   <div class="dialog" id="prof" role="dialog" aria-modal="true" aria-labelledby="prof-name">
     <div class="profile-head"><img id="prof-head" alt=""><div><b id="prof-name"></b><small id="prof-sub"></small></div></div>
@@ -534,11 +812,27 @@ select{background:#0e131c;border:2px solid var(--line);color:var(--fg);padding:8
     <div class="mini-ach" id="prof-ach"></div>
     <ul class="history" id="prof-history"></ul>
     <div class="row">
-      <a class="btn ghost" id="prof-sky" href="#" target="_blank" rel="noopener">Voir sur SkyCrypt</a>
+      <button type="button" class="btn go" id="prof-duel" hidden>Défier en duel</button>
+      <a class="btn ghost" id="prof-sky" href="#" target="_blank" rel="noopener">SkyCrypt</a>
       <button type="button" class="btn" id="prof-close">Fermer</button>
     </div>
   </div>
 </div>
+
+<!-- Tuto -->
+<div class="modal" id="tuto-modal" hidden>
+  <div class="dialog tuto" role="dialog" aria-modal="true" aria-labelledby="tuto-title">
+    <div class="art"><span id="tuto-art"></span></div>
+    <h3 id="tuto-title"></h3>
+    <div id="tuto-body"></div>
+    <div class="dots" id="tuto-dots"></div>
+    <div class="row">
+      <button type="button" class="btn ghost" id="tuto-skip">Passer</button>
+      <button type="button" class="btn go" id="tuto-next">Suivant</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast" hidden></div>
 <canvas id="confetti" hidden></canvas>
 
@@ -558,9 +852,9 @@ const firebaseConfig = {
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, collection, query, where, orderBy, limit, onSnapshot, writeBatch, increment, serverTimestamp, deleteField, documentId } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, collection, query, where, limit, onSnapshot, writeBatch, increment, serverTimestamp, deleteField, documentId, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* ---------------- DONNÉES DE BASE ---------------- */
+/* ================= DONNÉES DU JEU ================= */
 const TIERS = {
   facile:{label:"Facile", rarity:"UNCOMMON DÉFI", cls:"facile", color:"uncommon", pts:1, hex:0x55ff55},
   moyen:{label:"Moyen", rarity:"EPIC DÉFI", cls:"moyen", color:"epic", pts:2, hex:0xc95cff},
@@ -613,55 +907,103 @@ const BASE = {
     ["Enrager","Drop un Enrager sur Kuudra.","Crimson Isle · Kuudra"]
   ]
 };
+
 const BASE_MAP=new Map();
 TIER_KEYS.forEach(t=>BASE[t].forEach(([name,desc,stat],i)=>{const id=`${t[0]}${String(i+1).padStart(2,"0")}`;BASE_MAP.set(id,{id,tier:t,name,desc,stat,active:true})}));
 
 const PALIERS=[10,25,50,100,500,1000];
 const DEFAULT_GRADES={10:"Grinder",25:"Sweaty",50:"RNG Hunter",100:"Skyblock Addict",500:"No Life",1000:"RNG God"};
 const QUEST_MIX={facile:5,moyen:3,rng:2};
+const DUEL_BONUS=3, JOKER_EVERY=7, JOKER_MAX=3, LEVEL_XP=10, MAX_LVL=30;
 
-/* Succès : calculés à partir des compteurs du joueur */
-const ACH=[
-  {id:"pas",ico:"1",name:"Premier pas",desc:"Réussir ton premier défi.",c:"uncommon",test:u=>(u.ok||0)>=1},
-  {id:"tout",ico:"3",name:"Touche-à-tout",desc:"Réussir un défi de chaque catégorie.",c:"uncommon",test:u=>(u.facile||0)>=1&&(u.moyen||0)>=1&&(u.rng||0)>=1},
-  {id:"aven",ico:"Q",name:"Aventurier",desc:"Terminer ta première quête perso.",c:"uncommon",test:u=>(u.quests||0)>=1},
-  {id:"chauffe",ico:"3j",name:"Ça chauffe",desc:"Atteindre une série de 3 jours.",c:"epic",test:u=>(u.best||0)>=3},
-  {id:"carried",ico:"R",name:"Carried par la RNG",desc:"Réussir un défi RNG carried.",c:"epic",test:u=>(u.rng||0)>=1},
-  {id:"fb",ico:"FB",name:"First blood",desc:"Être le premier à valider le défi RNG carried du jour.",c:"epic",test:u=>(u.firstBloods||0)>=1},
-  {id:"chelem",ico:"GC",name:"Grand chelem",desc:"Réussir les 3 défis du jour le même jour.",c:"epic",test:u=>(u.slams||0)>=1},
-  {id:"feu",ico:"7j",name:"En feu",desc:"Atteindre une série de 7 jours.",c:"epic",test:u=>(u.best||0)>=7},
-  {id:"centu",ico:"100",name:"Centurion",desc:"Cumuler 100 points.",c:"epic",test:u=>(u.points||0)>=100},
-  {id:"parfaite",ico:"10Q",name:"Semaine parfaite",desc:"Terminer tes 10 quêtes perso d'une même semaine.",c:"legendary",test:u=>(u.questWeeks||0)>=1},
-  {id:"bras",ico:"25M",name:"Gros bras",desc:"Réussir 25 défis Moyen.",c:"legendary",test:u=>(u.moyen||0)>=25},
-  {id:"trefle",ico:"10R",name:"Trèfle à 4 feuilles",desc:"Réussir 10 défis RNG carried.",c:"legendary",test:u=>(u.rng||0)>=10},
-  {id:"sniper",ico:"5FB",name:"Sniper",desc:"Décrocher 5 First blood.",c:"legendary",test:u=>(u.firstBloods||0)>=5},
-  {id:"chelem5",ico:"5GC",name:"Collectionneur",desc:"Faire 5 Grands chelems.",c:"legendary",test:u=>(u.slams||0)>=5},
-  {id:"stop",ico:"30j",name:"Inarrêtable",desc:"Atteindre une série de 30 jours.",c:"legendary",test:u=>(u.best||0)>=30},
-  {id:"mille",ico:"1K",name:"Légende de la guilde",desc:"Cumuler 1000 points.",c:"legendary",test:u=>(u.points||0)>=1000}
+const TEAMS={
+  zombie:{name:"Revenants",color:"#6cc24a",boss:"Team Zombie"},
+  spider:{name:"Tarentules",color:"#ff5f5f",boss:"Team Spider"},
+  enderman:{name:"Voidgloom",color:"#c95cff",boss:"Team Enderman"},
+  blaze:{name:"Inferno",color:"#ffaa00",boss:"Team Blaze"}
+};
+const COLORS={uncommon:"Vert Uncommon",rare:"Bleu Rare",epic:"Violet Epic",legendary:"Orange Legendary",mythic:"Rose Mythic",divine:"Cyan Divine"};
+const TITLE_POOL=["Chanceux","Farmer","Mineur","Pêcheur","Dungeoneer","Slayer","Grinder du dimanche","Collectionneur","Enchanteur fou","Ami des minions"];
+const SEASON_REWARDS=[
+  {lvl:3,cos:"c:uncommon",label:"Pseudo vert"},
+  {lvl:5,cos:"t:Saisonnier",label:"Titre Saisonnier"},
+  {lvl:10,cos:"c:rare",label:"Pseudo bleu"},
+  {lvl:15,cos:"t:Accro à la RNG",label:"Titre Accro à la RNG"},
+  {lvl:20,cos:"c:epic",label:"Pseudo violet"},
+  {lvl:25,cos:"t:Increvable",label:"Titre Increvable"},
+  {lvl:30,cos:"c:mythic",label:"Pseudo mythique"}
 ];
+const LOOT={
+  common:{label:"Commun",color:"#cfd8ea"},
+  uncommon:{label:"Uncommon",color:"var(--c-uncommon)"},
+  rare:{label:"Rare",color:"var(--c-rare)"},
+  epic:{label:"Epic",color:"var(--c-epic)"},
+  mythic:{label:"Mythique",color:"var(--c-mythic)"}
+};
 
-/* ---------------- JOURS ET SEMAINES (Europe/Zurich) ---------------- */
+/* Succès : calculés à partir des compteurs du joueur (val = progression, goal = objectif) */
+const n=(u,k)=>u?.[k]||0;
+const ACH=[
+  {cat:"Défis",id:"pas",ico:"1",name:"Premier pas",desc:"Réussir ton premier défi.",c:"uncommon",val:u=>n(u,"ok"),goal:1},
+  {cat:"Défis",id:"tout",ico:"3",name:"Touche-à-tout",desc:"Réussir un défi de chaque catégorie.",c:"uncommon",val:u=>TIER_KEYS.filter(t=>n(u,t)>0).length,goal:3},
+  {cat:"Défis",id:"aven",ico:"Q",name:"Aventurier",desc:"Terminer ta première quête perso.",c:"uncommon",val:u=>n(u,"quests"),goal:1},
+  {cat:"Défis",id:"carried",ico:"R",name:"Carried par la RNG",desc:"Réussir un défi RNG carried.",c:"epic",val:u=>n(u,"rng"),goal:1},
+  {cat:"Défis",id:"chelem",ico:"GC",name:"Grand chelem",desc:"Réussir les 3 défis du jour le même jour.",c:"epic",val:u=>n(u,"slams"),goal:1},
+  {cat:"Défis",id:"centu",ico:"100",name:"Centurion",desc:"Cumuler 100 points.",c:"epic",val:u=>n(u,"points"),goal:100},
+  {cat:"Défis",id:"parfaite",ico:"10Q",name:"Semaine parfaite",desc:"Terminer tes 10 quêtes d'une même semaine.",c:"legendary",val:u=>n(u,"questWeeks"),goal:1},
+  {cat:"Défis",id:"bras",ico:"25M",name:"Gros bras",desc:"Réussir 25 défis Moyen.",c:"legendary",val:u=>n(u,"moyen"),goal:25},
+  {cat:"Défis",id:"trefle",ico:"10R",name:"Trèfle à 4 feuilles",desc:"Réussir 10 défis RNG carried.",c:"legendary",val:u=>n(u,"rng"),goal:10},
+  {cat:"Défis",id:"chelem5",ico:"5GC",name:"Collectionneur de chelems",desc:"Faire 5 Grands chelems.",c:"legendary",val:u=>n(u,"slams"),goal:5},
+  {cat:"Défis",id:"globe",ico:"50Q",name:"Globe-trotter",desc:"Terminer 50 quêtes perso.",c:"legendary",val:u=>n(u,"quests"),goal:50},
+  {cat:"Défis",id:"vet",ico:"250",name:"Vétéran",desc:"Réussir 250 défis.",c:"mythic",val:u=>n(u,"ok"),goal:250},
+  {cat:"Défis",id:"mille",ico:"1K",name:"Légende de la guilde",desc:"Cumuler 1000 points.",c:"mythic",val:u=>n(u,"points"),goal:1000},
+  {cat:"Séries",id:"chauffe",ico:"3j",name:"Ça chauffe",desc:"Atteindre une série de 3 jours.",c:"uncommon",val:u=>n(u,"best"),goal:3},
+  {cat:"Séries",id:"happy",ico:"×2",name:"Happy hour",desc:"Faire approuver un défi pendant une happy hour.",c:"uncommon",val:u=>n(u,"happyHours"),goal:1},
+  {cat:"Séries",id:"feu",ico:"7j",name:"En feu",desc:"Atteindre une série de 7 jours.",c:"epic",val:u=>n(u,"best"),goal:7},
+  {cat:"Séries",id:"joker",ico:"J",name:"Seconde chance",desc:"Sauver ta série avec un joker.",c:"epic",val:u=>n(u,"jokersUsed"),goal:1},
+  {cat:"Séries",id:"stop",ico:"30j",name:"Inarrêtable",desc:"Atteindre une série de 30 jours.",c:"legendary",val:u=>n(u,"best"),goal:30},
+  {cat:"Séries",id:"cent",ico:"100j",name:"Centenaire",desc:"Atteindre une série de 100 jours.",c:"mythic",val:u=>n(u,"best"),goal:100},
+  {cat:"Guilde et duels",id:"recrue",ico:"EQ",name:"Recrue",desc:"Rejoindre une équipe.",c:"uncommon",val:u=>u?.team?1:0,goal:1},
+  {cat:"Guilde et duels",id:"fb",ico:"FB",name:"First blood",desc:"Être le premier à valider le défi RNG carried du jour.",c:"epic",val:u=>n(u,"firstBloods"),goal:1},
+  {cat:"Guilde et duels",id:"duel",ico:"VS",name:"Duelliste",desc:"Gagner un duel.",c:"epic",val:u=>n(u,"duelsWon"),goal:1},
+  {cat:"Guilde et duels",id:"prime",ico:"$",name:"Chasseur de primes",desc:"Remporter une prime.",c:"epic",val:u=>n(u,"bounties"),goal:1},
+  {cat:"Guilde et duels",id:"event",ico:"EV",name:"Fêtard",desc:"Gagner le titre d'une semaine à thème.",c:"epic",val:u=>(u?.eventBadges||[]).length,goal:1},
+  {cat:"Guilde et duels",id:"sniper",ico:"5FB",name:"Sniper",desc:"Décrocher 5 First blood.",c:"legendary",val:u=>n(u,"firstBloods"),goal:5},
+  {cat:"Guilde et duels",id:"glad",ico:"10V",name:"Gladiateur",desc:"Gagner 10 duels.",c:"legendary",val:u=>n(u,"duelsWon"),goal:10},
+  {cat:"Guilde et duels",id:"merc",ico:"5$",name:"Mercenaire",desc:"Remporter 5 primes.",c:"legendary",val:u=>n(u,"bounties"),goal:5},
+  {cat:"Guilde et duels",id:"champ",ico:"#1",name:"Champion de saison",desc:"Finir premier d'une saison.",c:"mythic",val:u=>n(u,"champions"),goal:1},
+  {cat:"Collection",id:"curieux",ico:"C",name:"Curieux",desc:"Ouvrir ton premier coffre RNG.",c:"uncommon",val:u=>n(u,"chests"),goal:1},
+  {cat:"Collection",id:"saison",ico:"N10",name:"Saisonnier",desc:"Atteindre le niveau 10 d'une saison.",c:"epic",val:u=>Math.max(n(u,"bestLevel"),seasonLevel(u)),goal:10},
+  {cat:"Collection",id:"fashion",ico:"10★",name:"Fashion week",desc:"Posséder 10 titres ou couleurs.",c:"epic",val:u=>(u?.cosmetics||[]).length,goal:10},
+  {cat:"Collection",id:"accro",ico:"30C",name:"Accro au loot",desc:"Ouvrir 30 coffres RNG.",c:"legendary",val:u=>n(u,"chests"),goal:30},
+  {cat:"Collection",id:"passe",ico:"N30",name:"Passe complété",desc:"Atteindre le niveau 30 d'une saison.",c:"legendary",val:u=>Math.max(n(u,"bestLevel"),seasonLevel(u)),goal:30},
+  {cat:"Collection",id:"mythic",ico:"M",name:"Touché par la RNG",desc:"Obtenir un loot Mythique dans un coffre.",c:"mythic",val:u=>n(u,"mythics"),goal:1}
+];
+const achDone=(a,u)=>!!u&&a.val(u)>=a.goal;
+
+/* ================= DATES (Europe/Zurich) ================= */
 function zurichParts(d=new Date()){
   const f=new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Zurich",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"});
   const o={};f.formatToParts(d).forEach(p=>o[p.type]=p.value);return o;
 }
 function dayKey(){const p=zurichParts();return `${p.year}-${p.month}-${p.day}`}
 function dayIndex(key){const [y,m,d]=key.split("-").map(Number);return Math.floor(Date.UTC(y,m-1,d)/86400000)}
-function addDays(key,n){return new Date((dayIndex(key)+n)*86400000).toISOString().slice(0,10)}
+function addDays(key,k){return new Date((dayIndex(key)+k)*86400000).toISOString().slice(0,10)}
 function dayLabel(key,opts={weekday:"long",day:"numeric",month:"long"}){return new Date(key+"T12:00:00Z").toLocaleDateString("fr-CH",{timeZone:"UTC",...opts})}
-function weekday(key){return (new Date(key+"T12:00:00Z").getUTCDay()+6)%7} // 0 = lundi
+function weekday(key){return (new Date(key+"T12:00:00Z").getUTCDay()+6)%7}
 function isoWeek(key){
   const dt=new Date(key+"T12:00:00Z");dt.setUTCDate(dt.getUTCDate()-weekday(key)+3);
   const y=dt.getUTCFullYear(),jan4=new Date(Date.UTC(y,0,4,12));
-  const wk=1+Math.round(((dt-jan4)/86400000-3+((jan4.getUTCDay()+6)%7))/7);
-  return `${y}-W${String(wk).padStart(2,"0")}`;
+  return `${y}-W${String(1+Math.round(((dt-jan4)/86400000-3+((jan4.getUTCDay()+6)%7))/7)).padStart(2,"0")}`;
 }
+const monthLabel=mk=>new Date(mk+"-15T12:00:00Z").toLocaleDateString("fr-CH",{timeZone:"UTC",month:"long",year:"numeric"});
+const timeLabel=ms=>new Date(ms).toLocaleTimeString("fr-CH",{hour:"2-digit",minute:"2-digit"});
 function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function shuffled(arr,seed){const r=mulberry(seed),a=arr.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function hashStr(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 let TODAY=dayKey(), WEEK=isoWeek(TODAY), MONTH=TODAY.slice(0,7);
 
-/* ---------------- ÉTAT ---------------- */
+/* ================= ÉTAT ================= */
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const PSEUDO=/^[A-Za-z0-9_]{3,16}$/;
@@ -670,29 +1012,28 @@ const HOOK=/^https:\/\/(?:ptb\.|canary\.)?discord(?:app)?\.com\/api\/webhooks\/\
 const SITE=location.href.split(/[?#]/)[0].replace(/index\.html$/,"");
 const skyUrl=p=>`https://sky.shiiyu.moe/stats/${encodeURIComponent(p)}`;
 const headUrl=(p,s=24)=>`https://mc-heads.net/avatar/${encodeURIComponent(p)}/${s}`;
-const plural=(n,w)=>`${n} ${w}${n>1?"s":""}`;
+const plural=(k,w)=>`${k} ${w}${k>1?"s":""}`;
 
 let fb=null, me=null, profile=null, isOfficer=false;
 let challenges=new Map(BASE_MAP), usingBase=true;
-let schedule={}, grades={...DEFAULT_GRADES}, goalCfg={target:100,reward:""}, goalCount=0, webhook="";
-let todayDocs=[], myDocs=[], pendingDocs=[], myClaims=new Map(), openClaims=[], myQuests=null;
-let boards={all:[],week:[],month:[]}, period="all";
-let rejectingId=null, prevAch=null;
+let schedule={}, grades={...DEFAULT_GRADES}, goalCfg={target:100,reward:""}, weekStats={}, webhook="";
+let happy={}, eventCfg=null, bounties=[], fameList=[];
+let users=[], usersById=new Map();
+let todayDocs=[], myDocs=[], pendingDocs=[], myClaims=new Map(), openClaims=[], myQuests=null, duelsFrom=[], duelsTo=[];
+let period="all", rejectingId=null, prevAch=null, autoDone=false;
 const unsubs={};
 const unsub=k=>{unsubs[k]?.();delete unsubs[k]};
 
-/* ---------------- CHOIX DES DÉFIS ---------------- */
+/* ================= RÈGLES DU JEU ================= */
 function activePool(tier){return [...challenges.values()].filter(c=>c.tier===tier&&c.active!==false).sort((a,b)=>a.id<b.id?-1:1)}
 function autoPick(tier,key){
   const L=activePool(tier);if(!L.length)return null;
   const di=dayIndex(key),cycle=Math.floor(di/L.length);
-  const perm=shuffled(L,tier.length*7919+cycle*31+404);
-  return L[perm[di%L.length]];
+  return L[shuffled(L,tier.length*7919+cycle*31+404)[di%L.length]];
 }
 function pick(tier,key){const id=schedule[key]?.[tier];if(id&&challenges.has(id))return challenges.get(id);return autoPick(tier,key)}
 function genQuests(uid,wk){
-  const today=new Set(TIER_KEYS.map(t=>pick(t,TODAY)?.id));
-  const seed=hashStr(uid+"|"+wk),out=[];
+  const today=new Set(TIER_KEYS.map(t=>pick(t,TODAY)?.id)),seed=hashStr(uid+"|"+wk),out=[];
   TIER_KEYS.forEach((t,k)=>{
     let pool=activePool(t).filter(c=>!today.has(c.id));
     if(pool.length<QUEST_MIX[t])pool=activePool(t);
@@ -700,185 +1041,302 @@ function genQuests(uid,wk){
   });
   return out;
 }
-const gradeName=n=>grades[n]||DEFAULT_GRADES[n];
-const reachedPalier=ok=>PALIERS.filter(n=>ok>=n).pop();
-const liveStreak=u=>u?.lastDay&&(u.lastDay===TODAY||u.lastDay===addDays(TODAY,-1))?(u.streak||0):0;
-const isQuestDoc=d=>d.kind==="quest";
+const gradeName=k=>grades[k]||DEFAULT_GRADES[k];
+const reachedPalier=ok=>PALIERS.filter(k=>ok>=k).pop();
+function streakInfo(u){
+  if(!u?.lastDay)return {streak:0,protected:false};
+  const gap=dayIndex(TODAY)-dayIndex(u.lastDay);
+  if(gap<=1)return {streak:u.streak||0,protected:false};
+  if(gap-1<=(u.jokers||0))return {streak:u.streak||0,protected:true};
+  return {streak:0,protected:false};
+}
+const liveStreak=u=>streakInfo(u).streak;
+function seasonXp(u){return (u?.monthKey===MONTH?(u.monthPoints||0):0)+(u?.chestMonth===MONTH?(u.chestXp||0):0)}
+function seasonLevel(u){return Math.min(MAX_LVL,Math.floor(seasonXp(u)/LEVEL_XP))}
+const isKind=(d,k)=>(d.kind||"daily")===k;
+const happyActive=()=>happy.end&&Date.now()<happy.end&&Date.now()>=(happy.start||0);
+const eventActive=()=>eventCfg&&eventCfg.week===WEEK&&eventCfg.name;
+function nameHtml(u,fallback){
+  const p=u?.pseudo||fallback||"?";
+  return `<span class="nm ${u?.color?"c-"+esc(u.color):""}">${esc(p)}</span>${u?.title?`<span class="ttl">${esc(u.title)}</span>`:""}`;
+}
+function boardRows(per){
+  const k={all:["points","ok"],week:["weekPoints","weekCount"],month:["monthPoints","monthCount"]}[per];
+  return users.filter(u=>per==="all"||(per==="week"?u.weekKey===WEEK:u.monthKey===MONTH)).filter(u=>(u[k[0]]||0)>0)
+    .sort((a,b)=>(b[k[0]]||0)-(a[k[0]]||0)||(b[k[1]]||0)-(a[k[1]]||0)).map(u=>({u,pts:u[k[0]]||0,cnt:u[k[1]]||0}));
+}
 
-/* ---------------- RENDU : DÉFIS DU JOUR ---------------- */
-function submitState(doc){
+/* ================= RENDU : AUJOURD'HUI ================= */
+function submitState(d){
   if(!me)return {label:"Connecte-toi pour valider",dis:true};
-  if(doc?.status==="approved")return {label:"Validé ✔",dis:true};
-  if(doc?.status==="pending")return {label:"En attente d'un officier",dis:true};
-  if(doc?.status==="rejected")return {label:"Refusé, renvoyer une preuve",dis:false,reason:doc.reason};
+  if(d?.status==="approved")return {label:"Validé ✔",dis:true};
+  if(d?.status==="pending")return {label:"En attente d'un officier",dis:true};
+  if(d?.status==="rejected")return {label:"Refusé, renvoyer une preuve",dis:false,reason:d.reason};
   return {label:"Valider ce défi",dis:false};
+}
+function renderBanners(){
+  const out=[];
+  if(happyActive())out.push(`<div class="banner-live"><b>Happy hour</b><span>Points ×2 sur toutes les validations envoyées maintenant.</span><span class="t" id="happy-left"></span></div>`);
+  if(eventActive()){
+    const mine=profile&&profile.eventWeek===eventCfg.week?(profile.eventCount||0):0,got=(profile?.eventBadges||[]).includes(eventCfg.badge);
+    out.push(`<div class="banner-live event"><b>${esc(eventCfg.name)}</b><span>Réussis ${plural(eventCfg.target,"défi")} cette semaine pour gagner le titre limité « ${esc(eventCfg.badge)} ».</span><span class="t">${got?"Titre gagné ✔":profile?`${Math.min(mine,eventCfg.target)} / ${eventCfg.target}`:""}</span></div>`);
+  }
+  $("banners").innerHTML=out.join("");$("banners").hidden=!out.length;
 }
 function renderCards(){
   $("today-label").textContent="Défis du "+dayLabel(TODAY);
-  const daily=todayDocs.filter(d=>!isQuestDoc(d));
-  const fbDoc=daily.find(d=>d.firstBlood);
+  const daily=todayDocs.filter(d=>isKind(d,"daily")),fbDoc=daily.find(d=>d.firstBlood);
   $("cards").innerHTML=TIER_KEYS.map(t=>{
     const c=pick(t,TODAY),T=TIERS[t];
     if(!c)return `<article class="tip ${T.cls}"><div class="name">Pas de défi</div><div class="kind">Défi ${T.label}</div><p class="desc">Aucun défi actif dans cette catégorie.</p><div class="rarity">${T.rarity}</div></article>`;
     const who=daily.filter(d=>d.tier===t&&d.status!=="rejected");
     const names=who.slice(0,4).map(d=>`<b>${esc(d.pseudo)}</b>${d.status==="pending"?" (en attente)":""}`).join(", ")+(who.length>4?` +${who.length-4}`:"");
-    const mine=me&&daily.find(d=>d.tier===t&&d.uid===me.uid);
-    const st=submitState(mine);
+    const st=submitState(me&&daily.find(d=>d.tier===t&&d.uid===me.uid));
     const fbLine=t==="rng"?`<li>First blood : ${fbDoc?`<b style="color:#ff5f5f">${esc(fbDoc.pseudo)}</b>`:"encore à prendre !"}</li>`:"";
     return `<article class="tip ${T.cls}">
-      <div class="name">${esc(c.name)}</div>
-      <div class="kind">Défi ${T.label}</div>
+      <div class="name">${esc(c.name)}</div><div class="kind">Défi ${T.label}</div>
       <p class="desc">${esc(c.desc)}</p>
-      <ul class="meta"><li>Vérif SkyCrypt : ${esc(c.stat||"—")}</li><li>Récompense : +${plural(T.pts,"point")}</li>${fbLine}</ul>
+      <ul class="meta"><li>Vérif SkyCrypt : ${esc(c.stat||"—")}</li><li>Récompense : +${plural(T.pts,"point")}${happyActive()?" ×2":""}</li>${fbLine}</ul>
       <div class="who">${who.length?`Réussi par ${names}`:"Personne pour l'instant"}</div>
       ${st.reason?`<span class="reason">Motif du refus : ${esc(st.reason)}</span>`:""}
       <button class="btn go" data-tier="${t}" ${st.dis?"disabled":""}>${st.label}</button>
-      <div class="rarity">${T.rarity}</div>
-    </article>`;
+      <div class="rarity">${T.rarity}</div></article>`;
   }).join("");
   $("cards").querySelectorAll("button[data-tier]").forEach(b=>b.onclick=()=>{const t=b.dataset.tier;openSubmit({kind:"daily",tier:t,challenge:pick(t,TODAY)})});
 }
-
-/* ---------------- RENDU : QUÊTES + GRAND DÉFI ---------------- */
+function drawChest(open,glow){
+  const cv=$("chest-cv"),g=cv.getContext("2d");g.clearRect(0,0,16,16);
+  if(glow){g.fillStyle=glow;g.globalAlpha=.35;g.fillRect(0,0,16,16);g.globalAlpha=1}
+  const dark="#5a3a10",wood="#c8862a",light="#e8a94a",metal="#d9d9d9";
+  g.fillStyle=dark;g.fillRect(1,7,14,8);g.fillStyle=wood;g.fillRect(2,8,12,6);g.fillStyle=light;g.fillRect(2,8,12,1);
+  if(open){g.fillStyle=dark;g.fillRect(1,1,14,4);g.fillStyle=wood;g.fillRect(2,2,12,2);if(glow){g.fillStyle=glow;g.fillRect(3,5,10,2)}}
+  else{g.fillStyle=dark;g.fillRect(1,3,14,5);g.fillStyle=wood;g.fillRect(2,4,12,3);g.fillStyle=light;g.fillRect(2,4,12,1)}
+  g.fillStyle=metal;g.fillRect(7,open?4:6,2,3);
+}
+function renderChest(){
+  const ui=$("chest-ui");
+  if(!profile){drawChest(false);ui.innerHTML=`<p>${me?"Choisis ton pseudo pour ouvrir ton coffre.":"Connecte-toi pour ouvrir un coffre chaque jour : XP de saison, titres, couleurs de pseudo et, avec de la chance, un loot Mythique."}</p>`;return}
+  if(profile.lastChest===TODAY){
+    const L=profile.lastLoot||{},R=LOOT[L.rarity]||LOOT.common;
+    drawChest(true,R.color.startsWith("var")?getComputedStyle(document.documentElement).getPropertyValue(R.color.slice(4,-1)).trim():R.color);
+    ui.innerHTML=`<div class="loot" style="--r:${R.color}"><b>${R.label}${L.text?` · ${esc(L.text)}`:""}</b><small>+${L.xp||0} XP de saison</small></div><p>Prochain coffre dans <span id="chest-left"></span>.</p>`;
+  }else{
+    drawChest(false);
+    ui.innerHTML=`<p>Ton coffre du jour est prêt. ${plural(profile.chests||0,"coffre")} ouvert${(profile.chests||0)>1?"s":""} jusqu'ici.</p><button class="btn go" id="chest-open">Ouvrir le coffre</button>`;
+    $("chest-open").onclick=openChest;
+  }
+}
+function renderMeStats(){
+  if(!profile){$("me-stats").innerHTML="";$("rival").textContent=me?"":"Connecte-toi pour suivre tes points, ta série et ton niveau de saison.";return}
+  const si=streakInfo(profile),lvl=seasonLevel(profile);
+  $("me-stats").innerHTML=`<div><b>${profile.points||0}</b><span>Points</span></div><div><b class="flame">${si.streak}${si.streak?"🔥":""}</b><span>Série${profile.jokers?` · ${profile.jokers} joker${profile.jokers>1?"s":""}`:""}</span></div><div><b>${lvl}</b><span>Niveau saison</span></div>`;
+  const rows=boardRows("all"),i=rows.findIndex(r=>r.u.id===me.uid);
+  let txt;
+  if(i===0)txt=`Tu es <b>n°1</b> du classement. Garde ta place !`;
+  else if(i>0){const a=rows[i-1];txt=`Tu es n°${i+1}, à <b>${a.pts-rows[i].pts+1} point${a.pts-rows[i].pts+1>1?"s":""}</b> de dépasser ${nameHtml(a.u)}.`}
+  else txt="Réussis un défi pour entrer dans le classement.";
+  if(si.protected)txt+=` Ta série est protégée par un joker : valide un défi aujourd'hui pour la garder.`;
+  else if(si.streak&&profile.lastDay!==TODAY)txt+=` Valide un défi aujourd'hui pour garder ta série de ${si.streak} jours.`;
+  $("rival").innerHTML=txt;
+}
 function renderQuests(){
   const left=7-weekday(TODAY);
   if(!me||!profile){
-    $("q-count").textContent="10 quêtes";$("q-bar").style.width="0";
-    $("q-sub").textContent="Nouvelles quêtes chaque lundi";
-    $("q-list").innerHTML=`<li class="teaser">${me?"Choisis ton pseudo pour recevoir tes quêtes.":"Connecte-toi pour recevoir tes 10 quêtes perso de la semaine."}</li>`;
-    return;
+    $("q-count").textContent="10 quêtes";$("q-bar").style.width="0";$("q-sub").textContent="Nouvelles quêtes chaque lundi";
+    $("q-list").innerHTML=`<li class="teaser">${me?"Choisis ton pseudo pour recevoir tes quêtes.":"Connecte-toi pour recevoir tes 10 quêtes perso de la semaine."}</li>`;return;
   }
   if(!myQuests){$("q-list").innerHTML=`<li class="teaser">Préparation de tes quêtes…</li>`;return}
-  const items=myQuests.items||[];
-  const subs=new Map(myDocs.filter(d=>isQuestDoc(d)&&d.week===WEEK).map(d=>[d.challengeId,d]));
+  const items=myQuests.items||[],subs=new Map(myDocs.filter(d=>isKind(d,"quest")&&d.week===WEEK).map(d=>[d.challengeId,d]));
   const done=items.filter(q=>subs.get(q.id)?.status==="approved").length;
   $("q-count").textContent=`${done} / ${items.length}`;
   $("q-bar").style.width=items.length?(done/items.length*100)+"%":"0";
   $("q-sub").textContent=done===items.length&&items.length?"Semaine parfaite ! Nouvelles quêtes lundi.":`${left===1?"Dernier jour":`Encore ${left} jours`} · nouvelles quêtes lundi`;
   $("q-list").innerHTML=items.map(q=>{
     const T=TIERS[q.tier],st=submitState(subs.get(q.id));
-    return `<li class="${subs.get(q.id)?.status==="approved"?"done":""}">
-      <span class="pill ${T.cls}">${T.label}</span>
+    return `<li class="${subs.get(q.id)?.status==="approved"?"done":""}"><span class="pill ${T.cls}">${T.label}</span>
       <div class="grow"><b>${esc(q.name)}</b><small>${esc(q.desc)}${q.stat?` · ${esc(q.stat)}`:""} · +${plural(T.pts,"point")}</small>${st.reason?`<span class="reason">Motif du refus : ${esc(st.reason)}</span>`:""}</div>
-      <button class="btn ${st.dis?"":"go"}" data-quest="${esc(q.id)}" ${st.dis?"disabled":""}>${st.label==="Valider ce défi"?"Valider":st.label}</button>
-    </li>`}).join("");
+      <button class="btn ${st.dis?"":"go"}" data-quest="${esc(q.id)}" ${st.dis?"disabled":""}>${st.label==="Valider ce défi"?"Valider":st.label}</button></li>`}).join("");
   $("q-list").querySelectorAll("[data-quest]").forEach(b=>b.onclick=()=>{const q=items.find(x=>x.id===b.dataset.quest);openSubmit({kind:"quest",tier:q.tier,challenge:q})});
 }
-function renderGoal(){
-  const target=+goalCfg.target||0;
-  $("goal").hidden=!target;if(!target)return;
-  const n=goalCount,done=n>=target;
-  $("goal").classList.toggle("done",done);
-  $("goal-count").textContent=`${Math.min(n,99999)} / ${target}`;
-  $("goal-bar").style.width=Math.min(100,n/target*100)+"%";
-  $("goal-reward-label").textContent=goalCfg.reward?`Récompense : ${goalCfg.reward}`:"";
-  const mine=profile&&profile.weekKey===WEEK?(profile.weekCount||0):0;
-  const left=7-weekday(TODAY);
-  $("goal-sub").textContent=(done?"Objectif atteint, bravo à toute la guilde ! ":`Encore ${target-n} défis · ${left===1?"dernier jour":`${left} jours restants`} · `)+(profile?`ta contribution : ${plural(mine,"défi")}`:"chaque défi et chaque quête comptent");
+function renderBounties(){
+  const open=bounties.filter(b=>b.status==="open"&&b.until>=TODAY),recent=bounties.filter(b=>b.status==="won").sort((a,b)=>(b.wonAt||0)-(a.wonAt||0)).slice(0,2);
+  if(!open.length&&!recent.length){$("bounties").innerHTML=`<div class="empty-note">Aucune prime en cours. Les officiers en annoncent régulièrement sur Discord.</div>`;return}
+  $("bounties").innerHTML=[...open,...recent].map(b=>{
+    const mine=me&&myDocs.find(d=>isKind(d,"bounty")&&d.challengeId===b.id),st=submitState(mine);
+    const action=b.status==="won"?`<small>Remportée par ${nameHtml(usersById.get(b.winner),b.winnerPseudo)}</small>`
+      :`<small>Jusqu'au ${dayLabel(b.until,{weekday:"long",day:"numeric",month:"long"})} · + titre « Chasseur de primes »</small>${st.reason?`<span class="reason">Motif du refus : ${esc(st.reason)}</span>`:""}<button class="btn go" data-bounty="${esc(b.id)}" ${st.dis?"disabled":""}>${st.label==="Valider ce défi"?"Je l'ai fait !":st.label}</button>`;
+    return `<div class="bounty ${b.status==="won"?"won":""}"><div class="top"><b>${esc(b.title)}</b><span class="pts">+${b.points} pts</span></div><p>${esc(b.desc)}</p>${action}</div>`;
+  }).join("");
+  $("bounties").querySelectorAll("[data-bounty]").forEach(btn=>btn.onclick=()=>{const b=bounties.find(x=>x.id===btn.dataset.bounty);openSubmit({kind:"bounty",tier:"rng",challenge:{id:b.id,name:b.title},bounty:b})});
 }
 
-/* ---------------- RENDU : PALIERS ---------------- */
-const EMB=[
-  "....aaaaaaaa....","...abbbbbbbba...","..abbbbccbbbba..","..abbbbccbbbba..","..abbbccccbbba..","..abccccccccba..",
-  "..abbccccccbba..","..abbbccccbbba..","..abbccbbccbba..","...abbbbbbbba...","...abbbbbbbba...","....abbbbbba....",
-  ".....abbbbba....",".....aabbbaa....","......aaaa......","................"];
+/* ================= RENDU : PROGRESSION ================= */
+function renderSeason(){
+  const xp=seasonXp(profile),lvl=seasonLevel(profile),owned=new Set(profile?.cosmetics||[]);
+  const into=xp-lvl*LEVEL_XP,daysLeft=dayIndex(addDays(MONTH+"-28",4).slice(0,7)+"-01")-dayIndex(TODAY);
+  const rw=new Set(SEASON_REWARDS.map(r=>r.lvl));
+  $("season").innerHTML=`<div class="season-top"><b>Saison ${esc(monthLabel(MONTH))}</b><span>${profile?`Niveau ${lvl} / ${MAX_LVL} · ${lvl>=MAX_LVL?"passe complété !":`${LEVEL_XP-into} XP avant le niveau ${lvl+1}`}`:"Connecte-toi pour gravir les niveaux"} · fin dans ${plural(daysLeft,"jour")}</span></div>
+    <div class="track" aria-hidden="true">${Array.from({length:MAX_LVL},(_,i)=>`<i class="${i<lvl?"on":""} ${rw.has(i+1)?"rw":""}"></i>`).join("")}</div>
+    <div class="rewards">${SEASON_REWARDS.map(r=>`<div class="${owned.has(r.cos)||lvl>=r.lvl?"on":""}"><b>Niv. ${r.lvl}</b>${esc(r.label)}</div>`).join("")}</div>
+    <p style="margin:0;color:#a8a8c0;font-size:14px">1 point gagné = 1 XP. Chaque coffre donne aussi de 3 à 10 XP. Les récompenses débloquées restent à toi pour toujours.</p>`;
+}
+const EMB=["....aaaaaaaa....","...abbbbbbbba...","..abbbbccbbbba..","..abbbbccbbbba..","..abbbccccbbba..","..abccccccccba..","..abbccccccbba..","..abbbccccbbba..","..abbccbbccbba..","...abbbbbbbba...","...abbbbbbbba...","....abbbbbba....",".....abbbbba....",".....aabbbaa....","......aaaa......","................"];
 function drawEmblem(cv,i,gold){
   const g=cv.getContext("2d");cv.width=16;cv.height=16;
   const pal=gold?{a:"#7a5200",b:"#ffcc33",c:"#fff2a6",h:"#ffe680"}:{a:"#2a2f3a",b:"#5c6372",c:"#8a91a0",h:"#737a8a"};
   EMB.forEach((row,y)=>[...row].forEach((ch,x)=>{if(pal[ch]){g.fillStyle=pal[ch];g.fillRect(x,y,1,1)}}));
-  g.fillStyle=pal.c;
-  if(i>=1)[[3,2],[12,2]].forEach(([x,y])=>g.fillRect(x,y,1,1));
-  if(i>=2)g.fillRect(7,0,2,1);
-  if(i>=3){g.fillStyle=pal.h;g.fillRect(4,10,8,1)}
-  if(i>=4){g.fillStyle=pal.c;[[1,4],[14,4],[1,6],[14,6]].forEach(([x,y])=>g.fillRect(x,y,1,1))}
+  g.fillStyle=pal.c;if(i>=1)[[3,2],[12,2]].forEach(([x,y])=>g.fillRect(x,y,1,1));if(i>=2)g.fillRect(7,0,2,1);
+  if(i>=3){g.fillStyle=pal.h;g.fillRect(4,10,8,1)}if(i>=4){g.fillStyle=pal.c;[[1,4],[14,4],[1,6],[14,6]].forEach(([x,y])=>g.fillRect(x,y,1,1))}
   if(i>=5){g.fillStyle=gold?"#ff5555":"#6a6f7a";g.fillRect(7,6,2,2)}
 }
 function renderEmblems(){
   const ok=profile?.ok||0;
-  $("emblems").innerHTML=PALIERS.map((n,i)=>{
-    const has=profile&&ok>=n,claim=myClaims.get(n);
-    let state=`${n} défis`,btn="";
-    if(has){
-      if(claim?.status==="given")state="Grade obtenu ✔";
-      else if(claim?.status==="requested")state="Demande envoyée";
-      else {state="Débloqué !";btn=`<button class="btn go" data-claim="${n}">Réclamer mon grade</button>`}
-    }else if(profile)state=`encore ${n-ok}`;
-    return `<div class="emb ${has?"gold":""}"><canvas id="emb${i}"></canvas><div class="num">${n}</div><div class="grade">${esc(gradeName(n))}</div><div class="state">${state}</div>${btn}</div>`;
+  $("emblems").innerHTML=PALIERS.map((k,i)=>{
+    const has=profile&&ok>=k,claim=myClaims.get(k);let state=`${k} défis`,btn="";
+    if(has){if(claim?.status==="given")state="Grade obtenu ✔";else if(claim?.status==="requested")state="Demande envoyée";else{state="Débloqué !";btn=`<button class="btn go" data-claim="${k}">Réclamer mon grade</button>`}}
+    else if(profile)state=`encore ${k-ok}`;
+    return `<div class="emb ${has?"gold":""}"><canvas id="emb${i}"></canvas><div class="num">${k}</div><div class="grade">${esc(gradeName(k))}</div><div class="state">${state}</div>${btn}</div>`;
   }).join("");
-  PALIERS.forEach((n,i)=>drawEmblem($("emb"+i),i,profile&&ok>=n));
+  PALIERS.forEach((k,i)=>drawEmblem($("emb"+i),i,profile&&ok>=k));
   $("emblems").querySelectorAll("[data-claim]").forEach(b=>b.onclick=()=>claim(+b.dataset.claim,b));
   if(!profile){$("bar").style.width="0";$("bar-label").textContent=me?"Choisis ton pseudo pour commencer.":"Connecte-toi pour voir ta progression.";return}
-  const next=PALIERS.find(n=>ok<n),prev=[...PALIERS].reverse().find(n=>ok>=n)||0;
+  const next=PALIERS.find(k=>ok<k),prev=[...PALIERS].reverse().find(k=>ok>=k)||0;
   $("bar").style.width=next?((ok-prev)/(next-prev)*100)+"%":"100%";
-  const s=liveStreak(profile);
-  $("bar-label").textContent=`${profile.pseudo} · ${plural(ok,"défi")} · ${plural(profile.points||0,"point")}${s?` · série ${s} 🔥`:""} · `+(next?`encore ${next-ok} pour « ${gradeName(next)} »`:"tous les paliers sont débloqués");
+  $("bar-label").textContent=`${plural(ok,"défi")} réussi${ok>1?"s":""} · `+(next?`encore ${next-ok} pour « ${gradeName(next)} »`:"tous les paliers sont débloqués");
 }
-
-/* ---------------- RENDU : SUCCÈS ---------------- */
+function renderCollection(){
+  if(!profile){$("collection").innerHTML=`<p>Connecte-toi pour commencer ta collection.</p>`;return}
+  const owned=new Set(profile.cosmetics||[]);
+  const titles=[...owned].filter(c=>c.startsWith("t:")).map(c=>c.slice(2));
+  const colors=Object.keys(COLORS);
+  $("collection").innerHTML=`<div><h3 style="margin:0 0 8px;font:700 16px var(--f-display)">Aperçu</h3><p style="font-size:18px">${nameHtml(profile)}</p></div>
+    <div><h3 style="margin:0 0 8px;font:700 16px var(--f-display)">Titres (${titles.length})</h3><div class="cos-grid">
+      <button class="cos" data-title="" aria-pressed="${!profile.title}">Aucun titre</button>
+      ${titles.map(t=>`<button class="cos" data-title="${esc(t)}" aria-pressed="${profile.title===t}">${esc(t)}</button>`).join("")}
+      ${titles.length?"":`<span class="hint" style="margin:0">Gagne des titres dans les coffres, la saison, les primes et les événements.</span>`}</div></div>
+    <div><h3 style="margin:0 0 8px;font:700 16px var(--f-display)">Couleurs de pseudo</h3><div class="cos-grid">
+      <button class="cos" data-color="" aria-pressed="${!profile.color}">Blanc</button>
+      ${colors.map(c=>{const has=owned.has("c:"+c);return `<button class="cos ${has?"":"locked"}" data-color="${c}" ${has?"":"disabled"} aria-pressed="${profile.color===c}"><span class="nm c-${c}">${COLORS[c]}</span>${has?"":" 🔒"}</button>`}).join("")}</div></div>`;
+  $("collection").querySelectorAll("[data-title]").forEach(b=>b.onclick=()=>equip({title:b.dataset.title}));
+  $("collection").querySelectorAll("[data-color]:not([disabled])").forEach(b=>b.onclick=()=>equip({color:b.dataset.color}));
+}
 function renderAchievements(){
-  const u=profile||{};
-  const got=ACH.filter(a=>a.test(u)).length;
-  $("ach-count").textContent=profile?`${got} / ${ACH.length} débloqués`:"Connecte-toi pour commencer ta collection.";
-  $("ach-grid").innerHTML=ACH.map(a=>{const on=profile&&a.test(u);return `<div class="ach ${on?"on":""}" style="--c:var(--${a.c})"><div class="ico" aria-hidden="true">${a.ico}</div><div><b>${esc(a.name)}</b><small>${esc(a.desc)}</small></div></div>`}).join("");
+  const u=profile,got=ACH.filter(a=>achDone(a,u)).length;
+  $("ach-count").textContent=u?`${got} / ${ACH.length} débloqués`:`${ACH.length} succès à débloquer. Connecte-toi pour commencer ta collection.`;
+  const cats=[...new Set(ACH.map(a=>a.cat))];
+  $("ach-wrap").innerHTML=cats.map(cat=>`<div class="ach-cat"><h3>${cat}</h3><div class="ach-grid">${ACH.filter(a=>a.cat===cat).map(a=>{
+    const on=achDone(a,u),v=u?Math.min(a.val(u),a.goal):0;
+    return `<div class="ach ${on?"on":""}" style="--c:var(--c-${a.c})"><div class="ico" aria-hidden="true">${a.ico}</div><div style="min-width:0;flex:1"><b>${esc(a.name)}</b><small>${esc(a.desc)}</small>${!on&&u&&a.goal>1?`<div class="bar" title="${v} / ${a.goal}"><i style="width:${v/a.goal*100}%"></i></div>`:""}</div></div>`}).join("")}</div></div>`).join("");
 }
 function checkNewAchievements(){
   if(!profile)return;
-  const now=new Set(ACH.filter(a=>a.test(profile)).map(a=>a.id));
+  const now=new Set(ACH.filter(a=>achDone(a,profile)).map(a=>a.id));
   if(prevAch){const fresh=ACH.filter(a=>now.has(a.id)&&!prevAch.has(a.id));if(fresh.length){toast(`Succès débloqué : ${fresh.map(a=>a.name).join(", ")}`);confetti()}}
   prevAch=now;
 }
 
-/* ---------------- RENDU : CLASSEMENT ---------------- */
+/* ================= RENDU : GUILDE ================= */
+function renderGoal(){
+  const target=+goalCfg.target||0;$("goal").hidden=!target;if(!target)return;
+  const k=weekStats.count||0,done=k>=target,left=7-weekday(TODAY);
+  $("goal").classList.toggle("done",done);
+  $("goal-count").textContent=`${k} / ${target}`;$("goal-bar").style.width=Math.min(100,k/target*100)+"%";
+  $("goal-reward-label").textContent=goalCfg.reward?`Récompense : ${goalCfg.reward}`:"";
+  const mine=profile&&profile.weekKey===WEEK?(profile.weekCount||0):0;
+  $("goal-sub").textContent=(done?"Objectif atteint, bravo à toute la guilde ! ":`Encore ${target-k} défis · ${left===1?"dernier jour":`${left} jours restants`} · `)+(profile?`ta contribution : ${plural(mine,"défi")}`:"chaque défi compte");
+}
+function renderTeams(){
+  const pts=weekStats.teams||{},max=Math.max(1,...Object.values(pts)),lead=Object.entries(pts).sort((a,b)=>b[1]-a[1])[0]?.[0];
+  const members=k=>users.filter(u=>u.team===k).length;
+  const canPick=profile&&!profile.team;
+  $("team-hint").textContent=canPick?"Choisis ton équipe : chaque point que tu gagnes comptera pour elle. Le choix est définitif.":"Chaque point gagné compte aussi pour ton équipe. Classement remis à zéro chaque lundi.";
+  $("teams").innerHTML=Object.entries(TEAMS).map(([k,t])=>`<div class="team ${profile?.team===k?"mine":""} ${lead===k&&pts[k]?"lead":""}" style="--t:${t.color}">
+    <span class="tn">${t.name}</span><span class="tp">${pts[k]||0}</span><small>${plural(members(k),"membre")} · ${t.boss}${profile?.team===k?" · ton équipe":""}</small>
+    <div class="meter"><i style="width:${(pts[k]||0)/max*100}%"></i></div>
+    ${canPick?`<button class="btn small go" data-team="${k}">Rejoindre</button>`:""}</div>`).join("");
+  $("teams").querySelectorAll("[data-team]").forEach(b=>b.onclick=()=>pickTeam(b.dataset.team));
+}
 function renderBoard(){
-  const key={all:["points","ok"],week:["weekPoints","weekCount"],month:["monthPoints","monthCount"]}[period];
-  $("board-head").innerHTML=`<tr><th>#</th><th>Joueur</th><th>Grade</th><th>Points</th><th>Défis</th><th>Série</th><th>First blood</th></tr>`;
-  const rows=boards[period].filter(u=>(u[key[0]]||0)>0).sort((a,b)=>(b[key[0]]||0)-(a[key[0]]||0)||(b[key[1]]||0)-(a[key[1]]||0)).slice(0,50);
-  const empty={all:"Aucun défi approuvé pour l'instant. Le premier validé ouvre le classement.",week:"Personne n'a encore marqué de points cette semaine.",month:"Personne n'a encore marqué de points ce mois-ci."}[period];
-  $("board").innerHTML=rows.length?rows.map((s,i)=>{const r=reachedPalier(s.ok||0),st=liveStreak(s);return `<tr class="${i===0?"top1":""}">
-    <td class="rk">${i+1}</td>
-    <td><button class="linkbtn" data-prof="${esc(s.id)}">${esc(s.pseudo)}</button></td>
-    <td>${r?esc(gradeName(r)):"—"}</td><td class="n">${s[key[0]]||0}</td><td>${s[key[1]]||0}</td>
-    <td>${st?`<span class="flame">${st} 🔥</span>`:"—"}</td><td>${s.firstBloods||0}</td></tr>`}).join("")
+  const rows=boardRows(period).slice(0,50);
+  const empty={all:"Aucun défi approuvé pour l'instant. Le premier validé ouvre le classement.",week:"Personne n'a encore marqué de points cette semaine.",month:"Personne n'a encore marqué de points cette saison."}[period];
+  $("board").innerHTML=rows.length?rows.map((r,i)=>{const p=reachedPalier(r.u.ok||0),st=liveStreak(r.u);return `<tr class="${i===0?"top1":""}">
+    <td class="rk">${i+1}</td><td><button class="linkbtn" data-prof="${esc(r.u.id)}">${nameHtml(r.u)}</button></td>
+    <td>${p?esc(gradeName(p)):"—"}</td><td class="n">${r.pts}</td><td>${r.cnt}</td>
+    <td>${st?`<span class="flame">${st} 🔥</span>`:"—"}</td><td>${seasonLevel(r.u)}</td></tr>`}).join("")
     :`<tr><td colspan="7" class="empty">${fb?empty:"Chargement du classement…"}</td></tr>`;
   $("board").querySelectorAll("[data-prof]").forEach(b=>b.onclick=()=>openProfile(b.dataset.prof));
 }
 document.querySelectorAll("[data-period]").forEach(b=>b.onclick=()=>{period=b.dataset.period;document.querySelectorAll("[data-period]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderBoard()});
-
-/* ---------------- RENDU : FIL DU JOUR ---------------- */
-function statusPill(s){return s==="approved"?'<span class="pill ok">Approuvé</span>':s==="rejected"?'<span class="pill no">Refusé</span>':'<span class="pill pending">En attente</span>'}
+function renderFame(){
+  $("fame").innerHTML=fameList.length?fameList.slice().sort((a,b)=>b.id.localeCompare(a.id)).map(f=>{const c=f.top?.[0];return `<div><span>Saison ${esc(monthLabel(f.id))}</span><b>${esc(c?.pseudo||"—")}</b><span>${c?`${c.points} points`:""}${f.top?.[1]?` · 2e ${esc(f.top[1].pseudo)}`:""}${f.top?.[2]?` · 3e ${esc(f.top[2].pseudo)}`:""}</span></div>`}).join("")
+    :`<div class="empty-note" style="grid-column:1/-1">Le premier champion sera couronné à la fin de la saison ${esc(monthLabel(MONTH))}.</div>`;
+}
 const when=ms=>ms?new Date(ms).toLocaleString("fr-CH",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):"";
-function kindPill(d){return isQuestDoc(d)?`<span class="pill pending">Quête perso</span>`:`<span class="pill ${TIERS[d.tier]?.cls||""}">${TIERS[d.tier]?.label||""}</span>`}
+function statusPill(s){return s==="approved"?'<span class="pill ok">Approuvé</span>':s==="rejected"?'<span class="pill no">Refusé</span>':'<span class="pill pending">En attente</span>'}
+function kindPill(d){const k=d.kind||"daily";if(k==="quest")return `<span class="pill pending">Quête perso</span>`;if(k==="duel")return `<span class="pill fb">Duel</span>`;if(k==="bounty")return `<span class="pill rng">Prime</span>`;return `<span class="pill ${TIERS[d.tier]?.cls||""}">${TIERS[d.tier]?.label||""}</span>`}
 function renderFeed(){
   const list=todayDocs.slice().sort((a,b)=>b.atMs-a.atMs);
-  $("feed").innerHTML=list.length?list.map(d=>`<li><button class="linkbtn p" data-prof="${esc(d.uid)}">${esc(d.pseudo)}</button>${kindPill(d)}<span>${esc(d.challengeName)}</span>${d.firstBlood?'<span class="pill fb">First blood</span>':""}${statusPill(d.status)}<span class="t">${when(d.atMs)}</span></li>`).join("")
+  $("feed").innerHTML=list.length?list.map(d=>`<li><button class="linkbtn p" data-prof="${esc(d.uid)}">${nameHtml(usersById.get(d.uid),d.pseudo)}</button>${kindPill(d)}<span>${esc(d.challengeName)}</span>${d.firstBlood?'<span class="pill fb">First blood</span>':""}${statusPill(d.status)}<span class="t">${when(d.atMs)}</span></li>`).join("")
     :`<li class="empty">Personne n'a encore validé de défi aujourd'hui.</li>`;
   $("feed").querySelectorAll("[data-prof]").forEach(b=>b.onclick=()=>openProfile(b.dataset.prof));
 }
+
+/* ================= RENDU : DUELS ================= */
+const myDuels=()=>[...duelsFrom,...duelsTo].sort((a,b)=>(b.createdMs||0)-(a.createdMs||0));
+const duelExpired=d=>d.week<WEEK&&d.status!=="done";
+const activeDuels=()=>myDuels().filter(d=>!duelExpired(d)&&(d.status==="proposed"||d.status==="accepted"));
+function renderDuels(){
+  const incoming=duelsTo.filter(d=>d.status==="proposed"&&!duelExpired(d)).length;
+  $("c-duels").hidden=!incoming;$("c-duels").textContent=incoming;
+  const sel=$("duel-to").value,selCh=$("duel-ch").value;
+  const opp=users.filter(u=>me&&u.id!==me.uid).sort((a,b)=>a.pseudo.localeCompare(b.pseudo));
+  $("duel-to").innerHTML=`<option value="">Choisis un joueur</option>`+opp.map(u=>`<option value="${esc(u.id)}">${esc(u.pseudo)}</option>`).join("");
+  $("duel-to").value=sel;
+  $("duel-ch").innerHTML=TIER_KEYS.map(t=>`<optgroup label="${TIERS[t].label} (${plural(TIERS[t].pts,"point")} + ${DUEL_BONUS})">${activePool(t).map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</optgroup>`).join("");
+  if(selCh)$("duel-ch").value=selCh;
+  $("duel-go").disabled=!profile;
+  if(!profile){$("duel-list").innerHTML=`<li class="teaser">${me?"Choisis ton pseudo pour lancer des duels.":"Connecte-toi pour défier les membres de la guilde."}</li>`;return}
+  const list=myDuels();
+  $("duel-list").innerHTML=list.length?list.map(d=>{
+    const mineFrom=d.from===me.uid,other=mineFrom?d.toPseudo:d.fromPseudo,otherId=mineFrom?d.to:d.from;
+    const sub=myDocs.find(x=>isKind(x,"duel")&&x.duelId===d.id),st=submitState(sub);
+    let state="",actions="";
+    if(d.status==="done")state=d.winner===me.uid?'<span class="pill ok">Gagné</span>':`<span class="pill no">Perdu</span>`;
+    else if(duelExpired(d))state='<span class="pill pending">Expiré</span>';
+    else if(d.status==="declined")state='<span class="pill no">Refusé</span>';
+    else if(d.status==="proposed"){state='<span class="pill pending">En attente</span>';actions=mineFrom?`<button class="btn small ghost" data-dcancel="${d.id}">Annuler</button>`:`<button class="btn small go" data-daccept="${d.id}">Accepter</button><button class="btn small" data-ddecline="${d.id}">Refuser</button>`}
+    else if(d.status==="accepted"){state='<span class="pill rng">En cours</span>';actions=`${st.reason?`<span class="reason">Motif du refus : ${esc(st.reason)}</span>`:""}<button class="btn small ${st.dis?"":"go"}" data-dsubmit="${d.id}" ${st.dis?"disabled":""}>${st.label==="Valider ce défi"?"Valider":st.label}</button>`}
+    return `<li><div class="grow"><b>${esc(mineFrom?"Toi":d.fromPseudo)} <span class="vs">VS</span> ${esc(mineFrom?d.toPseudo:"toi")}</b><small>${TIERS[d.tier]?.label} · ${esc(d.challengeName)} · ${d.status==="done"?`gagné par ${esc(d.winnerPseudo)}`:`jusqu'à dimanche`}</small></div>${state}<div class="actions">${actions}<button class="btn small ghost" data-prof="${esc(otherId)}">Profil de ${esc(other)}</button></div></li>`;
+  }).join(""):`<li class="teaser">Aucun duel pour l'instant. Défie quelqu'un ci-dessus ou depuis son profil !</li>`;
+  const L=$("duel-list");
+  L.querySelectorAll("[data-daccept]").forEach(b=>b.onclick=()=>duelAnswer(b.dataset.daccept,"accepted",b));
+  L.querySelectorAll("[data-ddecline]").forEach(b=>b.onclick=()=>duelAnswer(b.dataset.ddecline,"declined",b));
+  L.querySelectorAll("[data-dcancel]").forEach(b=>b.onclick=()=>duelCancel(b.dataset.dcancel,b));
+  L.querySelectorAll("[data-dsubmit]").forEach(b=>b.onclick=()=>{const d=myDuels().find(x=>x.id===b.dataset.dsubmit);openSubmit({kind:"duel",tier:d.tier,challenge:{id:d.challengeId,name:d.challengeName},duel:d})});
+  L.querySelectorAll("[data-prof]").forEach(b=>b.onclick=()=>openProfile(b.dataset.prof));
+}
+
+/* ================= RENDU : COMPTE + STAFF ================= */
 function renderAccount(){
   $("login-btn").hidden=!!me;$("logout-btn").hidden=!me;$("me-chip").hidden=!me;
   if(me){
     const s=liveStreak(profile);
-    $("me-label").innerHTML=profile?`${esc(profile.pseudo)} · ${profile.points||0} pts${s?` · ${s}🔥`:""}${isOfficer?' <span class="off">· officier</span>':""}`:"Pseudo à choisir";
+    $("me-label").innerHTML=profile?`${nameHtml(profile)} · ${profile.points||0} pts${s?` · ${s}🔥`:""}${isOfficer?' <span class="off">· officier</span>':""}`:"Pseudo à choisir";
     $("me-head").src=profile?headUrl(profile.pseudo):"";$("me-head").hidden=!profile;
     $("uid-box").hidden=isOfficer;$("uid-code").textContent=me.uid;
   }else $("uid-box").hidden=true;
-  $("staff").hidden=!isOfficer;
+  $("nav-staff").hidden=!isOfficer;
+  const k=pendingDocs.length+openClaims.length;$("c-staff").hidden=!k;$("c-staff").textContent=k;
 }
-$("me-chip").onclick=()=>{if(me&&profile)openProfile(me.uid)};
-
-/* ---------------- RENDU : STAFF ---------------- */
 function renderPending(){
   const list=pendingDocs.slice().sort((a,b)=>a.atMs-b.atMs);
   $("c-valid").hidden=!list.length;$("c-valid").textContent=list.length;
+  const kindLabel=d=>({quest:"Quête perso · ",duel:"Duel · ",bounty:"Prime · "})[d.kind]||"";
   $("pending-list").innerHTML=list.length?list.map(d=>{
     const actions=rejectingId===d.id
       ?`<div class="reject-row"><input type="text" id="reason-${esc(d.id)}" maxlength="200" placeholder="Motif du refus (visible par le joueur)" aria-label="Motif du refus"><button class="btn small" data-confirm-no="${esc(d.id)}">Confirmer le refus</button><button class="btn small ghost" data-cancel-no>Annuler</button></div>`
-      :`<div class="actions">
-        <a class="btn small ghost" href="${skyUrl(d.pseudo)}" target="_blank" rel="noopener">SkyCrypt</a>
-        ${DISCORD.test(d.proof||"")?`<a class="btn small ghost" href="${esc(d.proof)}" target="_blank" rel="noopener">Post Discord</a>`:""}
-        <button class="btn small go" data-ok="${esc(d.id)}">Approuver</button>
-        <button class="btn small" data-no="${esc(d.id)}">Refuser</button></div>`;
-    return `<li><div class="grow"><b>${esc(d.pseudo)} · ${esc(d.challengeName)}</b><small>${isQuestDoc(d)?"Quête perso · ":""}${TIERS[d.tier]?.label} · ${dayLabel(d.day,{day:"numeric",month:"short"})} · envoyé ${when(d.atMs)}</small></div>${actions}</li>`;
+      :`<div class="actions"><a class="btn small ghost" href="${skyUrl(d.pseudo)}" target="_blank" rel="noopener">SkyCrypt</a>${DISCORD.test(d.proof||"")?`<a class="btn small ghost" href="${esc(d.proof)}" target="_blank" rel="noopener">Post Discord</a>`:""}<button class="btn small go" data-ok="${esc(d.id)}">Approuver</button><button class="btn small" data-no="${esc(d.id)}">Refuser</button></div>`;
+    return `<li><div class="grow"><b>${esc(d.pseudo)} · ${esc(d.challengeName)}</b><small>${kindLabel(d)}${d.kind==="bounty"?"":TIERS[d.tier]?.label+" · "}${dayLabel(d.day,{day:"numeric",month:"short"})} · envoyé ${when(d.atMs)}${happy.start&&d.atMs>=happy.start&&d.atMs<=happy.end?" · happy hour ×2":""}</small></div>${actions}</li>`;
   }).join(""):`<li class="hint">Rien à vérifier pour l'instant.</li>`;
   const L=$("pending-list");
   L.querySelectorAll("[data-ok]").forEach(b=>b.onclick=()=>decide(b.dataset.ok,"approved",b));
@@ -888,26 +1346,18 @@ function renderPending(){
 }
 function renderClaims(){
   $("c-grades").hidden=!openClaims.length;$("c-grades").textContent=openClaims.length;
-  $("claims-list").innerHTML=openClaims.length?openClaims.slice().sort((a,b)=>a.atMs-b.atMs).map(c=>`<li>
-    <div class="grow"><b>${esc(c.pseudo)} · grade « ${esc(gradeName(c.palier))} »</b><small>Palier ${c.palier} défis · demandé ${when(c.atMs)}</small></div>
-    <div class="actions"><button class="btn small go" data-given="${esc(c.id)}">Grade donné</button></div></li>`).join("")
+  $("claims-list").innerHTML=openClaims.length?openClaims.slice().sort((a,b)=>a.atMs-b.atMs).map(c=>`<li><div class="grow"><b>${esc(c.pseudo)} · grade « ${esc(gradeName(c.palier))} »</b><small>Palier ${c.palier} défis · demandé ${when(c.atMs)}</small></div><div class="actions"><button class="btn small go" data-given="${esc(c.id)}">Grade donné</button></div></li>`).join("")
     :`<li class="hint">Aucune demande de grade en attente.</li>`;
   $("claims-list").querySelectorAll("[data-given]").forEach(b=>b.onclick=()=>giveGrade(b.dataset.given,b));
 }
 let editingId=null, confirmDel=null;
 function renderChallengeList(){
   $("seed-hint").hidden=!usingBase;
-  const f=$("ch-filter").value;
-  const todayIds=new Set(TIER_KEYS.map(t=>pick(t,TODAY)?.id));
+  const f=$("ch-filter").value,todayIds=new Set(TIER_KEYS.map(t=>pick(t,TODAY)?.id));
   const list=[...challenges.values()].filter(c=>f==="all"||c.tier===f).sort((a,b)=>TIER_KEYS.indexOf(a.tier)-TIER_KEYS.indexOf(b.tier)||a.name.localeCompare(b.name,"fr"));
-  $("ch-list").innerHTML=list.map(c=>`<li class="${c.active===false?"off":""}">
-    <span class="pill ${TIERS[c.tier].cls}">${TIERS[c.tier].label}</span>
+  $("ch-list").innerHTML=list.map(c=>`<li class="${c.active===false?"off":""}"><span class="pill ${TIERS[c.tier].cls}">${TIERS[c.tier].label}</span>
     <div class="grow"><b>${esc(c.name)}${todayIds.has(c.id)?' <span class="pill ok">Aujourd\'hui</span>':""}</b><small>${esc(c.desc)}${c.stat?` · ${esc(c.stat)}`:""}</small></div>
-    <div class="actions">
-      <button class="btn small ghost" data-edit="${c.id}">Modifier</button>
-      <button class="btn small ghost" data-toggle="${c.id}">${c.active===false?"Activer":"Désactiver"}</button>
-      <button class="btn small" data-del="${c.id}">${confirmDel===c.id?"Confirmer la suppression":"Supprimer"}</button>
-    </div></li>`).join("")||`<li class="hint">Aucun défi dans cette catégorie.</li>`;
+    <div class="actions"><button class="btn small ghost" data-edit="${c.id}">Modifier</button><button class="btn small ghost" data-toggle="${c.id}">${c.active===false?"Activer":"Désactiver"}</button><button class="btn small" data-del="${c.id}">${confirmDel===c.id?"Confirmer la suppression":"Supprimer"}</button></div></li>`).join("")||`<li class="hint">Aucun défi dans cette catégorie.</li>`;
   $("ch-list").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>startEdit(b.dataset.edit));
   $("ch-list").querySelectorAll("[data-toggle]").forEach(b=>b.onclick=()=>toggleChallenge(b.dataset.toggle,b));
   $("ch-list").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>removeChallenge(b.dataset.del,b));
@@ -916,74 +1366,130 @@ function renderPlan(){
   const rows=[];
   for(let i=0;i<7;i++){
     const day=addDays(TODAY,i);
-    const cells=TIER_KEYS.map(t=>{
+    rows.push(`<tr><td>${i===0?"Aujourd'hui":dayLabel(day,{weekday:"short",day:"numeric",month:"short"})}</td>${TIER_KEYS.map(t=>{
       const auto=autoPick(t,day),set=schedule[day]?.[t];
-      const opts=activePool(t).map(c=>`<option value="${c.id}" ${set===c.id?"selected":""}>${esc(c.name)}</option>`).join("");
       const orphan=set&&challenges.has(set)&&challenges.get(set).active===false?`<option value="${set}" selected>${esc(challenges.get(set).name)} (désactivé)</option>`:"";
-      return `<td><select data-day="${day}" data-tier="${t}" aria-label="${TIERS[t].label} le ${dayLabel(day)}"><option value="">Auto${auto?` : ${esc(auto.name)}`:""}</option>${orphan}${opts}</select></td>`;
-    }).join("");
-    rows.push(`<tr><td>${i===0?"Aujourd'hui":dayLabel(day,{weekday:"short",day:"numeric",month:"short"})}</td>${cells}</tr>`);
+      return `<td><select data-day="${day}" data-tier="${t}" aria-label="${TIERS[t].label} le ${dayLabel(day)}"><option value="">Auto${auto?` : ${esc(auto.name)}`:""}</option>${orphan}${activePool(t).map(c=>`<option value="${c.id}" ${set===c.id?"selected":""}>${esc(c.name)}</option>`).join("")}</select></td>`}).join("")}</tr>`);
   }
   $("plan-body").innerHTML=rows.join("");
   $("plan-body").querySelectorAll("select").forEach(s=>s.onchange=()=>setPlan(s.dataset.day,s.dataset.tier,s.value,s));
 }
-function renderSettings(){
-  const active=$("t-settings").contains(document.activeElement);
-  if(active)return;
-  $("grades-fields").innerHTML=PALIERS.map(n=>`<div class="field"><label for="g-${n}">Palier ${n} défis</label><input type="text" id="g-${n}" maxlength="32" value="${esc(gradeName(n))}"></div>`).join("");
-  $("goal-target").value=goalCfg.target??100;$("goal-reward").value=goalCfg.reward||"";
-  $("hook-url").value=webhook;
+function renderStaffBounties(){
+  $("b-list").innerHTML=bounties.length?bounties.slice().sort((a,b)=>(b.createdMs||0)-(a.createdMs||0)).map(b=>`<li><div class="grow"><b>${esc(b.title)} · +${b.points} pts</b><small>${b.status==="won"?`Remportée par ${esc(b.winnerPseudo)}`:b.status==="closed"?"Clôturée":b.until<TODAY?"Expirée":`Ouverte jusqu'au ${dayLabel(b.until,{day:"numeric",month:"short"})}`} · ${esc(b.desc)}</small></div><div class="actions">${b.status==="open"?`<button class="btn small ghost" data-bclose="${b.id}">Clôturer</button>`:""}<button class="btn small" data-bdel="${b.id}">Supprimer</button></div></li>`).join(""):`<li class="hint">Aucune prime pour l'instant.</li>`;
+  $("b-list").querySelectorAll("[data-bclose]").forEach(x=>x.onclick=()=>updateDoc(doc(fb.db,"bounties",x.dataset.bclose),{status:"closed"}).then(()=>toast("Prime clôturée")).catch(()=>toast("Action refusée")));
+  $("b-list").querySelectorAll("[data-bdel]").forEach(x=>x.onclick=()=>deleteDoc(doc(fb.db,"bounties",x.dataset.bdel)).then(()=>toast("Prime supprimée")).catch(()=>toast("Action refusée")));
 }
-function renderStaff(){if(!isOfficer)return;renderPending();renderClaims();renderChallengeList();renderPlan();renderSettings()}
-function renderAll(){renderAccount();renderCards();renderQuests();renderGoal();renderEmblems();renderAchievements();renderBoard();renderFeed();renderStaff()}
-
+function renderEventsTab(){
+  if($("t-events").contains(document.activeElement))return;
+  $("happy-ui").innerHTML=happyActive()?`<span class="hint" style="margin:0">Happy hour en cours jusqu'à ${timeLabel(happy.end)}.</span><button class="btn small" id="happy-stop">Arrêter</button>`
+    :[1,2,3].map(h=>`<button class="btn small go" data-happy="${h}">Lancer ${h} h</button>`).join("");
+  $("happy-ui").querySelectorAll("[data-happy]").forEach(b=>b.onclick=()=>startHappy(+b.dataset.happy));
+  if($("happy-stop"))$("happy-stop").onclick=()=>setDoc(doc(fb.db,"settings","happy"),{start:0,end:0}).then(()=>toast("Happy hour arrêtée"));
+  const monday=addDays(TODAY,-weekday(TODAY));
+  $("ev-week").innerHTML=[0,1,2,3,4].map(i=>{const d=addDays(monday,7*i),wk=isoWeek(d);return `<option value="${wk}">${i===0?"Cette semaine":`Semaine du ${dayLabel(d,{day:"numeric",month:"long"})}`}</option>`}).join("");
+  if(eventCfg){$("ev-name").value=eventCfg.name||"";$("ev-badge").value=eventCfg.badge||"";$("ev-target").value=eventCfg.target||5;if([...$("ev-week").options].some(o=>o.value===eventCfg.week))$("ev-week").value=eventCfg.week}
+}
+function renderSettings(){
+  if($("t-settings").contains(document.activeElement))return;
+  $("grades-fields").innerHTML=PALIERS.map(k=>`<div class="field"><label for="g-${k}">Palier ${k} défis</label><input type="text" id="g-${k}" maxlength="32" value="${esc(gradeName(k))}"></div>`).join("");
+  $("goal-target").value=goalCfg.target??100;$("goal-reward").value=goalCfg.reward||"";$("hook-url").value=webhook;
+}
+function renderStaff(){if(!isOfficer)return;renderPending();renderClaims();renderChallengeList();renderPlan();renderStaffBounties();renderEventsTab();renderSettings()}
+function renderAll(){
+  renderAccount();renderBanners();renderCards();renderChest();renderMeStats();renderQuests();renderBounties();
+  renderSeason();renderEmblems();renderCollection();renderAchievements();
+  renderGoal();renderTeams();renderBoard();renderFame();renderFeed();renderDuels();renderStaff();
+}
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",x===b));
   document.querySelectorAll(".tabpanel").forEach(p=>p.hidden=p.id!==b.dataset.tab);
 });
 $("ch-filter").onchange=renderChallengeList;
 
-/* ---------------- PROFIL JOUEUR ---------------- */
+/* ================= NAVIGATION ================= */
+const VIEWS=["aujourdhui","progression","guilde","duels","staff"];
+function showView(v,scroll){
+  if(!VIEWS.includes(v)||(v==="staff"&&!isOfficer))v="aujourdhui";
+  VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);
+  document.querySelectorAll(".nav a").forEach(a=>{if(a.dataset.view===v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(scroll){const top=document.querySelector(".nav").getBoundingClientRect().top+scrollY;if(scrollY>top)scrollTo({top,behavior:"instant"})}
+}
+const currentView=()=>location.hash.slice(1)||"aujourdhui";
+addEventListener("hashchange",()=>showView(currentView(),true));
+
+/* ================= PROFIL ================= */
+let profileUid=null;
 async function openProfile(uid){
-  if(!fb)return;
-  $("prof-modal").hidden=false;
-  $("prof-name").textContent="Chargement…";$("prof-sub").textContent="";$("prof-stats").innerHTML="";$("prof-emb").innerHTML="";$("prof-ach").innerHTML="";$("prof-history").innerHTML="";
+  if(!fb)return;profileUid=uid;
+  $("prof-modal").hidden=false;$("prof-name").textContent="Chargement…";["prof-sub","prof-stats","prof-emb","prof-ach","prof-history"].forEach(id=>$(id).innerHTML="");
+  $("prof-duel").hidden=!(profile&&me&&uid!==me.uid);
   try{
-    const [us,hs]=await Promise.all([getDoc(doc(fb.db,"users",uid)),getDocs(query(collection(fb.db,"completions"),where("uid","==",uid)))]);
-    const u=us.data();if(!u){$("prof-name").textContent="Joueur introuvable";return}
-    const r=reachedPalier(u.ok||0),s=liveStreak(u);
-    $("prof-head").src=headUrl(u.pseudo,64);$("prof-head").alt="";
-    $("prof-name").textContent=u.pseudo;
-    $("prof-sub").textContent=(r?`Grade ${gradeName(r)}`:"Pas encore de grade")+` · ${ACH.filter(a=>a.test(u)).length}/${ACH.length} succès`;
+    const u=usersById.get(uid)||(await getDoc(doc(fb.db,"users",uid))).data();
+    if(!u){$("prof-name").textContent="Joueur introuvable";return}
+    const hs=await getDocs(query(collection(fb.db,"completions"),where("uid","==",uid)));
+    const p=reachedPalier(u.ok||0),s=liveStreak(u);
+    $("prof-head").src=headUrl(u.pseudo,64);
+    $("prof-name").innerHTML=nameHtml(u);
+    $("prof-sub").textContent=[p?`Grade ${gradeName(p)}`:"Pas encore de grade",u.team?`Équipe ${TEAMS[u.team]?.name}`:"",`Niveau ${seasonLevel(u)}`,`${ACH.filter(a=>achDone(a,u)).length}/${ACH.length} succès`].filter(Boolean).join(" · ");
     $("prof-sky").href=skyUrl(u.pseudo);
-    $("prof-stats").innerHTML=[["Points",u.points||0],["Défis",u.ok||0],["Série",s?`${s}🔥`:0],["Record",u.best||0],["First blood",u.firstBloods||0],["Grand chelem",u.slams||0],["Quêtes",u.quests||0],["RNG carried",u.rng||0]].map(([k,v])=>`<div><b>${v}</b><span>${k}</span></div>`).join("");
-    $("prof-emb").innerHTML=PALIERS.map((n,i)=>`<canvas id="pemb${i}" title="${n} défis : ${esc(gradeName(n))}"></canvas>`).join("");
-    PALIERS.forEach((n,i)=>drawEmblem($("pemb"+i),i,(u.ok||0)>=n));
-    $("prof-ach").innerHTML=ACH.map(a=>`<span class="${a.test(u)?"on":""}" style="--c:var(--${a.c})" title="${esc(a.name)} : ${esc(a.desc)}">${a.ico}</span>`).join("");
+    $("prof-stats").innerHTML=[["Points",u.points||0],["Défis",u.ok||0],["Série",s?`${s}🔥`:0],["Record",u.best||0],["First blood",u.firstBloods||0],["Duels gagnés",u.duelsWon||0],["Primes",u.bounties||0],["Coffres",u.chests||0]].map(([k,v])=>`<div><b>${v}</b><span>${k}</span></div>`).join("");
+    $("prof-emb").innerHTML=PALIERS.map((k,i)=>`<canvas id="pemb${i}" title="${k} défis : ${esc(gradeName(k))}"></canvas>`).join("");
+    PALIERS.forEach((k,i)=>drawEmblem($("pemb"+i),i,(u.ok||0)>=k));
+    $("prof-ach").innerHTML=ACH.map(a=>`<span class="${achDone(a,u)?"on":""}" style="--c:var(--c-${a.c})" title="${esc(a.name)} : ${esc(a.desc)}">${a.ico}</span>`).join("");
     const hist=hs.docs.map(mapDoc).filter(d=>d.status==="approved").sort((a,b)=>b.atMs-a.atMs).slice(0,30);
     $("prof-history").innerHTML=hist.length?hist.map(d=>`<li>${kindPill(d)}<span>${esc(d.challengeName)}</span>${d.firstBlood?'<span class="pill fb">First blood</span>':""}<span class="t">${dayLabel(d.day,{day:"numeric",month:"short"})}</span></li>`).join(""):`<li>Aucun défi réussi pour l'instant.</li>`;
   }catch(e){console.error(e);$("prof-name").textContent="Profil indisponible"}
 }
 $("prof-close").onclick=()=>$("prof-modal").hidden=true;
+$("prof-duel").onclick=()=>{$("prof-modal").hidden=true;location.hash="duels";showView("duels",true);$("duel-to").value=profileUid;$("duel-ch").focus()};
 
-/* ---------------- MODALES ---------------- */
+/* ================= TUTO ================= */
+const TUTO=[
+  {art:"404",title:"Bienvenue dans la guilde !",body:`<p>Ici, chaque jour apporte de nouveaux défis Hypixel SkyBlock. Tu les réussis en jeu, tu gagnes des points, et tu grimpes avec toute la guilde.</p>`},
+  {art:"3×",title:"Les défis du jour",body:`<ul><li><b>Facile</b> (1 point), <b>Moyen</b> (2 points) et <b>RNG carried</b> (5 points), renouvelés à minuit.</li><li>Poste ta preuve sur Discord, clique « Valider » et colle le lien du message.</li><li>Un officier vérifie ton SkyCrypt et approuve.</li></ul>`},
+  {art:"10",title:"Quêtes, coffre et primes",body:`<ul><li><b>10 quêtes perso</b> rien que pour toi chaque lundi.</li><li>Un <b>coffre RNG</b> à ouvrir chaque jour : XP, titres, couleurs de pseudo.</li><li>Des <b>primes</b> spéciales : le premier validé remporte tout.</li></ul>`},
+  {art:"★",title:"Ta progression",body:`<ul><li><b>Série</b> 🔥 : un défi par jour, et dès 7 jours tes points passent à ×1,5.</li><li><b>Paliers</b> à 10, 25, 50, 100, 500 et 1000 défis, avec un grade Discord à réclamer.</li><li><b>Passe de saison</b> en 30 niveaux et <b>${ACH.length} succès</b> à débloquer.</li></ul>`},
+  {art:"VS",title:"Joue avec la guilde",body:`<ul><li>Le <b>grand défi de guilde</b> : un objectif commun chaque semaine.</li><li>Les <b>équipes</b> s'affrontent, et tu peux lancer des <b>duels</b>.</li><li>Les officiers lancent parfois des <b>happy hours</b> (points ×2) et des semaines à thème.</li></ul>`},
+  {art:"GO",title:"",body:""}
+];
+let tutoStep=0;
+function tutoLast(){
+  if(!me)return {title:"À toi de jouer",body:`<p>Connecte-toi avec Google en haut à droite, choisis ton pseudo Minecraft, et ton premier coffre t'attend.</p>`};
+  if(profile&&!profile.team)return {title:"Choisis ton équipe",body:`<p>Chaque point que tu gagnes comptera aussi pour elle. Le choix est définitif.</p><div class="team-pick">${Object.entries(TEAMS).map(([k,t])=>`<button style="--t:${t.color}" data-tteam="${k}">${t.name}<small>${t.boss}</small></button>`).join("")}</div>`};
+  return {title:"À toi de jouer",body:`<p>Ton coffre du jour et tes quêtes t'attendent dans l'onglet Aujourd'hui. Bonne chance… et que la RNG soit avec toi.</p>`};
+}
+function renderTuto(){
+  const s=tutoStep===TUTO.length-1?{...TUTO[tutoStep],...tutoLast()}:TUTO[tutoStep];
+  $("tuto-art").textContent=s.art;$("tuto-title").textContent=s.title;$("tuto-body").innerHTML=s.body;
+  $("tuto-dots").innerHTML=TUTO.map((_,i)=>`<i class="${i===tutoStep?"on":""}"></i>`).join("");
+  $("tuto-next").textContent=tutoStep===TUTO.length-1?"C'est parti !":"Suivant";
+  $("tuto-skip").hidden=tutoStep===TUTO.length-1;
+  $("tuto-body").querySelectorAll("[data-tteam]").forEach(b=>b.onclick=async()=>{await pickTeam(b.dataset.tteam);closeTuto()});
+}
+function openTuto(){tutoStep=0;$("tuto-modal").hidden=false;renderTuto();$("tuto-next").focus()}
+function closeTuto(){$("tuto-modal").hidden=true;try{localStorage.setItem("rng404.tuto","1")}catch(e){}}
+$("tuto-next").onclick=()=>{if(tutoStep<TUTO.length-1){tutoStep++;renderTuto()}else closeTuto()};
+$("tuto-skip").onclick=closeTuto;$("help-btn").onclick=openTuto;
+
+/* ================= MODALES ================= */
 let current=null;
 function openSubmit(ctx){
-  if(!me)return;
-  if(!profile){openPseudo();return}
-  if(!ctx.challenge)return;
+  if(!me)return;if(!profile){openPseudo();return}if(!ctx.challenge)return;
   current=ctx;
   $("form").style.setProperty("--r",`var(--${TIERS[ctx.tier].color})`);
-  $("m-title").textContent=`${ctx.kind==="quest"?"Quête perso":TIERS[ctx.tier].label} · ${ctx.challenge.name}`;
+  const label={quest:"Quête perso",duel:"Duel",bounty:"Prime"}[ctx.kind]||TIERS[ctx.tier].label;
+  $("m-title").textContent=`${label} · ${ctx.challenge.name}`;
   $("f-sky").href=skyUrl(profile.pseudo);$("f-sky").textContent=`ouvrir le SkyCrypt de ${profile.pseudo}`;
   $("f-proof").value="";$("f-err").textContent="";$("modal").hidden=false;$("f-proof").focus();
 }
 function openPseudo(){$("p-err").textContent="";$("pmodal").hidden=false;$("p-pseudo").focus()}
-const closeAll=()=>{["modal","pmodal","prof-modal"].forEach(id=>$(id).hidden=true)};
+const MODALS=["modal","pmodal","prof-modal","tuto-modal"];
+const closeAll=()=>{MODALS.forEach(id=>{if(id==="tuto-modal"&&!$(id).hidden)closeTuto();$(id).hidden=true})};
 $("f-cancel").onclick=closeAll;$("p-cancel").onclick=closeAll;
-["modal","pmodal","prof-modal"].forEach(id=>$(id).addEventListener("click",e=>{if(e.target===$(id))closeAll()}));
+MODALS.forEach(id=>$(id).addEventListener("click",e=>{if(e.target===$(id))closeAll()}));
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
 
+/* ================= ACTIONS JOUEUR ================= */
 $("form").addEventListener("submit",async e=>{
   e.preventDefault();
   const proof=$("f-proof").value.trim();
@@ -991,9 +1497,13 @@ $("form").addEventListener("submit",async e=>{
   $("f-submit").disabled=true;
   try{
     const c=current.challenge,base={uid:me.uid,pseudo:profile.pseudo,day:TODAY,tier:current.tier,challengeId:c.id,challengeName:c.name,proof,status:"pending",at:serverTimestamp()};
-    if(current.kind==="quest")await setDoc(doc(fb.db,"completions",`q_${WEEK}_${c.id}_${me.uid}`),{...base,kind:"quest",week:WEEK});
-    else await setDoc(doc(fb.db,"completions",`${TODAY}_${current.tier}_${me.uid}`),base);
-    closeAll();toast("Validation envoyée, en attente d'un officier");
+    let id,data=base;
+    if(current.kind==="quest"){id=`q_${WEEK}_${c.id}_${me.uid}`;data={...base,kind:"quest",week:WEEK}}
+    else if(current.kind==="duel"){id=`d_${current.duel.id}_${me.uid}`;data={...base,kind:"duel",duelId:current.duel.id}}
+    else if(current.kind==="bounty"){id=`b_${c.id}_${me.uid}`;data={...base,kind:"bounty"}}
+    else id=`${TODAY}_${current.tier}_${me.uid}`;
+    await setDoc(doc(fb.db,"completions",id),data);
+    closeAll();toast(happyActive()?"Validation envoyée pendant la happy hour : points ×2 !":"Validation envoyée, en attente d'un officier");
   }catch(err){console.error(err);$("f-err").textContent="Envoi refusé. Recharge la page et réessaie (les défis ont peut-être changé à minuit)."}
   finally{$("f-submit").disabled=false}
 });
@@ -1004,7 +1514,7 @@ async function lookupMinecraft(name){
     if(j&&j.success&&j.data?.player)return {ok:true,name:j.data.player.username,uuid:j.data.player.raw_id||j.data.player.id};
     if(j&&j.success===false)return {ok:false};
   }catch(e){}
-  return {ok:true,name,uuid:null}; // service injoignable : on accepte le pseudo tel quel
+  return {ok:true,name,uuid:null};
 }
 $("pform").addEventListener("submit",async e=>{
   e.preventDefault();
@@ -1022,23 +1532,68 @@ $("pform").addEventListener("submit",async e=>{
     const data={pseudo:p,ok:0,facile:0,moyen:0,rng:0,created:serverTimestamp()};
     if(mc.uuid)data.uuid=String(mc.uuid).replace(/-/g,"");
     b.set(doc(fb.db,"users",me.uid),data);
-    await b.commit();closeAll();toast(`Bienvenue ${p} ! Tes quêtes de la semaine t'attendent.`);
+    await b.commit();closeAll();toast(`Bienvenue ${p} ! Ton premier coffre t'attend.`);
+    tutoStep=TUTO.length-1;$("tuto-modal").hidden=false;renderTuto();
   }catch(err){console.error(err);$("p-err").textContent="Enregistrement refusé. Ce pseudo est peut-être déjà pris."}
   finally{$("p-submit").disabled=false}
 });
-async function claim(n,btn){
+async function claim(k,btn){
   btn.disabled=true;
-  try{await setDoc(doc(fb.db,"claims",`${me.uid}_${n}`),{uid:me.uid,pseudo:profile.pseudo,palier:n,status:"requested",at:serverTimestamp()});toast("Demande envoyée aux officiers. Ton grade arrive sur Discord.");confetti()}
+  try{await setDoc(doc(fb.db,"claims",`${me.uid}_${k}`),{uid:me.uid,pseudo:profile.pseudo,palier:k,status:"requested",at:serverTimestamp()});toast("Demande envoyée aux officiers. Ton grade arrive sur Discord.");confetti()}
   catch(e){console.error(e);toast("Demande refusée");btn.disabled=false}
 }
 async function ensureMyQuests(){
   if(!me||!profile||myQuests)return;
   const items=genQuests(me.uid,WEEK);if(!items.length)return;
-  try{await setDoc(doc(fb.db,"quests",`${me.uid}_${WEEK}`),{uid:me.uid,week:WEEK,ids:items.map(q=>q.id),items,created:serverTimestamp()})}
-  catch(e){console.error(e)}
+  try{await setDoc(doc(fb.db,"quests",`${me.uid}_${WEEK}`),{uid:me.uid,week:WEEK,ids:items.map(q=>q.id),items,created:serverTimestamp()})}catch(e){console.error(e)}
 }
+function rollChest(){
+  const owned=new Set(profile.cosmetics||[]),r=mulberry(hashStr(me.uid+"|chest|"+TODAY)),x=r();
+  let loot;
+  if(x<.02)loot={rarity:"mythic",xp:10,cos:"t:Touché par la RNG",text:"Titre « Touché par la RNG »",mythic:true};
+  else if(x<.08){const c=["epic","legendary","divine"][Math.floor(r()*3)];loot={rarity:"epic",xp:10,cos:"c:"+c,text:`Couleur ${COLORS[c]}`}}
+  else if(x<.20){const t=TITLE_POOL[Math.floor(r()*TITLE_POOL.length)];loot={rarity:"rare",xp:8,cos:"t:"+t,text:`Titre « ${t} »`}}
+  else if(x<.45)loot={rarity:"uncommon",xp:5,text:""};
+  else loot={rarity:"common",xp:3,text:""};
+  if(loot.cos&&owned.has(loot.cos)){loot.text+=" (doublon, +2 XP)";loot.cos=null;loot.xp=Math.min(10,loot.xp+2)}
+  return loot;
+}
+async function openChest(){
+  if(!profile||profile.lastChest===TODAY)return;
+  const box=$("chest-box"),btn=$("chest-open");btn.disabled=true;
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches){box.classList.add("shake");await new Promise(r=>setTimeout(r,1000));box.classList.remove("shake")}
+  const loot=rollChest(),same=profile.chestMonth===MONTH;
+  const data={chests:(profile.chests||0)+1,lastChest:TODAY,chestMonth:MONTH,chestXp:(same?(profile.chestXp||0):0)+loot.xp,lastLoot:{rarity:loot.rarity,xp:loot.xp,text:loot.text}};
+  if(loot.cos)data.cosmetics=arrayUnion(loot.cos);
+  if(loot.mythic)data.mythics=(profile.mythics||0)+1;
+  try{await updateDoc(doc(fb.db,"users",me.uid),data);if(["epic","mythic","rare"].includes(loot.rarity))confetti();toast(`${LOOT[loot.rarity].label} ! +${loot.xp} XP${loot.text?` · ${loot.text}`:""}`)}
+  catch(e){console.error(e);toast("Le coffre est resté coincé. Recharge la page et réessaie.");btn.disabled=false}
+}
+async function pickTeam(k){
+  if(!profile||profile.team)return;
+  try{await updateDoc(doc(fb.db,"users",me.uid),{team:k});toast(`Bienvenue chez les ${TEAMS[k].name} !`);confetti()}catch(e){console.error(e);toast("Choix refusé")}
+}
+async function equip(patch){
+  try{await updateDoc(doc(fb.db,"users",me.uid),patch)}catch(e){console.error(e);toast("Changement refusé")}
+}
+$("duel-form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const to=$("duel-to").value,c=challenges.get($("duel-ch").value),opp=usersById.get(to);
+  if(!opp)return $("duel-err").textContent="Choisis un adversaire.";
+  if(!c)return $("duel-err").textContent="Choisis un défi.";
+  if(activeDuels().length>=3)return $("duel-err").textContent="Tu as déjà 3 duels en cours. Termine-en un avant d'en lancer un autre.";
+  if(activeDuels().some(d=>d.from===to||d.to===to))return $("duel-err").textContent=`Tu as déjà un duel en cours avec ${opp.pseudo}.`;
+  $("duel-err").textContent="";$("duel-go").disabled=true;
+  try{
+    await setDoc(doc(collection(fb.db,"duels")),{from:me.uid,fromPseudo:profile.pseudo,to,toPseudo:opp.pseudo,challengeId:c.id,challengeName:c.name,tier:c.tier,status:"proposed",week:WEEK,created:serverTimestamp()});
+    toast(`Duel envoyé à ${opp.pseudo} !`);
+  }catch(err){console.error(err);$("duel-err").textContent="Duel refusé."}
+  finally{$("duel-go").disabled=false}
+});
+async function duelAnswer(id,status,btn){btn.disabled=true;try{await updateDoc(doc(fb.db,"duels",id),{status});toast(status==="accepted"?"Duel accepté. Que le meilleur gagne !":"Duel refusé")}catch(e){console.error(e);toast("Action refusée");btn.disabled=false}}
+async function duelCancel(id,btn){btn.disabled=true;try{await deleteDoc(doc(fb.db,"duels",id));toast("Duel annulé")}catch(e){console.error(e);toast("Action refusée");btn.disabled=false}}
 
-/* ---------------- DISCORD ---------------- */
+/* ================= DISCORD ================= */
 async function announce(embed,silent=false){
   if(!webhook)return false;
   try{
@@ -1046,84 +1601,123 @@ async function announce(embed,silent=false){
     if(!r.ok)throw new Error(r.status);return true;
   }catch(e){console.error(e);if(!silent)toast("Le message Discord n'a pas pu être envoyé");return false}
 }
+function goalEmbed(){
+  const t=+goalCfg.target||0,k=weekStats.count||0;
+  return {title:"🎯 Grand défi de guilde",color:0xffd23f,description:`Cette semaine, on vise **${t} défis réussis** tous ensemble avant dimanche minuit !${goalCfg.reward?`\n🎁 Récompense : **${goalCfg.reward}**`:""}\n📈 Progression : **${k} / ${t}**\n\nDéfis du jour, quêtes perso, duels et primes : tout compte. [À vous de jouer !](${SITE})`};
+}
+function recapEmbed(st,wk){
+  const scores=Object.entries(st.scores||{}).map(([uid,v])=>({uid,...v})).sort((a,b)=>(b.points||0)-(a.points||0)).slice(0,3);
+  const teams=Object.entries(st.teams||{}).sort((a,b)=>b[1]-a[1]);
+  const medals=["🥇","🥈","🥉"],t=+goalCfg.target||0;
+  const lines=[`**${st.count||0} défis** réussis par la guilde${t?` (objectif ${t} : ${(st.count||0)>=t?"atteint ✅":"manqué"})`:""}.`];
+  if(scores.length)lines.push("",...scores.map((s,i)=>`${medals[i]} **${s.pseudo}** · ${s.points} pts`));
+  if(teams.length)lines.push("",`🏆 Équipe gagnante : **${TEAMS[teams[0][0]]?.name||teams[0][0]}** (${teams[0][1]} pts)`);
+  return {title:`📊 Récap de la semaine ${wk.split("-W")[1]}`,color:0x6cc24a,description:lines.join("\n")};
+}
 
-/* ---------------- ACTIONS STAFF ---------------- */
+/* ================= ACTIONS STAFF ================= */
+async function autoReject(d,reason){await updateDoc(doc(fb.db,"completions",d.id),{status:"rejected",decidedBy:me.uid,reason})}
 async function decide(id,status,btn,reason=""){
   const d=pendingDocs.find(x=>x.id===id);if(!d)return;
   btn.disabled=true;
   try{
-    if(status==="rejected"){
-      await updateDoc(doc(fb.db,"completions",id),{status,decidedBy:me.uid,reason:reason.slice(0,200)});
-      rejectingId=null;toast(`Refusé : ${d.pseudo}`);return;
-    }
+    if(status==="rejected"){await autoReject(d,reason.slice(0,200));rejectingId=null;toast(`Refusé : ${d.pseudo}`);return}
+    const kind=d.kind||"daily";
+    let duel=null,bounty=null;
+    if(kind==="duel"){duel=(await getDoc(doc(fb.db,"duels",d.duelId))).data();if(duel?.status!=="accepted"){await autoReject(d,duel?.status==="done"?`Duel déjà gagné par ${duel.winnerPseudo}.`:"Ce duel n'est plus en cours.");toast("Duel déjà terminé : validation refusée automatiquement");return}}
+    if(kind==="bounty"){bounty=(await getDoc(doc(fb.db,"bounties",d.challengeId))).data();if(bounty?.status!=="open"){await autoReject(d,bounty?.status==="won"?`Prime déjà remportée par ${bounty.winnerPseudo}.`:"Cette prime est terminée.");toast("Prime déjà terminée : validation refusée automatiquement");return}}
     const u=(await getDoc(doc(fb.db,"users",d.uid))).data()||{};
-    const quest=isQuestDoc(d),pts=TIERS[d.tier].pts;
-    const patch={ok:increment(1),[d.tier]:increment(1),points:increment(pts)};
-    const after={...u,ok:(u.ok||0)+1,[d.tier]:(u[d.tier]||0)+1,points:(u.points||0)+pts};
-    // série : un jour avec au moins un défi approuvé
-    const last=u.lastDay||"";let streakUp=false;
+    const patch={},after={...u},cos=[];
+    const add=(k,v)=>{patch[k]=increment(v);after[k]=(u[k]||0)+v};
+    // série + jokers
+    const last=u.lastDay||"";let streakUp=false,jokerUsedNow=0,jokerEarned=false;
     if(!last||d.day>last){
-      const s=last&&addDays(last,1)===d.day?(u.streak||0)+1:1;
-      Object.assign(patch,{lastDay:d.day,streak:s});after.streak=s;after.lastDay=d.day;streakUp=true;
+      const gap=last?dayIndex(d.day)-dayIndex(last)-1:0,jok=u.jokers||0;let s;
+      if(!last)s=1;else if(gap===0)s=(u.streak||0)+1;else if(gap<=jok){s=(u.streak||0)+1;jokerUsedNow=gap}else s=1;
+      let jokers=jok-jokerUsedNow;
+      if(s%JOKER_EVERY===0&&jokers<JOKER_MAX){jokers++;jokerEarned=true}
+      Object.assign(patch,{lastDay:d.day,streak:s,jokers});Object.assign(after,{lastDay:d.day,streak:s,jokers});streakUp=true;
       if(s>(u.best||0)){patch.best=s;after.best=s}
+      if(jokerUsedNow)add("jokersUsed",jokerUsedNow);
     }
-    // classements de la semaine et du mois
+    const streakNow=after.streak||0;
+    // points et multiplicateurs
+    let base=kind==="bounty"?(+bounty.points||0):TIERS[d.tier].pts+(kind==="duel"?DUEL_BONUS:0);
+    const isHappy=happy.start&&d.atMs>=happy.start&&d.atMs<=happy.end;
+    let mult=(isHappy?2:1)*(streakNow>=7?1.5:1);const pts=Math.ceil(base*mult);
+    add("ok",1);add("points",pts);if(kind!=="bounty")add(d.tier,1);if(isHappy)add("happyHours",1);
+    // semaine / mois
     const wk=isoWeek(d.day),mk=d.day.slice(0,7);
-    if(u.weekKey===wk)Object.assign(patch,{weekPoints:increment(pts),weekCount:increment(1)});
-    else if(!u.weekKey||wk>u.weekKey)Object.assign(patch,{weekKey:wk,weekPoints:pts,weekCount:1});
-    if(u.monthKey===mk)Object.assign(patch,{monthPoints:increment(pts),monthCount:increment(1)});
-    else if(!u.monthKey||mk>u.monthKey)Object.assign(patch,{monthKey:mk,monthPoints:pts,monthCount:1});
-    // First blood et Grand chelem (défis du jour)
+    if(u.weekKey===wk){add("weekPoints",pts);add("weekCount",1)}else if(!u.weekKey||wk>u.weekKey){Object.assign(patch,{weekKey:wk,weekPoints:pts,weekCount:1});Object.assign(after,{weekKey:wk,weekPoints:pts,weekCount:1})}
+    if(u.monthKey===mk){add("monthPoints",pts);add("monthCount",1)}else if(!u.monthKey||mk>u.monthKey){Object.assign(patch,{monthKey:mk,monthPoints:pts,monthCount:1});Object.assign(after,{monthKey:mk,monthPoints:pts,monthCount:1})}
+    // First blood, Grand chelem, Semaine parfaite
     let firstBlood=false,slam=false,perfect=false;
-    if(!quest){
-      const sameDay=(await getDocs(query(collection(fb.db,"completions"),where("day","==",d.day)))).docs.map(mapDoc).filter(x=>!isQuestDoc(x));
-      if(d.tier==="rng"){
-        const rng=sameDay.filter(x=>x.tier==="rng"&&x.status!=="rejected");
-        if(!rng.some(x=>x.firstBlood)){rng.sort((a,b)=>a.atMs-b.atMs);firstBlood=rng[0]?.id===d.id}
-      }
-      const mine=sameDay.filter(x=>x.uid===d.uid&&(x.status==="approved"||x.id===d.id));
-      slam=TIER_KEYS.every(t=>mine.some(x=>x.tier===t));
-    }else{
-      const [hist,qd]=await Promise.all([getDocs(query(collection(fb.db,"completions"),where("uid","==",d.uid))),getDoc(doc(fb.db,"quests",`${d.uid}_${d.week}`))]);
-      const doneQ=hist.docs.map(mapDoc).filter(x=>isQuestDoc(x)&&x.week===d.week&&(x.status==="approved"||x.id===d.id)).length;
-      perfect=doneQ===(qd.data()?.items?.length||10);
-      patch.quests=increment(1);after.quests=(u.quests||0)+1;
+    if(kind==="daily"){
+      const same=(await getDocs(query(collection(fb.db,"completions"),where("day","==",d.day)))).docs.map(mapDoc).filter(x=>isKind(x,"daily"));
+      if(d.tier==="rng"){const rng=same.filter(x=>x.tier==="rng"&&x.status!=="rejected");if(!rng.some(x=>x.firstBlood)){rng.sort((a,b)=>a.atMs-b.atMs);firstBlood=rng[0]?.id===d.id}}
+      const mine=same.filter(x=>x.uid===d.uid&&(x.status==="approved"||x.id===d.id));slam=TIER_KEYS.every(t=>mine.some(x=>x.tier===t));
     }
-    if(firstBlood){patch.firstBloods=increment(1);after.firstBloods=(u.firstBloods||0)+1}
-    if(slam){patch.slams=increment(1);after.slams=(u.slams||0)+1}
-    if(perfect){patch.questWeeks=increment(1);after.questWeeks=(u.questWeeks||0)+1}
+    if(kind==="quest"){
+      add("quests",1);
+      const [hist,qd]=await Promise.all([getDocs(query(collection(fb.db,"completions"),where("uid","==",d.uid))),getDoc(doc(fb.db,"quests",`${d.uid}_${d.week}`))]);
+      perfect=hist.docs.map(mapDoc).filter(x=>isKind(x,"quest")&&x.week===d.week&&(x.status==="approved"||x.id===d.id)).length===(qd.data()?.items?.length||10);
+    }
+    if(firstBlood)add("firstBloods",1);if(slam)add("slams",1);if(perfect)add("questWeeks",1);
+    if(kind==="duel")add("duelsWon",1);
+    if(kind==="bounty"){add("bounties",1);cos.push("t:Chasseur de primes")}
+    // semaine à thème
+    let eventWon=false;
+    if(eventCfg&&eventCfg.name&&eventCfg.week===wk){
+      const cnt=u.eventWeek===wk?(u.eventCount||0)+1:1;Object.assign(patch,{eventWeek:wk,eventCount:cnt});
+      if(cnt===(+eventCfg.target||5)&&!(u.eventBadges||[]).includes(eventCfg.badge)){patch.eventBadges=arrayUnion(eventCfg.badge);after.eventBadges=[...(u.eventBadges||[]),eventCfg.badge];cos.push("t:"+eventCfg.badge);eventWon=true}
+    }
+    // passe de saison
+    const lvlBefore=seasonLevelAt(u,mk),lvlAfter=seasonLevelAt(after,mk);
+    SEASON_REWARDS.filter(r=>r.lvl<=lvlAfter).forEach(r=>{if(!(u.cosmetics||[]).includes(r.cos))cos.push(r.cos)});
+    if(lvlAfter>(u.bestLevel||0)){patch.bestLevel=lvlAfter;after.bestLevel=lvlAfter}
+    if(cos.length){patch.cosmetics=arrayUnion(...cos);after.cosmetics=[...new Set([...(u.cosmetics||[]),...cos])]}
 
     const b=writeBatch(fb.db);
     b.update(doc(fb.db,"completions",id),firstBlood?{status,decidedBy:me.uid,firstBlood:true}:{status,decidedBy:me.uid});
     b.update(doc(fb.db,"users",d.uid),patch);
-    b.set(doc(fb.db,"stats","week-"+wk),{count:increment(1)},{merge:true});
+    const ws={count:increment(1),scores:{[d.uid]:{pseudo:d.pseudo,points:increment(pts)}}};if(u.team)ws.teams={[u.team]:increment(pts)};
+    b.set(doc(fb.db,"stats","week-"+wk),ws,{merge:true});
+    b.set(doc(fb.db,"stats","month-"+mk),{scores:{[d.uid]:{pseudo:d.pseudo,points:increment(pts)}}},{merge:true});
+    if(duel)b.update(doc(fb.db,"duels",d.duelId),{status:"done",winner:d.uid,winnerPseudo:d.pseudo});
+    if(bounty)b.update(doc(fb.db,"bounties",d.challengeId),{status:"won",winner:d.uid,winnerPseudo:d.pseudo,wonAt:Date.now()});
     await b.commit();
     toast(`Approuvé : ${d.pseudo} (+${pts})`);
 
-    const lines=[`**${d.pseudo}** a réussi ${quest?"la quête perso":"le défi"} **${TIERS[d.tier].label}** : ${d.challengeName} (+${plural(pts,"point")})`];
+    // annonce Discord
+    const what={quest:"la quête perso",duel:"son duel sur",bounty:"la prime",daily:"le défi"}[kind];
+    const lines=[`**${d.pseudo}** a réussi ${what} **${kind==="bounty"?d.challengeName:`${TIERS[d.tier].label} : ${d.challengeName}`}** (+${plural(pts,"point")}${mult>1?` · ×${mult}`:""})`];
+    if(duel)lines.push(`⚔️ Victoire en duel contre **${duel.from===d.uid?duel.toPseudo:duel.fromPseudo}** !`);
+    if(bounty)lines.push("💰 Prime remportée, avec le titre **Chasseur de primes** !");
     if(firstBlood)lines.push("🩸 **First blood** : premier à valider le défi RNG carried du jour !");
     if(slam)lines.push("🏆 **Grand chelem** : les 3 défis du jour réussis !");
-    if(perfect)lines.push("📜 **Semaine parfaite** : toutes les quêtes perso de la semaine terminées !");
-    if(streakUp&&after.streak>=3)lines.push(`🔥 Série de ${after.streak} jours`);
-    ACH.filter(a=>a.test(after)&&!a.test(u)).forEach(a=>lines.push(`⭐ Succès débloqué : **${a.name}**`));
+    if(perfect)lines.push("📜 **Semaine parfaite** : toutes les quêtes perso terminées !");
+    if(isHappy)lines.push("🍹 Validé pendant la **happy hour** : points ×2");
+    if(streakUp&&streakNow>=3)lines.push(`🔥 Série de ${streakNow} jours${jokerUsedNow?" (sauvée par un joker !)":""}${jokerEarned?" · +1 joker":""}`);
+    if(eventWon)lines.push(`🎃 Titre limité **${eventCfg.badge}** gagné (${eventCfg.name}) !`);
+    if(lvlAfter>lvlBefore&&SEASON_REWARDS.some(r=>r.lvl>lvlBefore&&r.lvl<=lvlAfter))lines.push(`🎟️ Niveau **${lvlAfter}** du passe de saison !`);
+    ACH.filter(a=>achDone(a,after)&&!achDone(a,u)).forEach(a=>lines.push(`⭐ Succès débloqué : **${a.name}**`));
     if(PALIERS.includes(after.ok))lines.push(`🏅 Palier **${after.ok}** atteint : grade **${gradeName(after.ok)}** à réclamer sur le site !`);
-    const goalT=+goalCfg.target||0;
-    if(goalT&&wk===WEEK&&goalCount+1===goalT)lines.push(`🎉 **Grand défi de guilde atteint** : ${goalT} défis cette semaine !${goalCfg.reward?` Récompense : ${goalCfg.reward}`:""}`);
-    announce({title:firstBlood?"First blood !":"Défi réussi",description:lines.join("\n"),color:TIERS[d.tier].hex,thumbnail:{url:headUrl(d.pseudo,64)}});
+    const t=+goalCfg.target||0,k=(weekStats.count||0)+1;
+    if(t&&wk===WEEK&&k===t)lines.push(`🎉 **Grand défi de guilde atteint** : ${t} défis cette semaine !${goalCfg.reward?` Récompense : ${goalCfg.reward}`:""}`);
+    else if(t&&wk===WEEK&&k===Math.ceil(t/2))lines.push(`🎯 La guilde est à mi-chemin du grand défi : ${k} / ${t} !`);
+    announce({title:duel?"Duel gagné !":bounty?"Prime remportée !":firstBlood?"First blood !":"Défi réussi",description:lines.join("\n"),color:bounty?0xffd23f:TIERS[d.tier].hex,thumbnail:{url:headUrl(d.pseudo,64)}});
   }catch(err){console.error(err);toast("Action refusée");btn.disabled=false}
 }
+function seasonLevelAt(u,mk){return Math.min(MAX_LVL,Math.floor(((u.monthKey===mk?(u.monthPoints||0):0)+(u.chestMonth===mk?(u.chestXp||0):0))/LEVEL_XP))}
 async function giveGrade(id,btn){
-  const c=openClaims.find(x=>x.id===id);
-  btn.disabled=true;
-  try{
-    await updateDoc(doc(fb.db,"claims",id),{status:"given",givenBy:me.uid});toast("Grade marqué comme donné");
+  const c=openClaims.find(x=>x.id===id);btn.disabled=true;
+  try{await updateDoc(doc(fb.db,"claims",id),{status:"given",givenBy:me.uid});toast("Grade marqué comme donné");
     if(c)announce({title:"Nouveau grade",description:`🎖️ **${c.pseudo}** reçoit le grade **${gradeName(c.palier)}** (${c.palier} défis réussis) !`,color:0xffd23f,thumbnail:{url:headUrl(c.pseudo,64)}});
   }catch(e){console.error(e);toast("Action refusée");btn.disabled=false}
 }
 async function ensureSeeded(){
   if(!usingBase)return;
-  const b=writeBatch(fb.db);
-  BASE_MAP.forEach(c=>b.set(doc(fb.db,"challenges",c.id),{tier:c.tier,name:c.name,desc:c.desc,stat:c.stat,active:true}));
+  const b=writeBatch(fb.db);BASE_MAP.forEach(c=>b.set(doc(fb.db,"challenges",c.id),{tier:c.tier,name:c.name,desc:c.desc,stat:c.stat,active:true}));
   await b.commit();usingBase=false;
 }
 async function freezeToday(){
@@ -1133,7 +1727,6 @@ async function freezeToday(){
 }
 async function beforeEdit(){await ensureSeeded();await freezeToday()}
 $("seed-btn").onclick=async()=>{try{await ensureSeeded();toast("Défis de base enregistrés")}catch(e){console.error(e);toast("Action refusée")}};
-
 function startEdit(id){
   const c=challenges.get(id);if(!c)return;editingId=id;
   $("ch-tier").value=c.tier;$("ch-name").value=c.name;$("ch-desc").value=c.desc;$("ch-stat").value=c.stat||"";
@@ -1156,85 +1749,130 @@ $("ch-form").addEventListener("submit",async e=>{
   }catch(err){console.error(err);$("ch-err").textContent="Enregistrement refusé."}
   finally{$("ch-save").disabled=false}
 });
-async function toggleChallenge(id,btn){
-  btn.disabled=true;
-  try{await beforeEdit();const c=challenges.get(id);await updateDoc(doc(fb.db,"challenges",id),{active:c.active===false})}
-  catch(e){console.error(e);toast("Action refusée")}finally{btn.disabled=false}
-}
+async function toggleChallenge(id,btn){btn.disabled=true;try{await beforeEdit();const c=challenges.get(id);await updateDoc(doc(fb.db,"challenges",id),{active:c.active===false})}catch(e){console.error(e);toast("Action refusée")}finally{btn.disabled=false}}
 async function removeChallenge(id,btn){
   if(confirmDel!==id){confirmDel=id;renderChallengeList();return}
   confirmDel=null;btn.disabled=true;
-  try{await beforeEdit();await deleteDoc(doc(fb.db,"challenges",id));if(editingId===id)resetEditor();toast("Défi supprimé")}
-  catch(e){console.error(e);toast("Action refusée")}
+  try{await beforeEdit();await deleteDoc(doc(fb.db,"challenges",id));if(editingId===id)resetEditor();toast("Défi supprimé")}catch(e){console.error(e);toast("Action refusée")}
 }
 async function setPlan(day,tier,value,sel){
   sel.disabled=true;
-  try{
-    await ensureSeeded();if(day===TODAY)await freezeToday();
-    await setDoc(doc(fb.db,"schedule",day),{[tier]:value||deleteField()},{merge:true});
-    toast(value?"Défi planifié":"Retour à la rotation automatique");
-  }catch(e){console.error(e);toast("Action refusée")}finally{sel.disabled=false}
+  try{await ensureSeeded();if(day===TODAY)await freezeToday();await setDoc(doc(fb.db,"schedule",day),{[tier]:value||deleteField()},{merge:true});toast(value?"Défi planifié":"Retour à la rotation automatique")}
+  catch(e){console.error(e);toast("Action refusée")}finally{sel.disabled=false}
 }
-$("grades-form").addEventListener("submit",async e=>{
+$("b-form").addEventListener("submit",async e=>{
   e.preventDefault();
-  const names={};PALIERS.forEach(n=>{names[n]=$("g-"+n).value.trim()||DEFAULT_GRADES[n]});
+  const title=$("b-title").value.trim(),desc=$("b-desc").value.trim(),points=parseInt($("b-pts").value,10),until=$("b-until").value;
+  if(title.length<3)return $("b-err").textContent="Donne un titre à la prime.";
+  if(desc.length<5)return $("b-err").textContent="Explique ce qu'il faut faire.";
+  if(!(points>=1&&points<=100))return $("b-err").textContent="Les points doivent être entre 1 et 100.";
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(until)||until<TODAY)return $("b-err").textContent="Choisis une date de fin (aujourd'hui ou plus tard).";
+  $("b-err").textContent="";
+  try{
+    await setDoc(doc(collection(fb.db,"bounties")),{title,desc,points,until,status:"open",created:serverTimestamp()});
+    $("b-form").reset();$("b-pts").value=20;toast("Prime publiée");
+    announce({title:"💰 Nouvelle prime !",color:0xffd23f,description:`**${title}** · +${points} points et le titre **Chasseur de primes**\n${desc}\n⏳ Jusqu'au ${dayLabel(until)}. Le premier validé remporte tout ! [Voir la prime](${SITE})`});
+  }catch(err){console.error(err);$("b-err").textContent="Publication refusée."}
+});
+async function startHappy(h){
+  const start=Date.now(),end=start+h*3600e3;
+  try{await setDoc(doc(fb.db,"settings","happy"),{start,end});toast(`Happy hour lancée pour ${h} h`);
+    announce({title:"🍹 HAPPY HOUR !",color:0xffaa00,description:`Points **×2** sur toutes les validations envoyées jusqu'à **${timeLabel(end)}** ! [Fonce !](${SITE})`})}
+  catch(e){console.error(e);toast("Action refusée")}
+}
+$("ev-form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const name=$("ev-name").value.trim(),badge=$("ev-badge").value.trim(),week=$("ev-week").value,target=parseInt($("ev-target").value,10);
+  if(name.length<3||badge.length<2)return toast("Donne un nom et un titre à l'événement");
+  if(!(target>=1&&target<=50))return toast("Entre un nombre de défis entre 1 et 50");
+  try{await setDoc(doc(fb.db,"settings","event"),{name,badge,week,target});toast("Événement programmé");
+    announce({title:`🎃 ${name}`,color:0xff8a3d,description:`${week===WEEK?"Cette semaine":"Bientôt"} : réussis **${plural(target,"défi")}** pendant la semaine pour gagner le titre limité **${badge}**. Il ne reviendra jamais ! [Participer](${SITE})`})}
+  catch(err){console.error(err);toast("Enregistrement refusé")}
+});
+$("ev-clear").onclick=()=>deleteDoc(doc(fb.db,"settings","event")).then(()=>toast("Événement retiré")).catch(()=>toast("Action refusée"));
+$("grades-form").addEventListener("submit",async e=>{
+  e.preventDefault();const names={};PALIERS.forEach(k=>{names[k]=$("g-"+k).value.trim()||DEFAULT_GRADES[k]});
   try{await setDoc(doc(fb.db,"settings","grades"),{names});toast("Noms des grades enregistrés")}catch(err){console.error(err);toast("Enregistrement refusé")}
 });
 $("goal-form").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const target=parseInt($("goal-target").value,10);
+  e.preventDefault();const target=parseInt($("goal-target").value,10);
   if(!(target>=0&&target<=99999))return toast("Entre un nombre de défis entre 0 et 99999");
-  try{await setDoc(doc(fb.db,"settings","goal"),{target,reward:$("goal-reward").value.trim().slice(0,80)});toast("Objectif enregistré")}catch(err){console.error(err);toast("Enregistrement refusé")}
+  try{await setDoc(doc(fb.db,"settings","goal"),{target,reward:$("goal-reward").value.trim().slice(0,80)});toast("Grand défi enregistré")}catch(err){console.error(err);toast("Enregistrement refusé")}
 });
+$("goal-post").onclick=async()=>{if(!webhook)return toast("Enregistre d'abord le webhook Discord");if(await announce(goalEmbed()))toast("Grand défi annoncé sur Discord")};
+$("recap-post").onclick=async()=>{if(!webhook)return toast("Enregistre d'abord le webhook Discord");if(await announce(recapEmbed(weekStats,WEEK)))toast("Récap posté sur Discord")};
 $("hook-form").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const url=$("hook-url").value.trim();
+  e.preventDefault();const url=$("hook-url").value.trim();
   if(url&&!HOOK.test(url))return $("hook-err").textContent="Ce n'est pas une adresse de webhook Discord (discord.com/api/webhooks/…).";
   $("hook-err").textContent="";
   try{await setDoc(doc(fb.db,"private","discord"),{webhook:url});toast(url?"Webhook enregistré":"Annonces Discord désactivées")}catch(err){console.error(err);toast("Enregistrement refusé")}
 });
 $("hook-test").onclick=async()=>{
-  const url=$("hook-url").value.trim();
-  if(!HOOK.test(url))return $("hook-err").textContent="Colle d'abord l'adresse du webhook.";
-  const saved=webhook;webhook=url;
-  const ok=await announce({title:"Test réussi",description:"Le site des défis de **404 RNG not found** est bien relié à ce salon. 🎉",color:0x6cc24a});
-  webhook=saved;if(ok)toast("Message de test envoyé sur Discord");
+  const url=$("hook-url").value.trim();if(!HOOK.test(url))return $("hook-err").textContent="Colle d'abord l'adresse du webhook.";
+  const saved=webhook;webhook=url;const ok=await announce({title:"Test réussi",description:"Le site des défis de **404 RNG not found** est bien relié à ce salon. 🎉",color:0x6cc24a});webhook=saved;if(ok)toast("Message de test envoyé sur Discord");
 };
+/* Tâches automatiques lancées par le navigateur d'un officier : récap du lundi, nouveau grand défi, champion de saison */
+async function autoPosts(){
+  if(!isOfficer||autoDone||!fb)return;autoDone=true;
+  try{
+    const prevWk=isoWeek(addDays(TODAY,-7)),ref=doc(fb.db,"stats","week-"+prevWk),st=(await getDoc(ref)).data();
+    if(st&&!st.recap&&webhook){
+      await setDoc(ref,{recap:true},{merge:true});
+      await announce(recapEmbed(st,prevWk),true);
+      if(+goalCfg.target)await announce(goalEmbed(),true);
+    }
+    const prevMonth=addDays(MONTH+"-01",-1).slice(0,7);
+    if(!fameList.some(f=>f.id===prevMonth)){
+      const ms=(await getDoc(doc(fb.db,"stats","month-"+prevMonth))).data();
+      const top=Object.entries(ms?.scores||{}).map(([uid,v])=>({uid,pseudo:v.pseudo,points:v.points||0})).sort((a,b)=>b.points-a.points).slice(0,3);
+      if(top.length){
+        await setDoc(doc(fb.db,"fame",prevMonth),{top,created:serverTimestamp()});
+        await updateDoc(doc(fb.db,"users",top[0].uid),{champions:increment(1),cosmetics:arrayUnion("t:Champion de saison","c:divine")});
+        announce({title:`👑 Champion de la saison ${monthLabel(prevMonth)}`,color:0xffd23f,description:`**${top[0].pseudo}** remporte la saison avec **${top[0].points} points** et entre au Mur des légendes !${top[1]?`\n🥈 ${top[1].pseudo} · ${top[1].points} pts`:""}${top[2]?`\n🥉 ${top[2].pseudo} · ${top[2].points} pts`:""}\n\nUne nouvelle saison commence. [Gravir le passe](${SITE})`},true);
+      }
+    }
+  }catch(e){console.error("autoPosts",e)}
+}
 
-/* ---------------- EFFETS ---------------- */
-let tt;function toast(m){$("toast").textContent=m;$("toast").hidden=false;clearTimeout(tt);tt=setTimeout(()=>$("toast").hidden=true,3200)}
+/* ================= EFFETS ================= */
+let tt;function toast(m){$("toast").textContent=m;$("toast").hidden=false;clearTimeout(tt);tt=setTimeout(()=>$("toast").hidden=true,3400)}
 $("uid-copy").onclick=async()=>{try{await navigator.clipboard.writeText(me.uid);toast("Identifiant copié")}catch(e){getSelection().selectAllChildren($("uid-code"))}};
+$("me-chip").onclick=()=>{if(me&&profile)openProfile(me.uid)};
 function confetti(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const cv=$("confetti"),g=cv.getContext("2d");cv.hidden=false;cv.width=innerWidth;cv.height=innerHeight;
-  const cols=["#55ff55","#c95cff","#ffaa00","#ffd23f","#ffffff"];
-  const P=Array.from({length:90},()=>({x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.35,vx:(Math.random()-.5)*12,vy:-Math.random()*12-4,s:6+Math.random()*6|0,c:cols[Math.random()*5|0]}));
+  const cols=["#55ff55","#c95cff","#ffaa00","#ffd23f","#ffffff","#ff6bff"];
+  const P=Array.from({length:90},()=>({x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.35,vx:(Math.random()-.5)*12,vy:-Math.random()*12-4,s:6+Math.random()*6|0,c:cols[Math.random()*cols.length|0]}));
   let t=0;(function f(){g.clearRect(0,0,cv.width,cv.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.45;g.fillStyle=p.c;g.fillRect(p.x|0,p.y|0,p.s,p.s)});if(++t<90)requestAnimationFrame(f);else cv.hidden=true})();
 }
 
-/* ---------------- FIREBASE ---------------- */
+/* ================= FIREBASE ================= */
 const tsMs=v=>v?.toMillis?.()||Date.now();
-const mapDoc=s=>{const d=s.data();return {id:s.id,...d,atMs:tsMs(d.at)}};
+const mapDoc=s=>{const d=s.data();return {id:s.id,...d,atMs:tsMs(d.at),createdMs:tsMs(d.created)}};
 function listenPeriod(){
-  ["today","schedule","goal","week","month"].forEach(unsub);
-  unsubs.today=onSnapshot(query(collection(fb.db,"completions"),where("day","==",TODAY)),s=>{todayDocs=s.docs.map(mapDoc);renderCards();renderFeed();renderEmblems()},console.error);
+  ["today","schedule","wstats"].forEach(unsub);
+  unsubs.today=onSnapshot(query(collection(fb.db,"completions"),where("day","==",TODAY)),s=>{todayDocs=s.docs.map(mapDoc);renderCards();renderFeed()},console.error);
   unsubs.schedule=onSnapshot(query(collection(fb.db,"schedule"),where(documentId(),">=",TODAY),limit(14)),s=>{schedule={};s.docs.forEach(d=>schedule[d.id]=d.data());renderCards();renderStaff()},console.error);
-  unsubs.goal=onSnapshot(doc(fb.db,"stats","week-"+WEEK),s=>{goalCount=s.data()?.count||0;renderGoal()},console.error);
-  unsubs.week=onSnapshot(query(collection(fb.db,"users"),where("weekKey","==",WEEK)),s=>{boards.week=s.docs.map(d=>({id:d.id,...d.data()}));renderBoard()},console.error);
-  unsubs.month=onSnapshot(query(collection(fb.db,"users"),where("monthKey","==",MONTH)),s=>{boards.month=s.docs.map(d=>({id:d.id,...d.data()}));renderBoard()},console.error);
+  unsubs.wstats=onSnapshot(doc(fb.db,"stats","week-"+WEEK),s=>{weekStats=s.data()||{};renderGoal();renderTeams()},console.error);
 }
 function listenUser(){
-  ["profile","claims","mine","quests","pending","openClaims","hook"].forEach(unsub);
-  pendingDocs=[];openClaims=[];myClaims=new Map();myDocs=[];myQuests=null;prevAch=null;webhook="";
+  ["profile","claims","mine","quests","pending","openClaims","hook","dfrom","dto"].forEach(unsub);
+  pendingDocs=[];openClaims=[];myClaims=new Map();myDocs=[];myQuests=null;prevAch=null;webhook="";duelsFrom=[];duelsTo=[];questsFor="";autoDone=false;
   if(!me)return;
   let first=true;
-  unsubs.profile=onSnapshot(doc(fb.db,"users",me.uid),s=>{profile=s.exists()?s.data():null;checkNewAchievements();renderAll();if(first&&!profile)openPseudo();first=false;listenQuests()},console.error);
+  unsubs.profile=onSnapshot(doc(fb.db,"users",me.uid),s=>{
+    profile=s.exists()?{id:s.id,...s.data()}:null;checkNewAchievements();renderAll();
+    if(first){first=false;if(!profile)openPseudo();else if(!localSeen())openTuto()}
+    listenQuests();
+  },console.error);
   unsubs.claims=onSnapshot(query(collection(fb.db,"claims"),where("uid","==",me.uid)),s=>{myClaims=new Map(s.docs.map(d=>[d.data().palier,d.data()]));renderEmblems()},console.error);
-  unsubs.mine=onSnapshot(query(collection(fb.db,"completions"),where("uid","==",me.uid)),s=>{myDocs=s.docs.map(mapDoc);renderQuests()},console.error);
+  unsubs.mine=onSnapshot(query(collection(fb.db,"completions"),where("uid","==",me.uid)),s=>{myDocs=s.docs.map(mapDoc);renderQuests();renderBounties();renderDuels()},console.error);
+  unsubs.dfrom=onSnapshot(query(collection(fb.db,"duels"),where("from","==",me.uid)),s=>{duelsFrom=s.docs.map(mapDoc);renderDuels()},console.error);
+  unsubs.dto=onSnapshot(query(collection(fb.db,"duels"),where("to","==",me.uid)),s=>{duelsTo=s.docs.map(mapDoc);renderDuels()},console.error);
   if(isOfficer){
-    unsubs.pending=onSnapshot(query(collection(fb.db,"completions"),where("status","==","pending")),s=>{pendingDocs=s.docs.map(mapDoc);renderPending()},console.error);
-    unsubs.openClaims=onSnapshot(query(collection(fb.db,"claims"),where("status","==","requested")),s=>{openClaims=s.docs.map(mapDoc);renderClaims()},console.error);
-    unsubs.hook=onSnapshot(doc(fb.db,"private","discord"),s=>{webhook=s.data()?.webhook||"";renderSettings()},console.error);
+    unsubs.pending=onSnapshot(query(collection(fb.db,"completions"),where("status","==","pending")),s=>{pendingDocs=s.docs.map(mapDoc);renderPending();renderAccount()},console.error);
+    unsubs.openClaims=onSnapshot(query(collection(fb.db,"claims"),where("status","==","requested")),s=>{openClaims=s.docs.map(mapDoc);renderClaims();renderAccount()},console.error);
+    unsubs.hook=onSnapshot(doc(fb.db,"private","discord"),s=>{webhook=s.data()?.webhook||"";renderSettings();setTimeout(autoPosts,1500)},console.error);
   }
 }
 let questsFor="";
@@ -1244,6 +1882,7 @@ function listenQuests(){
   unsub("quests");questsFor=key;myQuests=null;
   unsubs.quests=onSnapshot(doc(fb.db,"quests",key),s=>{myQuests=s.exists()?s.data():null;if(!myQuests)ensureMyQuests();renderQuests()},console.error);
 }
+function localSeen(){try{return localStorage.getItem("rng404.tuto")==="1"}catch(e){return false}}
 function start(){
   if(!firebaseConfig||!firebaseConfig.apiKey){$("config-banner").hidden=false;renderAll();return}
   const app=initializeApp(firebaseConfig);
@@ -1255,30 +1894,34 @@ function start(){
     catch(e){if(["auth/popup-blocked","auth/operation-not-supported-in-this-environment"].includes(e.code))signInWithRedirect(fb.auth,prov);else if(e.code!=="auth/popup-closed-by-user")toast("Connexion impossible")}
   };
   $("logout-btn").onclick=()=>signOut(fb.auth);
-  onSnapshot(collection(fb.db,"challenges"),s=>{
-    usingBase=s.empty;
-    challenges=s.empty?new Map(BASE_MAP):new Map(s.docs.map(d=>[d.id,{id:d.id,...d.data()}]));
-    renderCards();renderStaff();
-  },console.error);
+  onSnapshot(collection(fb.db,"challenges"),s=>{usingBase=s.empty;challenges=s.empty?new Map(BASE_MAP):new Map(s.docs.map(d=>[d.id,{id:d.id,...d.data()}]));renderCards();renderDuels();renderStaff()},console.error);
   onSnapshot(doc(fb.db,"settings","grades"),s=>{grades={...DEFAULT_GRADES,...(s.data()?.names||{})};renderEmblems();renderBoard();renderStaff()},console.error);
   onSnapshot(doc(fb.db,"settings","goal"),s=>{goalCfg=s.exists()?{target:100,reward:"",...s.data()}:{target:100,reward:""};renderGoal();renderSettings()},console.error);
-  onSnapshot(query(collection(fb.db,"users"),orderBy("points","desc"),limit(50)),s=>{boards.all=s.docs.map(d=>({id:d.id,...d.data()}));renderBoard()},console.error);
+  onSnapshot(doc(fb.db,"settings","happy"),s=>{happy=s.data()||{};renderBanners();renderCards();renderEventsTab()},console.error);
+  onSnapshot(doc(fb.db,"settings","event"),s=>{eventCfg=s.exists()?s.data():null;renderBanners();renderEventsTab()},console.error);
+  onSnapshot(collection(fb.db,"bounties"),s=>{bounties=s.docs.map(mapDoc);renderBounties();renderStaffBounties()},console.error);
+  onSnapshot(collection(fb.db,"fame"),s=>{fameList=s.docs.map(d=>({id:d.id,...d.data()}));renderFame()},console.error);
+  onSnapshot(query(collection(fb.db,"users"),limit(500)),s=>{users=s.docs.map(d=>({id:d.id,...d.data()}));usersById=new Map(users.map(u=>[u.id,u]));renderBoard();renderTeams();renderMeStats();renderDuels();renderFeed();renderBounties()},console.error);
   listenPeriod();
   onAuthStateChanged(fb.auth,async u=>{
-    me=u;profile=null;isOfficer=false;questsFor="";
+    me=u;profile=null;isOfficer=false;
     if(u){try{isOfficer=(await getDoc(doc(fb.db,"officers",u.uid))).exists()}catch(e){isOfficer=false}}
-    listenUser();renderAll();
+    listenUser();renderAll();showView(currentView());
+    if(!u&&!localSeen())openTuto();
   });
 }
 
-/* ---------------- COMPTE À REBOURS ---------------- */
+/* ================= HORLOGE ================= */
 function tick(){
-  const p=zurichParts();const left=86400-(+p.hour*3600+ +p.minute*60+ +p.second);
-  $("countdown").textContent=[Math.floor(left/3600),Math.floor(left%3600/60),left%60].map(n=>String(n).padStart(2,"0")).join(":");
+  const p=zurichParts(),left=86400-(+p.hour*3600+ +p.minute*60+ +p.second);
+  const fmt=s=>[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,"0")).join(":");
+  $("countdown").textContent=fmt(left);
+  if($("chest-left"))$("chest-left").textContent=fmt(left);
+  if($("happy-left")){const r=Math.max(0,Math.round((happy.end-Date.now())/1000));$("happy-left").textContent=fmt(r);if(!r)renderBanners()}
   const k=dayKey();
   if(k!==TODAY){TODAY=k;WEEK=isoWeek(k);MONTH=k.slice(0,7);if(fb){listenPeriod();listenQuests()}renderAll()}
 }
-tick();setInterval(tick,1000);renderAll();start();
+tick();setInterval(tick,1000);renderAll();showView(currentView());start();
 
 /* ---------------- 3D ISLAND ---------------- */
 (function(){
