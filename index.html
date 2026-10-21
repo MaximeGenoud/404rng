@@ -91,7 +91,7 @@ h2{margin:0;font:700 clamp(26px,3.6vw,36px)/1.1 var(--f-display);letter-spacing:
 /* Tiers ladder */
 .me{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
 .me label{font:500 14px var(--f-mono);color:var(--muted)}
-input[type=text],input[type=url]{background:#0e131c;border:2px solid var(--line);color:var(--fg);padding:10px 12px;min-width:0;width:100%}
+input[type=text],input[type=url],input[type=password],input[type=date]{background:#0e131c;border:2px solid var(--line);color:var(--fg);padding:10px 12px;min-width:0;width:100%}
 .me input{width:220px;max-width:100%}
 .ladder{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
 @media (max-width:880px){.ladder{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -417,6 +417,11 @@ main{padding-block:28px 64px}
 .team-pick button small{display:block;font:500 11px var(--f-mono);color:var(--muted);margin-top:4px}
 .empty-note{color:var(--muted);padding:16px;background:var(--panel);border:2px dashed var(--line)}
 .staff-form{display:grid;gap:10px;background:#0e131c;border:2px solid var(--line);padding:14px;margin-bottom:14px}
+.danger-zone{border:2px solid var(--danger);background:#2a1414;padding:16px;display:grid;gap:10px}
+.danger-zone h4{color:var(--danger)}
+.check{display:flex;gap:8px;align-items:center;font-size:15px;color:var(--fg)}
+.check input{width:18px;height:18px;accent-color:var(--danger)}
+.btn.danger{background:#a83232}.btn.danger:hover{background:#c43c3c}
 </style>
 </head>
 <body>
@@ -757,6 +762,18 @@ main{padding-block:28px 64px}
               <form id="grades-form" novalidate>
                 <div class="grades-form" id="grades-fields"></div>
                 <div class="inline"><button class="btn go" type="submit">Enregistrer les noms</button></div>
+              </form>
+            </div>
+            <div class="danger-zone">
+              <h4>Tout remettre à zéro</h4>
+              <p class="hint">Efface toutes les validations, profils, pseudos, points, séries, quêtes, duels, primes, demandes de grade, statistiques et le Mur des légendes. Sont gardés : les officiers, les défis, le planning, les réglages et le webhook Discord. Demande le code de réinitialisation enregistré dans Firebase.</p>
+              <form id="reset-form" novalidate>
+                <div class="inline">
+                  <div class="field"><label for="reset-code">Code de réinitialisation</label><input type="password" id="reset-code" autocomplete="off"></div>
+                </div>
+                <label class="check"><input type="checkbox" id="reset-ok"> Je comprends que tout sera effacé définitivement.</label>
+                <p class="err" id="reset-err" aria-live="polite"></p>
+                <div class="inline"><button class="btn danger" type="submit" id="reset-go">Tout remettre à zéro</button></div>
               </form>
             </div>
           </div>
@@ -1833,6 +1850,36 @@ async function autoPosts(){
     }
   }catch(e){console.error("autoPosts",e)}
 }
+
+/* ================= REMISE À ZÉRO ================= */
+// Le code est stocké dans Firebase (collection "vault", document "reset", champ "code").
+// Personne ne peut le lire : ce sont les règles de Firebase qui le comparent.
+const RESET_COLLECTIONS=["completions","users","pseudos","quests","claims","duels","stats","fame","bounties"];
+$("reset-form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const code=$("reset-code").value;
+  if(!code)return $("reset-err").textContent="Entre le code de réinitialisation.";
+  if(!$("reset-ok").checked)return $("reset-err").textContent="Coche la case pour confirmer.";
+  $("reset-go").disabled=true;$("reset-err").style.color="";$("reset-err").textContent="Vérification du code…";
+  try{
+    try{await setDoc(doc(fb.db,"vault","lock"),{code,by:me.uid,at:serverTimestamp()})}
+    catch(err){$("reset-err").textContent="Code incorrect.";return}
+    let total=0;
+    for(const name of RESET_COLLECTIONS){
+      $("reset-err").textContent=`Suppression : ${name}…`;
+      const snap=await getDocs(collection(fb.db,name));
+      for(let i=0;i<snap.docs.length;i+=200){
+        const b=writeBatch(fb.db);snap.docs.slice(i,i+200).forEach(d=>b.delete(d.ref));await b.commit();
+      }
+      total+=snap.docs.length;
+    }
+    await Promise.all(["happy","event"].map(k=>deleteDoc(doc(fb.db,"settings",k)).catch(()=>{})));
+    $("reset-code").value="";$("reset-ok").checked=false;
+    $("reset-err").style.color="var(--grass)";$("reset-err").textContent=`Terminé : ${total} éléments effacés. Le site est remis à zéro.`;
+    toast("Tout a été remis à zéro");
+  }catch(err){console.error(err);$("reset-err").textContent="La remise à zéro s'est arrêtée en cours de route. Réessaie avec le même code : elle reprendra où elle en était."}
+  finally{$("reset-go").disabled=false}
+});
 
 /* ================= EFFETS ================= */
 let tt;function toast(m){$("toast").textContent=m;$("toast").hidden=false;clearTimeout(tt);tt=setTimeout(()=>$("toast").hidden=true,3400)}
