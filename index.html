@@ -593,6 +593,62 @@ main{padding-block:28px 64px}
 .bag{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:4px}
 .bag span{--c:var(--line);aspect-ratio:1;display:grid;place-items:center;background:#0e131c;border:2px solid #1f2838;font:700 10px var(--f-display);color:#3a4256;overflow:hidden}
 .bag span.on{background:var(--c);border-color:var(--c);color:#141a26}
+
+/* ===== v8 navigation ===== */
+.lead{display:flex;flex-direction:column;gap:16px}
+.page-head{display:flex;flex-direction:column;gap:4px}
+.page-head h2{margin:0;font:700 clamp(30px,4.6vw,44px)/1.05 var(--f-display);text-wrap:balance}
+.page-head p{margin:0;color:var(--muted);max-width:60ch}
+.subnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.subnav::-webkit-scrollbar{display:none}
+.subnav button{flex:none;appearance:none;cursor:pointer;background:var(--panel);border:2px solid var(--line);color:var(--fg);font:700 15px var(--f-display);padding:10px 16px;display:flex;align-items:center;gap:6px}
+.subnav button:hover{border-color:var(--muted)}
+.subnav button[aria-selected="true"]{background:var(--gold);border-color:var(--gold);color:#141a26}
+.subnav .count{background:var(--danger);color:#fff;font:700 11px/1.4 var(--f-mono);padding:1px 5px}
+.subpanel{display:flex;flex-direction:column;gap:48px}
+.view > .lead + .subpanel{margin-top:-20px}
+.view > .banners{margin:0}
+.nav a{font-size:16px}
+/* À faire */
+.todo{background:var(--panel);border:2px solid var(--gold);box-shadow:0 6px 0 rgba(0,0,0,.25)}
+.todo-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 12px;padding:14px 16px;border-bottom:2px solid var(--line)}
+.todo-head b{font:700 22px var(--f-display);color:var(--gold)}
+.todo-head span{font:500 13px var(--f-mono);color:var(--muted)}
+.todo ul{list-style:none;margin:0;padding:0}
+.todo li{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--line)}
+.todo li:last-child{border-bottom:0}
+.todo li.hot{background:linear-gradient(90deg,#3a2c08,transparent 70%)}
+.todo .ic{font-size:20px;flex:none;width:28px;text-align:center}
+.todo .tx{flex:1;min-width:0;font-weight:600}
+.todo .tx small{display:block;color:var(--muted);font-size:13px;font-weight:400}
+.todo .btn{flex:none}
+.todo-done{padding:16px}
+.todo-more{appearance:none;width:100%;background:none;border:0;border-top:1px solid var(--line);color:var(--gold);font:700 14px var(--f-display);padding:12px;cursor:pointer}
+/* En-tête réduit hors de l'accueil */
+body.compact .hero{height:auto;min-height:0;background:linear-gradient(180deg,var(--sky-top),#5aa2ef)}
+body.compact #scene{display:none}
+body.compact .hero-ui{height:auto;gap:10px;padding-block:12px}
+body.compact .hero h1,body.compact .drag-hint{display:none}
+body.compact .hero-bottom{display:none}
+
+.ni,.ns{display:none}
+.subnav{flex-wrap:wrap;overflow:visible}
+.subpanel > section{margin:0}
+@media (max-width:640px){
+  .nav{backdrop-filter:none;background:var(--bg)}
+  .nav .wrap{justify-content:flex-end;min-height:48px}
+  .nav-links{position:fixed;left:0;right:0;bottom:0;z-index:25;display:flex;gap:0;overflow:visible;background:rgba(16,21,31,.97);backdrop-filter:blur(8px);border-top:2px solid var(--line);padding:2px max(4px,env(safe-area-inset-right,0px)) calc(2px + env(safe-area-inset-bottom,0px)) max(4px,env(safe-area-inset-left,0px))}
+  .nav-links a{flex:1;min-width:0;flex-direction:column;align-items:center;gap:1px;padding:7px 2px 6px;font-size:11px;border-bottom:0;border-top:3px solid transparent;margin:0;position:relative}
+  .nav-links a[aria-current="page"]{border-top-color:var(--gold)}
+  .nav-links .ni{display:block;font-size:19px;line-height:1.1}
+  .nav-links .nl{display:none}.nav-links .ns{display:block}
+  .nav-links .count{position:absolute;top:3px;left:calc(50% + 6px)}
+  body{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+  .toast{bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+  .subnav button{padding:8px 12px;font-size:14px}
+  body.compact .hero-top{gap:8px}
+  body.compact .account .btn.small{padding:6px 8px}
+}
 </style>
 </head>
 <body>
@@ -629,12 +685,12 @@ main{padding-block:28px 64px}
 <nav class="nav" aria-label="Sections du site">
   <div class="wrap">
     <div class="nav-links">
-    <a href="#aujourdhui" data-view="aujourdhui">Aujourd'hui</a>
-    <a href="#progression" data-view="progression">Progression</a>
-    <a href="#skyblock" data-view="skyblock">SkyBlock</a>
-    <a href="#guilde" data-view="guilde">Guilde</a>
-    <a href="#duels" data-view="duels">Duels<span class="count" id="c-duels" hidden></span></a>
-    <a href="#staff" data-view="staff" id="nav-staff" hidden>Staff<span class="count" id="c-staff" hidden></span></a>
+    <a href="#aujourdhui" data-view="aujourdhui"><span class="ni" aria-hidden="true">🏠</span><span class="nl">Accueil</span><span class="ns">Accueil</span></a>
+    <a href="#defis" data-view="defis"><span class="ni" aria-hidden="true">🎯</span><span class="nl">Défis</span><span class="ns">Défis</span><span class="count" id="c-duels" hidden></span></a>
+    <a href="#progression" data-view="progression"><span class="ni" aria-hidden="true">📈</span><span class="nl">Progression</span><span class="ns">Progrès</span></a>
+    <a href="#skyblock" data-view="skyblock"><span class="ni" aria-hidden="true">🏝️</span><span class="nl">SkyBlock</span><span class="ns">Île</span></a>
+    <a href="#guilde" data-view="guilde"><span class="ni" aria-hidden="true">🛡️</span><span class="nl">Guilde</span><span class="ns">Guilde</span></a>
+    <a href="#staff" data-view="staff" id="nav-staff" hidden><span class="ni" aria-hidden="true">⚙️</span><span class="nl">Staff</span><span class="ns">Staff</span><span class="count" id="c-staff" hidden></span></a>
     </div>
     <button class="sound" id="sound-btn" type="button" aria-label="Couper les sons" aria-pressed="true">🔊</button>
     <button class="bell" id="bell-btn" type="button" aria-label="Notifications" aria-expanded="false" aria-controls="bell-panel"><span aria-hidden="true">🔔</span><span class="count" id="c-bell" hidden></span></button>
@@ -643,10 +699,10 @@ main{padding-block:28px 64px}
 </nav>
 
 <main class="wrap">
-  <div class="banners" id="banners"></div>
-
-  <!-- ============ AUJOURD'HUI ============ -->
+  <!-- ============ ACCUEIL ============ -->
   <div class="view" id="v-aujourdhui">
+    <section class="todo" id="todo" aria-live="polite"></section>
+    <div class="banners" id="banners"></div>
     <section>
       <div class="sec-head">
         <h2>Défis du jour</h2>
@@ -655,7 +711,6 @@ main{padding-block:28px 64px}
       <div class="cards" id="cards"></div>
       <div class="tomorrow" id="tomorrow"></div>
     </section>
-
     <section class="today-row">
       <div class="card">
         <h3>Coffre RNG du jour</h3>
@@ -670,23 +725,14 @@ main{padding-block:28px 64px}
         <p class="rival" id="rival"></p>
       </div>
     </section>
+  </div>
 
-    <section>
-      <div class="sec-head">
-        <h2>Boss de la semaine</h2>
-        <p>Chaque point gagné par la guilde lui inflige des dégâts. Celui qui porte le coup final gagne un titre unique.</p>
-      </div>
-      <div class="boss" id="boss"></div>
-    </section>
-
-    <section>
-      <div class="sec-head">
-        <h2>En direct</h2>
-        <p>Ce qui se passe dans la guilde aujourd'hui. Envoie un GG !</p>
-      </div>
-      <ul class="live" id="live"></ul>
-    </section>
-
+  <div class="view" id="v-defis" hidden>
+    <div class="lead">
+      <div class="page-head"><h2>Défis</h2><p>Tout ce que tu peux valider en plus des 3 défis du jour.</p></div>
+      <div class="subnav" role="tablist" aria-label="Défis"><button type="button" role="tab" data-sub="quetes" aria-selected="false">Quêtes perso</button><button type="button" role="tab" data-sub="bingo" aria-selected="false">Bingo</button><button type="button" role="tab" data-sub="primes" aria-selected="false">Primes</button><button type="button" role="tab" data-sub="duels" aria-selected="false">Duels<span class="count" id="c-duels2" hidden></span></button></div>
+    </div>
+    <div class="subpanel" data-subpanel="quetes" role="tabpanel" hidden>
     <section id="quetes">
       <div class="sec-head">
         <h2>Tes quêtes de la semaine</h2>
@@ -698,7 +744,14 @@ main{padding-block:28px 64px}
         <ul class="qlist" id="q-list"></ul>
       </div>
     </section>
-
+    </div>
+    <div class="subpanel" data-subpanel="bingo" role="tabpanel" hidden>
+    <section>
+      <div class="sec-head"><h2 id="bingo-title">Bingo</h2><p>Une grille de défis pour tout le mois. Chaque ligne complétée (horizontale, verticale ou diagonale) rapporte un coffre bonus et 50 coins. La carte pleine donne un titre exclusif au mois.</p></div>
+      <div class="bingo-wrap"><div class="bingo" id="bingo"></div><div class="card" id="bingo-side"></div></div>
+    </section>
+    </div>
+    <div class="subpanel" data-subpanel="primes" role="tabpanel" hidden>
     <section id="primes">
       <div class="sec-head">
         <h2>Primes</h2>
@@ -706,10 +759,34 @@ main{padding-block:28px 64px}
       </div>
       <div class="bounties" id="bounties"></div>
     </section>
+    </div>
+    <div class="subpanel" data-subpanel="duels" role="tabpanel" hidden>
+    <section>
+      <div class="sec-head">
+        <h2>Lancer un duel</h2>
+        <p>Choisis un adversaire et un défi. S'il accepte, le premier dont la validation est approuvée gagne le défi et 3 points bonus. Un duel dure jusqu'à dimanche minuit.</p>
+      </div>
+      <form class="card duel-form" id="duel-form" novalidate>
+        <div class="field"><label for="duel-to">Adversaire</label><select id="duel-to"></select></div>
+        <div class="field"><label for="duel-ch">Défi</label><select id="duel-ch"></select></div>
+        <button class="btn go" type="submit" id="duel-go">Défier</button>
+        <p class="err" id="duel-err" style="grid-column:1/-1"></p>
+      </form>
+    </section>
+    <section>
+      <div class="sec-head"><h2>Mes duels</h2></div>
+      <ul class="duel-list" id="duel-list"></ul>
+    </section>
+    </div>
   </div>
 
-  <!-- ============ PROGRESSION ============ -->
+
   <div class="view" id="v-progression" hidden>
+    <div class="lead">
+      <div class="page-head"><h2>Ta progression</h2><p>Ton niveau, tes succès et ta collection.</p></div>
+      <div class="subnav" role="tablist" aria-label="Ta progression"><button type="button" role="tab" data-sub="resume" aria-selected="false">Résumé</button><button type="button" role="tab" data-sub="skills" aria-selected="false">Skills et pet</button><button type="button" role="tab" data-sub="succes" aria-selected="false">Succès</button><button type="button" role="tab" data-sub="profil" aria-selected="false">Profil</button></div>
+    </div>
+    <div class="subpanel" data-subpanel="resume" role="tabpanel" hidden>
     <section>
       <div class="sec-head">
         <h2>Passe de saison</h2>
@@ -717,17 +794,15 @@ main{padding-block:28px 64px}
       </div>
       <div class="season" id="season"></div>
     </section>
-
     <section>
-      <div class="sec-head"><h2>Skills</h2><p id="sk-hint"></p></div>
-      <div class="skills" id="skills"></div>
+      <div class="sec-head">
+        <h2>Paliers</h2>
+        <p>Chaque palier atteint rend son emblème doré et débloque un grade à réclamer sur Discord.</p>
+      </div>
+      <div class="emblems" id="emblems"></div>
+      <div class="progress"><i id="bar"></i></div>
+      <div class="progress-label" id="bar-label">Connecte-toi pour voir ta progression.</div>
     </section>
-
-    <section class="sb-duo">
-      <div><div class="sec-head"><h2>Mon pet</h2></div><div class="card" id="pet"></div></div>
-      <div><div class="sec-head"><h2>RNG Meter</h2></div><div class="card" id="rngmeter"></div></div>
-    </section>
-
     <section>
       <div class="sec-head">
         <h2>Mon activité</h2>
@@ -738,17 +813,31 @@ main{padding-block:28px 64px}
         <div class="card"><h3>Points par semaine</h3><div class="chart" id="chart"></div></div>
       </div>
     </section>
-
+    </div>
+    <div class="subpanel" data-subpanel="skills" role="tabpanel" hidden>
+    <section>
+      <div class="sec-head"><h2>Skills</h2><p id="sk-hint"></p></div>
+      <div class="skills" id="skills"></div>
+    </section>
+    <section class="sb-duo">
+      <div><div class="sec-head"><h2>Mon pet</h2></div><div class="card" id="pet"></div></div>
+      <div><div class="sec-head"><h2>RNG Meter</h2></div><div class="card" id="rngmeter"></div></div>
+    </section>
+    </div>
+    <div class="subpanel" data-subpanel="succes" role="tabpanel" hidden>
     <section>
       <div class="sec-head">
-        <h2>Paliers</h2>
-        <p>Chaque palier atteint rend son emblème doré et débloque un grade à réclamer sur Discord.</p>
+        <h2>Succès</h2>
+        <p class="ach-count" id="ach-count">Débloque-les au fil des défis.</p>
       </div>
-      <div class="emblems" id="emblems"></div>
-      <div class="progress"><i id="bar"></i></div>
-      <div class="progress-label" id="bar-label">Connecte-toi pour voir ta progression.</div>
+      <div class="ach-wrap" id="ach-wrap"></div>
     </section>
-
+    <section>
+      <div class="sec-head"><h2>Sac à accessoires</h2><p id="mp-hint"></p></div>
+      <div class="card"><div class="bag" id="bag"></div></div>
+    </section>
+    </div>
+    <div class="subpanel" data-subpanel="profil" role="tabpanel" hidden>
     <section>
       <div class="sec-head">
         <h2>Ma collection</h2>
@@ -756,7 +845,17 @@ main{padding-block:28px 64px}
       </div>
       <div class="card" id="collection"></div>
     </section>
-
+    <section>
+      <div class="sec-head">
+        <h2>Ma vitrine</h2>
+        <p>Ce que les autres voient sur ton profil : une phrase et tes 3 succès préférés.</p>
+      </div>
+      <form class="card" id="vit-form" novalidate>
+        <div class="field"><label for="vit-bio">Ta phrase</label><input type="text" id="vit-bio" maxlength="80" placeholder="ex. Main Necron, chasseur de Judgement Core"></div>
+        <div><span class="hint" style="margin:0 0 6px;display:block">Tes 3 succès à montrer</span><div class="showcase" id="vit-ach"></div></div>
+        <div class="inline"><button class="btn go" type="submit">Enregistrer ma vitrine</button></div>
+      </form>
+    </section>
     <section>
       <div class="sec-head">
         <h2>Mentions Discord</h2>
@@ -771,35 +870,16 @@ main{padding-block:28px 64px}
         <p class="err" id="dc-err"></p>
       </form>
     </section>
-
-    <section>
-      <div class="sec-head"><h2>Sac à accessoires</h2><p id="mp-hint"></p></div>
-      <div class="card"><div class="bag" id="bag"></div></div>
-    </section>
-
-    <section>
-      <div class="sec-head">
-        <h2>Ma vitrine</h2>
-        <p>Ce que les autres voient sur ton profil : une phrase et tes 3 succès préférés.</p>
-      </div>
-      <form class="card" id="vit-form" novalidate>
-        <div class="field"><label for="vit-bio">Ta phrase</label><input type="text" id="vit-bio" maxlength="80" placeholder="ex. Main Necron, chasseur de Judgement Core"></div>
-        <div><span class="hint" style="margin:0 0 6px;display:block">Tes 3 succès à montrer</span><div class="showcase" id="vit-ach"></div></div>
-        <div class="inline"><button class="btn go" type="submit">Enregistrer ma vitrine</button></div>
-      </form>
-    </section>
-
-    <section>
-      <div class="sec-head">
-        <h2>Succès</h2>
-        <p class="ach-count" id="ach-count">Débloque-les au fil des défis.</p>
-      </div>
-      <div class="ach-wrap" id="ach-wrap"></div>
-    </section>
+    </div>
   </div>
 
-  <!-- ============ SKYBLOCK ============ -->
+
   <div class="view" id="v-skyblock" hidden>
+    <div class="lead">
+      <div class="page-head"><h2>L'île</h2><p>Coins, maire, Bazar, enchères, minion et dungeon de guilde.</p></div>
+      <div class="subnav" role="tablist" aria-label="L'île"><button type="button" role="tab" data-sub="ile" aria-selected="false">Île et maire</button><button type="button" role="tab" data-sub="bazar" aria-selected="false">Bazar et enchères</button><button type="button" role="tab" data-sub="minion" aria-selected="false">Minion et dungeon</button></div>
+    </div>
+    <div class="subpanel" data-subpanel="ile" role="tabpanel" hidden>
     <section class="sb-top">
       <div class="card" id="sb-cal"></div>
       <div class="card" id="sb-mayor"></div>
@@ -808,10 +888,8 @@ main{padding-block:28px 64px}
       <div class="sec-head"><h2>Élection du maire</h2><p id="elec-hint"></p></div>
       <div class="mayors" id="elec"></div>
     </section>
-    <section>
-      <div class="sec-head"><h2 id="bingo-title">Bingo</h2><p>Une grille de défis pour tout le mois. Chaque ligne complétée (horizontale, verticale ou diagonale) rapporte un coffre bonus et 50 coins. La carte pleine donne un titre exclusif au mois.</p></div>
-      <div class="bingo-wrap"><div class="bingo" id="bingo"></div><div class="card" id="bingo-side"></div></div>
-    </section>
+    </div>
+    <div class="subpanel" data-subpanel="bazar" role="tabpanel" hidden>
     <section>
       <div class="sec-head"><h2>Bazar</h2><p>Dépense tes coins. Chaque achat fait monter le prix de l'article ; tous les prix reviennent à la normale le lundi. Tu gagnes des coins avec chaque défi (10 par point), ton minion, le bingo, le RNG Meter et le dungeon de guilde.</p></div>
       <div class="purse" id="purse"></div>
@@ -821,14 +899,22 @@ main{padding-block:28px 64px}
       <div class="sec-head"><h2>Dark Auction</h2><p>Chaque dimanche à 20 h, un objet unique aux enchères pendant 30 minutes. Une enchère dans les 2 dernières minutes prolonge la vente de 2 minutes.</p></div>
       <div class="auction" id="auction"></div>
     </section>
+    </div>
+    <div class="subpanel" data-subpanel="minion" role="tabpanel" hidden>
     <section class="sb-duo">
       <div><div class="sec-head"><h2>Ton minion</h2></div><div class="card" id="minion"></div></div>
       <div><div class="sec-head"><h2>Dungeon de guilde</h2></div><div class="card" id="dungeon"></div></div>
     </section>
+    </div>
   </div>
 
-  <!-- ============ GUILDE ============ -->
+
   <div class="view" id="v-guilde" hidden>
+    <div class="lead">
+      <div class="page-head"><h2>La guilde</h2><p>Les objectifs communs, le classement et ce qui se passe en direct.</p></div>
+      <div class="subnav" role="tablist" aria-label="La guilde"><button type="button" role="tab" data-sub="semaine" aria-selected="false">Cette semaine</button><button type="button" role="tab" data-sub="classement" aria-selected="false">Classement</button><button type="button" role="tab" data-sub="direct" aria-selected="false">En direct</button></div>
+    </div>
+    <div class="subpanel" data-subpanel="semaine" role="tabpanel" hidden>
     <section>
       <div class="sec-head">
         <h2>Grand défi de guilde</h2>
@@ -841,7 +927,13 @@ main{padding-block:28px 64px}
         <div class="sub" id="goal-sub"></div>
       </div>
     </section>
-
+    <section>
+      <div class="sec-head">
+        <h2>Boss de la semaine</h2>
+        <p>Chaque point gagné par la guilde lui inflige des dégâts. Celui qui porte le coup final gagne un titre unique.</p>
+      </div>
+      <div class="boss" id="boss"></div>
+    </section>
     <section>
       <div class="sec-head">
         <h2>Équipes</h2>
@@ -849,7 +941,8 @@ main{padding-block:28px 64px}
       </div>
       <div class="teams" id="teams"></div>
     </section>
-
+    </div>
+    <div class="subpanel" data-subpanel="classement" role="tabpanel" hidden>
     <section id="classement">
       <div class="sec-head">
         <h2>Classement</h2>
@@ -867,15 +960,6 @@ main{padding-block:28px 64px}
         </table>
       </div>
     </section>
-
-    <section>
-      <div class="sec-head">
-        <h2>Mur des légendes</h2>
-        <p>Les champions de chaque saison, pour toujours.</p>
-      </div>
-      <div class="fame" id="fame"></div>
-    </section>
-
     <section>
       <div class="sec-head">
         <h2>Records de la guilde</h2>
@@ -883,7 +967,22 @@ main{padding-block:28px 64px}
       </div>
       <div class="records" id="records"></div>
     </section>
-
+    <section>
+      <div class="sec-head">
+        <h2>Mur des légendes</h2>
+        <p>Les champions de chaque saison, pour toujours.</p>
+      </div>
+      <div class="fame" id="fame"></div>
+    </section>
+    </div>
+    <div class="subpanel" data-subpanel="direct" role="tabpanel" hidden>
+    <section>
+      <div class="sec-head">
+        <h2>En direct</h2>
+        <p>Ce qui se passe dans la guilde aujourd'hui. Envoie un GG !</p>
+      </div>
+      <ul class="live" id="live"></ul>
+    </section>
     <section id="activite">
       <div class="two">
         <div>
@@ -906,26 +1005,7 @@ main{padding-block:28px 64px}
         </aside>
       </div>
     </section>
-  </div>
-
-  <!-- ============ DUELS ============ -->
-  <div class="view" id="v-duels" hidden>
-    <section>
-      <div class="sec-head">
-        <h2>Lancer un duel</h2>
-        <p>Choisis un adversaire et un défi. S'il accepte, le premier dont la validation est approuvée gagne le défi et 3 points bonus. Un duel dure jusqu'à dimanche minuit.</p>
-      </div>
-      <form class="card duel-form" id="duel-form" novalidate>
-        <div class="field"><label for="duel-to">Adversaire</label><select id="duel-to"></select></div>
-        <div class="field"><label for="duel-ch">Défi</label><select id="duel-ch"></select></div>
-        <button class="btn go" type="submit" id="duel-go">Défier</button>
-        <p class="err" id="duel-err" style="grid-column:1/-1"></p>
-      </form>
-    </section>
-    <section>
-      <div class="sec-head"><h2>Mes duels</h2></div>
-      <ul class="duel-list" id="duel-list"></ul>
-    </section>
+    </div>
   </div>
 
   <!-- ============ STAFF ============ -->
@@ -1521,21 +1601,22 @@ function renderBanners(){
     out.unshift(`<div class="banner-live flash"><b>Défi éclair</b><span><b style="font:600 15px var(--f-body);color:var(--fg)">${esc(flash.title)}</b> · ${esc(flash.desc)} · +${plural(flash.points,"point")}</span><span class="t" id="flash-left"></span><span class="acts"><button class="btn go" id="flash-go" ${st.dis?"disabled":""}>${st.label==="Valider ce défi"?"Valider":st.label}</button></span></div>`);
   }
   if(profile){
-    duelsTo.filter(d=>d.status==="proposed"&&!duelExpired(d)).forEach(d=>out.unshift(`<div class="banner-live duel"><b>Duel !</b><span><b style="font:600 15px var(--f-body);color:var(--fg)">${esc(d.fromPseudo)}</b> te défie sur ${esc(d.challengeName)} (${TIERS[d.tier]?.label}).</span><span class="acts"><button class="btn go" data-baccept="${d.id}">Accepter</button><button class="btn" data-bdecline="${d.id}">Refuser</button></span></div>`));
+  // (déplacé dans « À faire maintenant »)
     activeDuels().filter(d=>d.status==="accepted").forEach(d=>{
       const oppId=d.from===me.uid?d.to:d.from,opp=d.from===me.uid?d.toPseudo:d.fromPseudo;
       const theirs=duelSubs.find(x=>x.duelId===d.id&&x.uid===oppId&&x.status==="pending"),mine=myDocs.find(x=>isKind(x,"duel")&&x.duelId===d.id&&x.status!=="rejected");
-      if(theirs&&!mine)out.unshift(`<div class="banner-live duel"><b>Dépêche-toi !</b><span><b style="font:600 15px var(--f-body);color:var(--fg)">${esc(opp)}</b> a envoyé sa preuve pour votre duel sur ${esc(d.challengeName)}.</span><span class="acts"><a class="btn go" href="#duels">Voir le duel</a></span></div>`);
+      /* voir todoItems */
     });
   }
   if(profile?.lastDay&&dayIndex(TODAY)-dayIndex(profile.lastDay)>COMEBACK_DAYS)out.unshift(`<div class="banner-live flash"><b>Bon retour !</b><span>Ça fait un moment… Ton prochain défi approuvé compte double.</span></div>`);
   const pmvp=prevWeekStats.mvp,plot=prevWeekStats.lottery;
   if(pmvp||plot)out.push(`<div class="mvp">${pmvp?`<span>Joueur de la semaine dernière :</span><b>${esc(pmvp.pseudo)}</b><span>${pmvp.points} pts</span>`:""}${plot?`<span>· Loterie : <b style="color:var(--gold)">${esc(plot.pseudo)}</b>${plot.prize?` gagne ${esc(plot.prize)}`:""}</span>`:""}</div>`);
   if(profile&&+TODAY.slice(8,10)<=7&&myDocs.some(d=>d.day.startsWith(addDays(MONTH+"-01",-1).slice(0,7))))out.push(`<div class="banner-live event"><b>Ton Wrapped est prêt</b><span>Revois ta saison ${esc(monthLabel(addDays(MONTH+"-01",-1).slice(0,7)))} en 6 écrans.</span><span class="acts"><button class="btn go" id="wrap-banner">Voir</button></span></div>`);
-  if(isOfficer&&(pendingDocs.length||openClaims.length))out.unshift(`<div class="banner-live staffb"><b>Staff</b><span>${[pendingDocs.length?plural(pendingDocs.length,"validation")+" à vérifier":"",openClaims.length?plural(openClaims.length,"grade")+" à donner":""].filter(Boolean).join(" · ")}</span><span class="acts"><a class="btn go" href="#staff">Ouvrir le panneau</a></span></div>`);
+  // (déplacé dans « À faire maintenant »)
   const sbe=sbActiveBonus(Date.now());
-  if(sbe)out.unshift(`<div class="banner-live event"><b>${esc(sbe.name)}</b><span>En cours sur SkyBlock : coins ×2 sur les validations envoyées maintenant.</span><span class="acts"><a class="btn go" href="#skyblock">Calendrier</a></span></div>`);
-  if(auction&&auction.lot&&Date.now()>=auction.start&&Date.now()<auction.end)out.unshift(`<div class="banner-live duel"><b>Dark Auction</b><span>${esc(auction.lot)} · meilleure offre ${fmtN(auction.high||0)} coins${auction.highPseudo?` (${esc(auction.highPseudo)})`:""}</span><span class="acts"><a class="btn go" href="#skyblock">Enchérir</a></span></div>`);
+  if(sbe)out.unshift(`<div class="banner-live event"><b>${esc(sbe.name)}</b><span>En cours sur SkyBlock : coins ×2 sur les validations envoyées maintenant.</span><span class="acts"><a class="btn go" href="#skyblock-ile">Calendrier</a></span></div>`);
+  // (déplacé dans « À faire maintenant »)
+  renderTodo();
   const MAXB=3,more=out.length-MAXB;
   $("banners").innerHTML=(more>0&&!bannersOpen?out.slice(0,MAXB):out).join("")+(more>0?`<button class="btn small ghost" id="banners-more" type="button" style="justify-self:start;align-self:flex-start">${bannersOpen?"Réduire":`Voir ${more} autre${more>1?"s":""} annonce${more>1?"s":""}`}</button>`:"");
   $("banners").hidden=!out.length;
@@ -1747,7 +1828,7 @@ function detectOvertakes(){
   }
   try{localStorage.setItem("rng404.above."+me.uid,JSON.stringify(above));localStorage.setItem("rng404.overtakes",JSON.stringify(ov.slice(0,15)))}catch(e){}
 }
-function overtakeNotifs(){let ov=[];try{ov=JSON.parse(localStorage.getItem("rng404.overtakes")||"[]")}catch(e){}return ov.map(o=>({id:"ov-"+o.uid+"-"+o.t,t:o.t,ic:"📉",tx:`<b>${esc(usersById.get(o.uid)?.pseudo||"Quelqu'un")}</b> vient de te dépasser au classement. Riposte !`,go:"guilde"}))}
+function overtakeNotifs(){let ov=[];try{ov=JSON.parse(localStorage.getItem("rng404.overtakes")||"[]")}catch(e){}return ov.map(o=>({id:"ov-"+o.uid+"-"+o.t,t:o.t,ic:"📉",tx:`<b>${esc(usersById.get(o.uid)?.pseudo||"Quelqu'un")}</b> vient de te dépasser au classement. Riposte !`,go:"guilde-classement"}))}
 /* ---- Wrapped ---- */
 async function openWrapped(mk){
   if(!profile)return;
@@ -1816,12 +1897,12 @@ function buildNotifs(){
   duelsFrom.filter(d=>d.answeredAtMs).forEach(d=>out.push({id:"da-"+d.id,t:d.answeredAtMs,ic:d.status==="declined"?"🏳️":"⚔️",tx:`<b>${esc(d.toPseudo)}</b> a ${d.status==="declined"?"refusé":"accepté"} ton duel sur ${esc(d.challengeName)}`,go:"duels"}));
   duelSubs.filter(x=>x.uid!==me.uid&&x.atMs>cut).forEach(x=>out.push({id:"ds-"+x.id,t:x.atMs,ic:"⏱️",tx:`<b>${esc(x.pseudo)}</b> a envoyé sa preuve pour votre duel. Dépêche-toi !`,go:"duels"}));
   myDuels().filter(d=>d.status==="done"&&d.finishedAtMs>cut).forEach(d=>out.push({id:"dd-"+d.id,t:d.finishedAtMs,ic:d.winner===me.uid?"🏆":"💀",tx:d.winner===me.uid?`Tu as gagné ton duel sur ${esc(d.challengeName)} !`:`<b>${esc(d.winnerPseudo)}</b> a gagné votre duel sur ${esc(d.challengeName)}`,go:"duels"}));
-  [...myClaims.values()].filter(c=>c.status==="given"&&c.givenAtMs).forEach(c=>out.push({id:"cg-"+c.palier,t:c.givenAtMs,ic:"🎖️",tx:`Ton grade <b>${esc(gradeName(c.palier))}</b> t'a été donné sur Discord`,go:"progression"}));
+  [...myClaims.values()].filter(c=>c.status==="given"&&c.givenAtMs).forEach(c=>out.push({id:"cg-"+c.palier,t:c.givenAtMs,ic:"🎖️",tx:`Ton grade <b>${esc(gradeName(c.palier))}</b> t'a été donné sur Discord`,go:"progression-resume"}));
   bounties.filter(b=>b.status==="open"&&b.until>=TODAY&&b.createdMs>cut).forEach(b=>out.push({id:"bo-"+b.id,t:b.createdMs,ic:"💰",tx:`Nouvelle prime : <b>${esc(b.title)}</b> (+${b.points} pts)`,go:"aujourdhui"}));
   bounties.filter(b=>b.status==="won"&&b.wonAt>cut).forEach(b=>out.push({id:"bw-"+b.id,t:b.wonAt,ic:"💰",tx:`<b>${esc(b.winnerPseudo)}</b> a remporté la prime ${esc(b.title)}`,go:"aujourdhui"}));
   out.push(...overtakeNotifs());
-  if(+TODAY.slice(8,10)<=3){const mm=MAYORS[mayorNow()];out.push({id:"mayor-"+MONTH,t:zurichMs(MONTH+"-01",0),ic:"🏛️",tx:`Nouveau maire : <b>${esc(mm.name)}</b> · ${esc(mm.perk)}`,go:"skyblock"})}
-  if(auction&&auction.lot){const nw=Date.now();if(nw>=auction.start&&nw<auction.end)out.push({id:"da-live-"+auctionId,t:auction.start,ic:"🔨",tx:`Dark Auction en direct : <b>${esc(auction.lot)}</b>`,go:"skyblock"});let bo="";try{bo=localStorage.getItem("rng404.bidOn")||""}catch(e){}if(bo===auctionId&&auction.highUid&&auction.highUid!==me.uid&&nw<auction.end&&auction.lastBidAt)out.push({id:"da-out-"+auction.lastBidAt,t:auction.lastBidAt,ic:"⚠️",tx:`<b>${esc(auction.highPseudo)}</b> t'a surenchéri sur ${esc(auction.lot)} (${fmtN(auction.high)} coins)`,go:"skyblock"})}
+  if(+TODAY.slice(8,10)<=3){const mm=MAYORS[mayorNow()];out.push({id:"mayor-"+MONTH,t:zurichMs(MONTH+"-01",0),ic:"🏛️",tx:`Nouveau maire : <b>${esc(mm.name)}</b> · ${esc(mm.perk)}`,go:"skyblock-ile"})}
+  if(auction&&auction.lot){const nw=Date.now();if(nw>=auction.start&&nw<auction.end)out.push({id:"da-live-"+auctionId,t:auction.start,ic:"🔨",tx:`Dark Auction en direct : <b>${esc(auction.lot)}</b>`,go:"skyblock-bazar"});let bo="";try{bo=localStorage.getItem("rng404.bidOn")||""}catch(e){}if(bo===auctionId&&auction.highUid&&auction.highUid!==me.uid&&nw<auction.end&&auction.lastBidAt)out.push({id:"da-out-"+auction.lastBidAt,t:auction.lastBidAt,ic:"⚠️",tx:`<b>${esc(auction.highPseudo)}</b> t'a surenchéri sur ${esc(auction.lot)} (${fmtN(auction.high)} coins)`,go:"skyblock-bazar"})}
   ggToday.filter(g=>g.to===me.uid).forEach(g=>out.push({id:"gg-"+g.cid+g.from,t:g.atMs,ic:"👏",tx:`<b>${esc(usersById.get(g.from)?.pseudo||"Quelqu'un")}</b> t'a envoyé un GG`,go:"aujourdhui"}));
   if(flashActive())out.push({id:"fl-"+flash.id,t:+flash.id,ic:"⚡",tx:`Défi éclair en cours : <b>${esc(flash.title)}</b> (+${flash.points} pts)`,go:"aujourdhui"});
   if(happyActive())out.push({id:"hh-"+happy.start,t:happy.start,ic:"🍹",tx:`Happy hour : points ×2 jusqu'à ${timeLabel(happy.end)}`,go:"aujourdhui"});
@@ -2264,7 +2345,46 @@ function sbTick(){
   const state=[auction&&now>=auction.start,auction&&now>=auction.end,sbActiveBonus(now)?.id||""].join("|");
   if(state!==sbLastState){sbLastState=state;renderAuction();renderBanners()}
   const m=Math.floor(now/60000);
-  if(m!==sbLastMin){sbLastMin=m;renderSbCal();renderMinion();if(isOfficer&&auction&&!auction.settled&&now>=auction.end)settleAuction(false)}
+  if(m!==sbLastMin){sbLastMin=m;renderSbCal();renderMinion();renderTodo();if(isOfficer&&auction&&!auction.settled&&now>=auction.end)settleAuction(false)}
+}
+
+/* ================= À FAIRE MAINTENANT ================= */
+let todoAll=false;
+function todoItems(){
+  const out=[],now=Date.now();
+  if(isOfficer&&pendingDocs.length)out.push({ic:"🛡️",t:`${plural(pendingDocs.length,"validation")} à vérifier`,s:"Panneau staff",go:"staff",btn:"Vérifier",hot:true});
+  if(isOfficer&&openClaims.length)out.push({ic:"🎖️",t:`${plural(openClaims.length,"grade")} à donner sur Discord`,s:"Panneau staff",go:"staff",btn:"Voir"});
+  activeDuels().filter(d=>d.status==="accepted").forEach(d=>{const oppId=d.from===me.uid?d.to:d.from,opp=d.from===me.uid?d.toPseudo:d.fromPseudo;if(duelSubs.some(x=>x.duelId===d.id&&x.uid===oppId&&x.status==="pending")&&!myDocs.some(x=>isKind(x,"duel")&&x.duelId===d.id&&x.status!=="rejected"))out.push({ic:"⏱️",t:`Dépêche-toi : ${esc(opp)} a envoyé sa preuve`,s:`Duel sur ${d.challengeName}`,go:"defis-duels",btn:"Valider",hot:true})});
+  duelsTo.filter(d=>d.status==="proposed"&&!duelExpired(d)).forEach(d=>out.push({ic:"⚔️",t:`${esc(d.fromPseudo)} te défie sur ${esc(d.challengeName)}`,s:"Accepte ou refuse le duel",go:"defis-duels",btn:"Répondre",hot:true}));
+  // (déplacé dans « À faire maintenant »)
+  if(auction&&auction.lot&&now>=auction.start&&now<auction.end)out.push({ic:"🔨",t:`Dark Auction en direct : ${esc(auction.lot)}`,s:`Meilleure offre ${fmtN(auction.high||0)} coins`,go:"skyblock-bazar",anchor:"auction",btn:"Enchérir",hot:true});
+  if(profile.lastChest!==TODAY)out.push({ic:"🎁",t:"Ton coffre du jour est prêt",s:"XP de saison, titres, boosters…",go:"aujourdhui",anchor:"chest-box",btn:"Ouvrir"});
+  const sent=new Set(todayDocs.filter(d=>isKind(d,"daily")&&d.uid===me.uid&&d.status!=="rejected").map(d=>d.tier)),left=TIER_KEYS.filter(t=>!sent.has(t)&&pick(t,TODAY));
+  if(left.length)out.push({ic:"🎯",t:`${plural(left.length,"défi")} du jour à tenter`,s:left.map(t=>TIERS[t].label).join(", "),go:"aujourdhui",anchor:"cards",btn:"Voir"});
+  if((profile.bonusChests||0)>0)out.push({ic:"🎁",t:`${plural(profile.bonusChests,"coffre bonus")} à ouvrir`,s:"Plus d'XP et des loots rares",go:"aujourdhui",anchor:"chest-box",btn:"Ouvrir"});
+  if(myQuests){const subs=new Set(myDocs.filter(d=>isKind(d,"quest")&&d.week===WEEK&&d.status!=="rejected").map(d=>d.challengeId)),ql=(myQuests.items||[]).filter(q=>!subs.has(q.id)).length;if(ql)out.push({ic:"📜",t:`${plural(ql,"quête perso")} à faire cette semaine`,s:`Fin dans ${plural(7-weekday(TODAY),"jour")}`,go:"defis-quetes",btn:"Voir"})}
+  const tier=minionTier(profile),st=minionStored(profile);
+  if(!profile.minionLast)out.push({ic:"⛏️",t:"Pose ton minion",s:"Il produit des coins en continu",go:"skyblock-minion",anchor:"minion",btn:"Poser"});
+  else if(st>=12*tier*0.75)out.push({ic:"⛏️",t:`Ton minion est ${st>=12*tier?"plein":"presque plein"}`,s:`${st} / ${12*tier} coins à récolter`,go:"skyblock-minion",anchor:"minion",btn:"Récolter"});
+  const reached=PALIERS.filter(k=>(profile.ok||0)>=k&&!myClaims.get(k));
+  if(reached.length)out.push({ic:"🏅",t:`Réclame ton grade « ${esc(gradeName(reached[reached.length-1]))} »`,s:"Palier atteint",go:"progression-resume",anchor:"emblems",btn:"Réclamer"});
+  if(!votesNow.some(v=>v.uid===me.uid))out.push({ic:"🏛️",t:`Vote pour le maire de ${monthLabel(nextMonthOf(MONTH))}`,s:"Son perk s'appliquera tout le mois",go:"skyblock-ile",anchor:"elec",btn:"Voter"});
+  if(profile.dclassWeek!==WEEK)out.push({ic:"🏰",t:"Choisis ta classe de dungeon pour la semaine",s:"Tes défis de spécialité comptent double",go:"skyblock-minion",anchor:"dungeon",btn:"Choisir"});
+  if(!profile.team)out.push({ic:"🛡️",t:"Rejoins une équipe",s:"Tes points comptent aussi pour elle",go:"guilde-semaine",anchor:"teams",btn:"Choisir"});
+  if(!PETS[profile.pet])out.push({ic:"🐾",t:"Adopte ton pet",s:"Il monte de niveau avec tes points",go:"progression-skills",anchor:"pet",btn:"Choisir"});
+  if(!RNG_DROPS.some(x=>x.id===profile.rngTarget))out.push({ic:"🎰",t:"Règle ton RNG Meter",s:"Un drop garanti quand la jauge est pleine",go:"progression-skills",anchor:"rngmeter",btn:"Choisir"});
+  return out;
+}
+function renderTodo(){
+  const box=$("todo");if(!box)return;
+  if(!me){box.innerHTML=`<div class="todo-head"><b>Bienvenue sur le site de la guilde !</b></div><div class="todo-done"><p style="margin:0 0 12px">Chaque jour : 3 défis SkyBlock, un coffre, des quêtes, un bingo, un Bazar et bien plus. Connecte-toi pour commencer.</p><button class="btn go" type="button" id="todo-login">Se connecter avec Google</button></div>`;$("todo-login").onclick=()=>$("login-btn").click();return}
+  if(!profile){box.innerHTML=`<div class="todo-head"><b>Dernière étape</b></div><div class="todo-done"><p style="margin:0 0 12px">Choisis ton pseudo Minecraft pour recevoir tes défis, ton coffre et tes quêtes.</p><button class="btn go" type="button" id="todo-pseudo">Choisir mon pseudo</button></div>`;$("todo-pseudo").onclick=openPseudo;return}
+  const items=todoItems(),MAX=5,shown=todoAll?items:items.slice(0,MAX);
+  box.innerHTML=`<div class="todo-head"><b>À faire maintenant</b><span>${items.length?plural(items.length,"chose"):"Tout est fait"}</span></div>`+
+    (items.length?`<ul>${shown.map((x,i)=>`<li class="${x.hot?"hot":""}"><span class="ic" aria-hidden="true">${x.ic}</span><span class="tx">${x.t}<small>${esc(x.s)}</small></span><button class="btn small ${x.hot?"go":""}" type="button" data-todo="${i}">${x.btn}</button></li>`).join("")}</ul>${items.length>MAX?`<button class="todo-more" type="button" id="todo-more">${todoAll?"Afficher moins":`Voir les ${items.length-MAX} autres`}</button>`:""}`
+    :`<div class="todo-done">Bravo, tout est fait pour aujourd'hui ! Nouveaux défis dans <b id="todo-left"></b>.</div>`);
+  box.querySelectorAll("[data-todo]").forEach(b=>b.onclick=()=>{const x=shown[+b.dataset.todo];goTo(x.go,x.anchor)});
+  if($("todo-more"))$("todo-more").onclick=()=>{todoAll=!todoAll;renderTodo()};
 }
 
 /* ================= RENDU : PROGRESSION ================= */
@@ -2387,7 +2507,7 @@ const duelExpired=d=>d.week<WEEK&&d.status!=="done";
 const activeDuels=()=>myDuels().filter(d=>!duelExpired(d)&&(d.status==="proposed"||d.status==="accepted"));
 function renderDuels(){
   const incoming=duelsTo.filter(d=>d.status==="proposed"&&!duelExpired(d)).length;
-  $("c-duels").hidden=!incoming;$("c-duels").textContent=incoming;
+  $("c-duels").hidden=!incoming;$("c-duels").textContent=incoming;$("c-duels2").hidden=!incoming;$("c-duels2").textContent=incoming;
   const sel=$("duel-to").value,selCh=$("duel-ch").value;
   const opp=users.filter(u=>me&&u.id!==me.uid).sort((a,b)=>a.pseudo.localeCompare(b.pseudo));
   $("duel-to").innerHTML=`<option value="">Choisis un joueur</option>`+opp.map(u=>`<option value="${esc(u.id)}">${esc(u.pseudo)}</option>`).join("");
@@ -2500,6 +2620,7 @@ function renderSettings(){
 }
 function renderStaff(){if(!isOfficer)return;renderPending();renderClaims();renderChallengeList();renderPlan();renderStaffBounties();renderEventsTab();renderSettings();renderLog()}
 function renderAll(){
+  try{renderTodo()}catch(e){console.error(e)}
   renderAccount();renderBanners();renderCards();renderChest();renderMeStats();renderQuests();renderBounties();
   renderSeason();renderEmblems();renderCollection();renderAchievements();
   renderGoal();renderTeams();renderBoard();renderFame();renderFeed();renderDuels();renderStaff();
@@ -2514,12 +2635,33 @@ document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
 $("ch-filter").onchange=renderChallengeList;
 
 /* ================= NAVIGATION ================= */
-const VIEWS=["aujourdhui","progression","skyblock","guilde","duels","staff"];
-function showView(v,scroll){
-  if(!VIEWS.includes(v)||(v==="staff"&&!isOfficer))v="aujourdhui";
+const VIEWS=["aujourdhui","defis","progression","skyblock","guilde","staff"];
+const ALIAS={duels:"defis-duels",quetes:"defis-quetes",bingo:"defis-bingo"};
+function parseTarget(t){t=ALIAS[t]||t||"aujourdhui";const i=t.indexOf("-");return i<0?{v:t,sub:""}:{v:t.slice(0,i),sub:t.slice(i+1)}}
+let curView="";
+function showView(t,scroll){
+  let {v,sub}=parseTarget(t);
+  if(!VIEWS.includes(v)||(v==="staff"&&!isOfficer)){v="aujourdhui";sub=""}
+  const changed=v!==curView;curView=v;
   VIEWS.forEach(x=>$("v-"+x).hidden=x!==v);
   document.querySelectorAll(".nav a").forEach(a=>{if(a.dataset.view===v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
-  if(scroll){const top=document.querySelector(".nav").getBoundingClientRect().top+scrollY;if(scrollY>top)scrollTo({top,behavior:"instant"})}
+  const tabs=[...$("v-"+v).querySelectorAll("[data-sub]")];
+  if(tabs.length){
+    const ids=tabs.map(b=>b.dataset.sub);if(!ids.includes(sub))sub=ids[0];
+    tabs.forEach(b=>b.setAttribute("aria-selected",b.dataset.sub===sub));
+    $("v-"+v).querySelectorAll("[data-subpanel]").forEach(p=>p.hidden=p.dataset.subpanel!==sub);
+  }
+  const compact=v!=="aujourdhui";
+  if(document.body.classList.contains("compact")!==compact){document.body.classList.toggle("compact",compact);dispatchEvent(new Event("resize"))}
+  if(scroll){
+    if(changed)scrollTo({top:0,behavior:"instant"});
+    else{const top=$("v-"+v).getBoundingClientRect().top+scrollY-70;if(scrollY>top)scrollTo({top,behavior:"instant"})}
+  }
+}
+document.querySelectorAll("[data-sub]").forEach(b=>b.onclick=()=>{location.hash=b.closest(".view").id.slice(2)+"-"+b.dataset.sub});
+function goTo(target,anchor){
+  if(location.hash.slice(1)===target)showView(target,true);else location.hash=target;
+  if(anchor)setTimeout(()=>{const el=$(anchor);if(el)el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"})},80);
 }
 const currentView=()=>location.hash.slice(1)||"aujourdhui";
 addEventListener("hashchange",()=>showView(currentView(),true));
@@ -2553,7 +2695,7 @@ $("prof-duel").onclick=()=>{$("prof-modal").hidden=true;location.hash="duels";sh
 
 /* ================= TUTO ================= */
 const TUTO=[
-  {art:"404",title:"Bienvenue dans la guilde !",body:`<p>Ici, chaque jour apporte de nouveaux défis Hypixel SkyBlock. Tu les réussis en jeu, tu gagnes des points, et tu grimpes avec toute la guilde.</p>`},
+  {art:"404",title:"Bienvenue dans la guilde !",body:`<p>Ici, chaque jour apporte de nouveaux défis Hypixel SkyBlock. Tu les réussis en jeu, tu gagnes des points, et tu grimpes avec toute la guilde.</p><p style="margin-top:10px">Perdu ? Le bloc <b>« À faire maintenant »</b> de l'Accueil te dit toujours quoi faire, et t'y emmène en un clic.</p>`},
   {art:"3×",title:"Les défis du jour",body:`<ul><li><b>Facile</b> (1 point), <b>Moyen</b> (2 points) et <b>RNG carried</b> (5 points), renouvelés à minuit.</li><li>Poste ta preuve sur Discord, clique « Valider » et colle le lien du message.</li><li>Un officier vérifie ton SkyCrypt et approuve.</li></ul>`},
   {art:"10",title:"Quêtes, coffre et primes",body:`<ul><li><b>10 quêtes perso</b> rien que pour toi chaque lundi.</li><li>Un <b>coffre RNG</b> à ouvrir chaque jour : XP, titres, couleurs de pseudo.</li><li>Des <b>primes</b> spéciales : le premier validé remporte tout.</li></ul>`},
   {art:"★",title:"Ta progression",body:`<ul><li><b>Série</b> 🔥 : un défi par jour, et dès 7 jours tes points passent à ×1,5.</li><li><b>Paliers</b> à 10, 25, 50, 100, 500 et 1000 défis, avec un grade Discord à réclamer.</li><li><b>Passe de saison</b> en 30 niveaux et <b>${ACH.length} succès</b> à débloquer.</li></ul>`},
@@ -2565,7 +2707,7 @@ let tutoStep=0;
 function tutoLast(){
   if(!me)return {title:"À toi de jouer",body:`<p>Connecte-toi avec Google en haut à droite, choisis ton pseudo Minecraft, et ton premier coffre t'attend.</p>`};
   if(profile&&!profile.team)return {title:"Choisis ton équipe",body:`<p>Chaque point que tu gagnes comptera aussi pour elle. Le choix est définitif.</p><div class="team-pick">${Object.entries(TEAMS).map(([k,t])=>`<button style="--t:${t.color}" data-tteam="${k}">${t.name}<small>${t.boss}</small></button>`).join("")}</div>`};
-  return {title:"À toi de jouer",body:`<p>Ton coffre du jour et tes quêtes t'attendent dans l'onglet Aujourd'hui. Bonne chance… et que la RNG soit avec toi.</p>`};
+  return {title:"À toi de jouer",body:`<p>Ton coffre du jour et tes quêtes t'attendent sur l'Accueil. Bonne chance… et que la RNG soit avec toi.</p>`};
 }
 function renderTuto(){
   const s=tutoStep===TUTO.length-1?{...TUTO[tutoStep],...tutoLast()}:TUTO[tutoStep];
@@ -3262,6 +3404,7 @@ function tick(){
   $("countdown").textContent=fmt(left);
   if($("chest-left"))$("chest-left").textContent=fmt(left);
   sbTick();
+  if($("todo-left"))$("todo-left").textContent=fmt(left);
   if($("tomorrow-left"))$("tomorrow-left").textContent="révélé dans "+fmt(left);
   if($("flash-left")){const r=Math.max(0,Math.round((flash.end-Date.now())/1000));$("flash-left").textContent=fmt(r);if(!r)renderBanners()}
   if($("happy-left")){const r=Math.max(0,Math.round((happy.end-Date.now())/1000));$("happy-left").textContent=fmt(r);if(!r)renderBanners()}
@@ -3335,7 +3478,7 @@ if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceW
   canvas.addEventListener("pointerup",up);canvas.addEventListener("pointercancel",up);
   canvas.style.touchAction="pan-y";
 
-  function size(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();
+  function size(){const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();
     // place island to the right on wide screens
     island.userData.offX=w>760?4.5:0}
   addEventListener("resize",size);size();
@@ -3353,7 +3496,7 @@ if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceW
     island.position.y=reduce?0:Math.sin(now/1400)*0.35;
     if(!reduce)clouds.forEach(c=>{c.position.x+=c.userData.v*dt;if(c.position.x>45)c.position.x=-45});
     sunMesh.lookAt(cam.position);
-    renderer.render(scene,cam);
+    if(canvas.clientHeight)renderer.render(scene,cam);
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
