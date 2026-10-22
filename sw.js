@@ -1,6 +1,6 @@
 // Service worker minimal : rend le site installable comme une appli.
 // Les données viennent toujours du réseau (Firebase), rien n'est mis en cache de façon durable.
-const SHELL = "404rng-shell-v2";
+const SHELL = "404rng-shell-v3";
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(SHELL).then(c => c.addAll(["./", "./index.html", "./icon-192.png"])).then(() => self.skipWaiting()));
 });
