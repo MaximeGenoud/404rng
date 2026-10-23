@@ -475,6 +475,9 @@ body.exploring #scene{cursor:grab}
 .fi-vs small{font:500 12px var(--f-mono);color:var(--muted);display:block;text-align:center}
 .fi-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
 .fiche > *{flex-shrink:0}
+.guild-load{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;padding:12px 14px;margin-bottom:16px;background:linear-gradient(90deg,#2a1d0c,#0d0e18 70%);border:2px solid #7a5a10}
+.guild-load b{font:700 16px var(--f-display);color:var(--gold)}
+.guild-load small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
 </style>
 </head>
 <body>
@@ -659,6 +662,10 @@ body.exploring #scene{cursor:grab}
           <ul class="list" id="claims-list"></ul>
         </div>
         <div class="tabpanel" id="t-defis" role="tabpanel" hidden>
+          <div class="guild-load" id="guild-load">
+            <div class="grow"><b>Liste de défis de la guilde</b><small id="guild-load-txt"></small></div>
+            <button class="btn small gold" type="button" id="guild-load-btn">Charger la liste</button>
+          </div>
           <p class="tip" id="seed-hint" hidden>Les défis de base ne sont pas encore enregistrés. Ils le seront à ta première modification, ou tout de suite avec ce bouton. <button class="btn small go" id="seed-btn" type="button">Enregistrer les défis de base</button></p>
           <form class="editor" id="ch-form" novalidate>
             <h4 id="ch-form-title">Nouveau défi</h4>
@@ -824,54 +831,1078 @@ const TIERS={
 };
 const TIER_KEYS=["facile","moyen","rng"];
 const BASE = {
-  facile:[
-    ["Bourse pleine","Avoir au moins 1 000 000 coins dans ta bourse.","Purse ≥ 1M"],
-    ["Floor 3 nettoyé","Terminer une run de Catacombs Floor 3.","Dungeons · F3"],
-    ["Pet au taquet","Avoir un pet niveau 100, quelle que soit la rareté.","Pets · Lvl 100"],
-    ["Main verte","Atteindre Farming 30.","Skills · Farming 30"],
-    ["Mineur du dimanche","Atteindre Heart of the Mountain tier 3.","HotM 3"],
-    ["Coffre au trésor","Avoir 5 000 000 coins en banque.","Banque ≥ 5M"],
-    ["Pêcheur patient","Atteindre Fishing 20.","Skills · Fishing 20"],
-    ["Combo armure","Porter un set d'armure complet au moins Rare.","Armure · Rare+"],
-    ["Visiteurs du jardin","Atteindre Garden niveau 5.","Garden · Lvl 5"],
-    ["Revenant junior","Atteindre Zombie Slayer niveau 3.","Slayer · Zombie 3"],
-    ["Accessoires","Avoir au moins 25 accessoires uniques.","Talismans · 25"],
-    ["Minion maker","Avoir 15 slots de minions débloqués.","Minions · 15 slots"],
-    ["Enchanteur","Atteindre Enchanting 25.","Skills · Enchanting 25"],
-    ["Alchimiste","Atteindre Alchemy 20.","Skills · Alchemy 20"]
-  ],
-  moyen:[
-    ["Score S sur F5","Terminer Floor 5 avec un score S ou S+.","Dungeons · F5 S"],
-    ["Revenant Horror IV","Tuer un Revenant Horror tier 4.","Slayer · T4 Zombie"],
-    ["Voidgloom III","Tuer un Voidgloom Seraph tier 3.","Slayer · T3 Enderman"],
-    ["Kuudra Hot","Terminer une run de Kuudra Hot.","Crimson Isle · Hot"],
-    ["Profondeurs","Atteindre Heart of the Mountain tier 6.","HotM 6"],
-    ["Catacombes 25","Atteindre Catacombs niveau 25.","Dungeons · Cata 25"],
-    ["Magical Power","Atteindre 600 de Magical Power.","Accessoires · 600 MP"],
-    ["Diana débutante","Avoir 50 Mythological Creatures tuées.","Mythological · 50"],
-    ["Fortune verte","Atteindre Garden niveau 10.","Garden · Lvl 10"],
-    ["Tara IV","Tuer une Tarantula Broodfather tier 4.","Slayer · T4 Spider"],
-    ["Mage ou Berserk","Atteindre classe niveau 25 dans n'importe quelle classe.","Classes · 25"],
-    ["Riche","Avoir 50 000 000 de networth.","Networth ≥ 50M"]
-  ],
-  rng:[
-    ["Judgement Core","Drop un Judgement Core sur un Voidgloom Seraph.","Slayer · Enderman"],
-    ["Overflux Capacitor","Drop un Overflux Capacitor sur un Voidgloom Seraph.","Slayer · Enderman"],
-    ["Warden Heart","Drop un Warden Heart sur un Revenant Horror.","Slayer · Zombie"],
-    ["Giant's Sword","Drop une Giant's Sword sur Floor 6 ou M6.","Dungeons · F6/M6"],
-    ["Necron's Handle","Drop un Necron's Handle sur Floor 7 ou M7.","Dungeons · F7/M7"],
-    ["Daedalus Stick","Drop un Daedalus Stick sur un Minotaur.","Mythological"],
-    ["Chimera","Drop un livre Chimera sur un Minos Inquisitor.","Mythological"],
-    ["Ender Dragon Pet","Drop un pet Ender Dragon après un combat de dragon.","The End"],
-    ["Lord Jawbus","Pêcher et tuer un Lord Jawbus.","Crimson Isle · Lava"],
-    ["Shard of the Shredded","Drop un Shard of the Shredded sur Floor 7 ou M7.","Dungeons · F7/M7"],
-    ["Digested Mosquito","Drop un Digested Mosquito sur une Tarantula Broodfather.","Slayer · Spider"],
-    ["Enrager","Drop un Enrager sur Kuudra.","Crimson Isle · Kuudra"]
-  ]
+"facile": [
+[
+"Croco Dundee",
+"Drop un Alligator (pet) en pêchant dans le Backwater Bayou.",
+"Pets · Alligator"
+],[
+"Karate Kid",
+"Obtenir un rang S sur une épreuve du Dojo de la Crimson Isle.",
+"Crimson Isle · Dojo"
+],[
+"Le Chevalier noir",
+"Faire apparaître et tuer un Vanquisher.",
+"Bestiary · Vanquisher"
+],[
+"Médaille d'argent",
+"Pêcher un Trophy Fish de rang Silver.",
+"Trophy Fish · Silver"
+],[
+"Picsou débutant",
+"Avoir au moins 1 000 000 coins dans ta bourse.",
+"Purse ≥ 1M"
+],[
+"Abracadabra",
+"Atteindre 300 de Magical Power.",
+"Accessoires · MP ≥ 300"
+],[
+"Heigh-Ho 5",
+"Atteindre Heart of the Mountain tier 5.",
+"Mining · HotM 5"
+],[
+"La Nuit des morts-vivants",
+"Tuer un Revenant Horror tier 3.",
+"Slayer · Zombie T3"
+],[
+"Le Grand Méchant Loup",
+"Tuer un Sven Packmaster tier 4.",
+"Slayer · Wolf T4"
+],[
+"Spider-Cochon",
+"Tuer une Tarantula Broodfather tier 4.",
+"Slayer · Spider T4"
+],[
+"Allumer le feu",
+"Tuer un Inferno Demonlord tier 1.",
+"Slayer · Blaze T1"
+],[
+"Le Seigneur des Floors",
+"Terminer F1, F2 et F3 dans la même journée.",
+"Dungeons · F1 à F3"
+],[
+"S comme Simple",
+"Faire un rang S sur F3.",
+"Dungeons · F3 S"
+],[
+"Fast & Floorious",
+"Terminer un F4.",
+"Dungeons · F4"
+],[
+"Cinq de cœur",
+"Terminer un F5.",
+"Dungeons · F5"
+],[
+"Dix de der",
+"Atteindre Catacombs 10.",
+"Dungeons · Catacombs 10"
+],[
+"Quinze minutes de gloire",
+"Atteindre Catacombs 15.",
+"Dungeons · Catacombs 15"
+],[
+"Classe affaires",
+"Atteindre le niveau 10 dans une classe.",
+"Dungeons · Classe 10"
+],[
+"Indiana Jones et les 10 secrets",
+"Trouver 10 secrets en une seule run.",
+"Preuve Discord"
+],[
+"Docteur House",
+"Ranimer un coéquipier pendant une run.",
+"Preuve Discord"
+],[
+"Mission Immortelle",
+"Terminer une run de donjon sans mourir.",
+"Preuve Discord"
+],[
+"The Walking Dead",
+"Tuer un Revenant Horror tier 2.",
+"Slayer · Zombie T2"
+],[
+"Arachnophobia",
+"Tuer une Tarantula Broodfather tier 2.",
+"Slayer · Spider T2"
+],[
+"Le Loup de Wall Street",
+"Tuer un Sven Packmaster tier 2.",
+"Slayer · Wolf T2"
+],[
+"Enderman Begins",
+"Tuer un Voidgloom Seraph tier 1.",
+"Slayer · Enderman T1"
+],[
+"Le Retour de l'Enderman",
+"Tuer un Voidgloom Seraph tier 2.",
+"Slayer · Enderman T2"
+],[
+"Twilight : Chapitre 1",
+"Tuer un Riftstalker Bloodfiend tier 1.",
+"Slayer · Vampire T1"
+],[
+"Les Quatre Fantastiques",
+"Atteindre le niveau 3 dans les slayers Zombie, Spider, Wolf et Enderman.",
+"Slayer · niveaux"
+],[
+"Zombieland",
+"Atteindre le niveau 5 en slayer Zombie.",
+"Slayer · Zombie 5"
+],[
+"Heigh-Ho, Heigh-Ho",
+"Faire 10 commissions dans les Dwarven Mines.",
+"Preuve Discord"
+],[
+"Frozen",
+"Terminer un Glacite Mineshaft.",
+"Preuve Discord"
+],[
+"L'Île au trésor",
+"Ouvrir 5 coffres au trésor dans les Crystal Hollows.",
+"Preuve Discord"
+],[
+"Mine de rien",
+"Atteindre Mining 25.",
+"Skills · Mining 25"
+],[
+"Fast & Furious : Drill Edition",
+"Avoir un drill.",
+"Inventaire · Drill"
+],[
+"Poudre d'escampette",
+"Avoir 100 000 Mithril Powder.",
+"Mining · Powder"
+],[
+"Le Vieil Homme et la Mer",
+"Atteindre Fishing 25.",
+"Skills · Fishing 25"
+],[
+"Gotta Catch 'Em All",
+"Pêcher 10 espèces de Trophy Fish différentes.",
+"Trophy Fish"
+],[
+"Hocus Pocus",
+"Tuer une Sea Witch.",
+"Bestiary · Sea Witch"
+],[
+"Squid Game",
+"Tuer un Night Squid.",
+"Bestiary · Night Squid"
+],[
+"Pirates des Caraïbes",
+"Pêcher 100 sea creatures.",
+"Bestiary · Fishing"
+],[
+"L'Amour est dans le pré",
+"Atteindre Garden niveau 3.",
+"Garden · Lvl 3"
+],[
+"Farmer Simulator",
+"Atteindre Farming 30.",
+"Skills · Farming 30"
+],[
+"Room Service",
+"Servir 10 visiteurs du Garden.",
+"Garden · Visiteurs"
+],[
+"Le Compost, c'est la vie",
+"Débloquer le Composter du Garden.",
+"Garden · Composter"
+],[
+"Bronzé",
+"Gagner une médaille Bronze à un Jacob's Contest.",
+"Jacob · Bronze"
+],[
+"Silver Surfer",
+"Gagner une médaille Silver à un Jacob's Contest.",
+"Jacob · Silver"
+],[
+"Rambo",
+"Atteindre Combat 25.",
+"Skills · Combat 25"
+],[
+"Spider-Man : Far From Home",
+"Tuer Arachne.",
+"Bestiary · Arachne"
+],[
+"Maman araignée",
+"Tuer la Broodmother.",
+"Bestiary · Broodmother"
+],[
+"La Purge",
+"Tuer 100 Zealots.",
+"Bestiary · Zealot"
+],[
+"Pokédex en cours",
+"Atteindre le niveau 5 d'une famille du Bestiary.",
+"Bestiary"
+],[
+"Croc-Blanc",
+"Tuer Ashfang.",
+"Bestiary · Ashfang"
+],[
+"Kill Bill",
+"Tuer Bladesoul.",
+"Bestiary · Bladesoul"
+],[
+"Game of Thrones",
+"Tuer le Barbarian Duke X.",
+"Bestiary · Barbarian Duke X"
+],[
+"Gandalf le Gris",
+"Tuer le Mage Outlaw.",
+"Bestiary · Mage Outlaw"
+],[
+"Les Missions Impossibles",
+"Faire 5 quêtes de faction sur la Crimson Isle.",
+"Crimson Isle · Quêtes"
+],[
+"Ceinture marron",
+"Obtenir le rang B sur toutes les épreuves du Dojo.",
+"Crimson Isle · Dojo"
+],[
+"Stranger Things",
+"Entrer dans la Rift pour la première fois.",
+"Rift"
+],[
+"Ghostbusters",
+"Trouver 10 Enigma Souls dans la Rift.",
+"Rift · Enigma Souls"
+],[
+"Le Loup de la bourse",
+"Avoir 10 000 000 coins en bourse.",
+"Purse ≥ 10M"
+],[
+"Picsou Magazine",
+"Avoir 50 000 000 coins en banque.",
+"Banque ≥ 50M"
+],[
+"Bling-Bling",
+"Avoir 50 accessoires uniques.",
+"Accessoires · 50"
+],[
+"Les Minions, le film",
+"Débloquer 20 slots de minions.",
+"Minions · 20 slots"
+],[
+"Légende vivante",
+"Avoir un pet Legendary.",
+"Pets · Legendary"
+],[
+"Fée Clochette",
+"Trouver 100 Fairy Souls.",
+"Fairy Souls · 100"
+],[
+"Moyenne de 20/20",
+"Atteindre une moyenne de skills de 20.",
+"Skills · Moyenne 20"
+],[
+"25 ans, toutes ses dents",
+"Atteindre une moyenne de skills de 25.",
+"Skills · Moyenne 25"
+],[
+"La Cinquantaine",
+"Atteindre le SkyBlock level 50.",
+"SkyBlock Level 50"
+],[
+"Centenaire",
+"Atteindre le SkyBlock level 100.",
+"SkyBlock Level 100"
+],[
+"La Nuit au musée",
+"Donner 25 objets au Museum.",
+"Museum · 25"
+],[
+"Lapin Crétin",
+"Trouver 10 lapins pendant le Hoppity's Hunt.",
+"Preuve Discord",
+0
+],[
+"La Chasse au trésor",
+"Terminer une chaîne de burrows de Diana.",
+"Preuve Discord",
+0
+],[
+"Charlie et la Chocolaterie",
+"Ramasser 100 Spooky Candy pendant le Spooky Festival.",
+"Preuve Discord",
+0
+],[
+"Le Grinch",
+"Participer à un événement de Jerry's Workshop.",
+"Preuve Discord",
+0
+],[
+"Les Dents de la mer",
+"Tuer un requin pendant le Fishing Festival.",
+"Preuve Discord",
+0
+],[
+"Viva la Fiesta",
+"Miner pendant une Mining Fiesta.",
+"Preuve Discord",
+0
+],[
+"La Communauté de l'Anneau",
+"Faire un donjon avec 3 membres de la guilde.",
+"Preuve Discord"
+],[
+"Instagram vs Réalité",
+"Poster une capture de ton île sur Discord.",
+"Preuve Discord · capture"
+],[
+"Fashion Week",
+"Porter une armure entièrement assortie à une couleur.",
+"Preuve Discord · capture"
+],[
+"Inutile mais indispensable",
+"Monter un pet complètement inutile au niveau 50.",
+"Pets · Lvl 50"
+],[
+"Le Parrain",
+"Aider un nouveau membre à faire son premier F1.",
+"Preuve Discord"
+]
+],
+"moyen": [
+[
+"Thor",
+"Faire apparaître et tuer un Thunder.",
+"Bestiary · Thunder"
+],[
+"Anaconda",
+"Faire apparaître et tuer un Titanoboa.",
+"Bestiary · Titanoboa"
+],[
+"Recombo, le retour",
+"Drop un Recombobulator 3000.",
+"Preuve Discord"
+],[
+"Kuudra-mama",
+"Terminer une run de Kuudra en Basic ou Hot.",
+"Kuudra · Basic / Hot"
+],[
+"60 secondes chrono",
+"Terminer un Floor 6 en moins de 6 minutes.",
+"Dungeons · F6 < 6:00"
+],[
+"Goldfinger",
+"Pêcher un Trophy Fish de rang Gold.",
+"Trophy Fish · Gold"
+],[
+"Le Petit Livre rouge",
+"Terminer toutes les quêtes du jour de la Crimson Isle.",
+"Crimson Isle · Quêtes"
+],[
+"Dragonheart",
+"Tuer un Ender Dragon.",
+"Bestiary · Dragons"
+],[
+"Sorcier confirmé",
+"Atteindre 800 de Magical Power.",
+"Accessoires · MP ≥ 800"
+],[
+"Heigh-Ho 7",
+"Atteindre Heart of the Mountain tier 7.",
+"Mining · HotM 7"
+],[
+"Las Vegas Parano",
+"Décrocher le gros lot en lançant un dé de Blaze (Archfiend Dice).",
+"Preuve Discord"
+],[
+"Crésus",
+"Avoir 1 000 000 000 coins en banque.",
+"Banque ≥ 1B"
+],[
+"Entretien avec un vampire",
+"Tuer un Riftstalker Bloodfiend tier 3.",
+"Slayer · Vampire T3"
+],[
+"Le Prince de Livid",
+"Faire un S+ sur F5.",
+"Dungeons · F5 S+"
+],[
+"Six Feet Under",
+"Terminer un F6.",
+"Dungeons · F6"
+],[
+"Sixième Sens",
+"Faire un S+ sur F6.",
+"Dungeons · F6 S+"
+],[
+"Master Class",
+"Terminer un M1.",
+"Dungeons · M1"
+],[
+"Master Chef",
+"Terminer un M2.",
+"Dungeons · M2"
+],[
+"Master of Puppets",
+"Terminer un M3.",
+"Dungeons · M3"
+],[
+"25 coups de cœur",
+"Atteindre Catacombs 25.",
+"Dungeons · Catacombs 25"
+],[
+"Premier de la classe",
+"Atteindre le niveau 25 dans une classe.",
+"Dungeons · Classe 25"
+],[
+"Les Intouchables",
+"Terminer un F5 sans aucune mort dans l'équipe.",
+"Preuve Discord"
+],[
+"Bonzo le clown",
+"Drop un Bonzo's Staff.",
+"Preuve Discord"
+],[
+"Harry Potter et le Sceptre",
+"Drop une Spirit Sceptre.",
+"Preuve Discord"
+],[
+"Kill Bill : Volume 2",
+"Drop une Livid Dagger.",
+"Preuve Discord"
+],[
+"28 jours plus tard",
+"Tuer un Revenant Horror tier 4.",
+"Slayer · Zombie T4"
+],[
+"Le Côté obscur",
+"Tuer un Voidgloom Seraph tier 3.",
+"Slayer · Enderman T3"
+],[
+"Hellboy",
+"Tuer un Inferno Demonlord tier 2.",
+"Slayer · Blaze T2"
+],[
+"Ghost Rider",
+"Tuer un Inferno Demonlord tier 3.",
+"Slayer · Blaze T3"
+],[
+"Blade",
+"Tuer un Riftstalker Bloodfiend tier 4.",
+"Slayer · Vampire T4"
+],[
+"Six Pack",
+"Atteindre le niveau 6 dans un slayer.",
+"Slayer · niveau 6"
+],[
+"Seven",
+"Atteindre le niveau 7 dans un slayer.",
+"Slayer · niveau 7"
+],[
+"Hunger Games",
+"Tuer 50 bosses de slayer, tous types confondus.",
+"Slayer · kills"
+],[
+"Le Cinquième Élément",
+"Faire un Crystal Nucleus complet.",
+"Preuve Discord"
+],[
+"Vous ne passerez pas !",
+"Tuer Bal.",
+"Bestiary · Bal"
+],[
+"Le Gobelin d'or",
+"Tuer un Golden Goblin.",
+"Bestiary · Golden Goblin"
+],[
+"Le Parrain : Corleone",
+"Tuer le Boss Corleone.",
+"Bestiary · Corleone"
+],[
+"Indiana Jones et le Temple maudit",
+"Terminer le Jungle Temple des Crystal Hollows.",
+"Preuve Discord"
+],[
+"Voyage au centre de la Terre",
+"Terminer 10 Glacite Mineshafts.",
+"Preuve Discord"
+],[
+"Breaking Bad",
+"Avoir 1 000 000 de Gemstone Powder.",
+"Mining · Powder"
+],[
+"Mineur de fond",
+"Atteindre Mining 50.",
+"Skills · Mining 50"
+],[
+"L'Empereur, sa femme et le petit prince",
+"Tuer un Sea Emperor.",
+"Bestiary · Sea Emperor"
+],[
+"Hail Hydra",
+"Tuer une Water Hydra.",
+"Bestiary · Water Hydra"
+],[
+"Crabe en feu",
+"Tuer un Fiery Scuttler.",
+"Bestiary · Fiery Scuttler"
+],[
+"Abominable",
+"Tuer un Yeti pendant Jerry's Workshop.",
+"Bestiary · Yeti",
+0
+],[
+"Jaws",
+"Tuer un Great White Shark.",
+"Bestiary · Great White Shark",
+0
+],[
+"Pêcheur pro",
+"Atteindre Fishing 35.",
+"Skills · Fishing 35"
+],[
+"Collectionneur de bronze",
+"Avoir toutes les espèces de Trophy Fish en Bronze.",
+"Trophy Fish"
+],[
+"Desperate Housewives",
+"Atteindre Garden niveau 10.",
+"Garden · Lvl 10"
+],[
+"Jardin d'Éden",
+"Atteindre Garden niveau 15.",
+"Garden · Lvl 15"
+],[
+"Médaille d'or olympique",
+"Gagner une médaille Gold à un Jacob's Contest.",
+"Jacob · Gold"
+],[
+"Farmville Legend",
+"Atteindre Farming 50.",
+"Skills · Farming 50"
+],[
+"Hôtel Transylvanie",
+"Servir 100 visiteurs du Garden.",
+"Garden · Visiteurs"
+],[
+"Cultivé",
+"Atteindre le milestone 20 d'une culture.",
+"Garden · Milestones"
+],[
+"L'Œil de Sauron",
+"Drop un Summoning Eye.",
+"Preuve Discord"
+],[
+"Dragon Ball",
+"Tuer 10 dragons.",
+"Bestiary · Dragons"
+],[
+"Gladiator",
+"Atteindre Combat 40.",
+"Skills · Combat 40"
+],[
+"Bestiaire fantastique",
+"Monter une famille du Bestiary au maximum.",
+"Bestiary"
+],[
+"Bruce Lee",
+"Faire le rang A sur toutes les épreuves du Dojo.",
+"Crimson Isle · Dojo"
+],[
+"Kuudra-ka",
+"Terminer 10 runs de Kuudra.",
+"Kuudra · runs"
+],[
+"L'Agent tous risques",
+"Faire toutes les quêtes de faction 3 jours d'affilée.",
+"Preuve Discord"
+],[
+"Iron Man",
+"Avoir une armure complète de Kuudra (n'importe laquelle).",
+"Armure · Kuudra"
+],[
+"Inception",
+"Trouver 30 Enigma Souls dans la Rift.",
+"Rift · Enigma Souls"
+],[
+"Les Âmes perdues",
+"Trouver 50 Enigma Souls dans la Rift.",
+"Rift · Enigma Souls"
+],[
+"Le Loup de Wall Street 2",
+"Avoir 100M de networth.",
+"Networth ≥ 100M"
+],[
+"Doctor Strange",
+"Atteindre 600 de Magical Power.",
+"Accessoires · MP ≥ 600"
+],[
+"Bac+35",
+"Atteindre une moyenne de skills de 35.",
+"Skills · Moyenne 35"
+],[
+"Mention Très Bien",
+"Atteindre une moyenne de skills de 40.",
+"Skills · Moyenne 40"
+],[
+"150 nuances de grind",
+"Atteindre le SkyBlock level 150.",
+"SkyBlock Level 150"
+],[
+"Minion Army",
+"Débloquer 25 slots de minions.",
+"Minions · 25 slots"
+],[
+"Pokémon légendaire",
+"Avoir un pet Legendary au niveau 100.",
+"Pets · Legendary 100"
+],[
+"La Nuit au musée 2",
+"Donner 100 objets au Museum.",
+"Museum · 100"
+],[
+"L'Inquisition espagnole",
+"Tuer un Minos Inquisitor.",
+"Bestiary · Minos Inquisitor",
+0
+],[
+"Sleepy Hollow",
+"Tuer le Headless Horseman.",
+"Bestiary · Headless Horseman",
+0
+],[
+"Peter Rabbit",
+"Trouver 50 lapins pendant le Hoppity's Hunt.",
+"Preuve Discord",
+0
+],[
+"Le Grand Bleu",
+"Obtenir un trophée du Fishing Festival.",
+"Preuve Discord",
+0
+],[
+"Avengers Assemble",
+"Faire un Kuudra avec une équipe 100 % guilde.",
+"Preuve Discord"
+],[
+"Le Mentor",
+"Aider un membre de la guilde à terminer son premier F5.",
+"Preuve Discord"
+]
+],
+"rng": [
+[
+"Le Jugement dernier",
+"Drop un Judgement Core.",
+"Preuve Discord"
+],[
+"Les Dés sont jetés",
+"Drop un High Class Archfiend Dice.",
+"Preuve Discord"
+],[
+"Overflux de chance",
+"Drop un Overflux Capacitor.",
+"Preuve Discord"
+],[
+"L'Œil de Sauron 2",
+"Drop un Primordial Eye.",
+"Preuve Discord"
+],[
+"Cœur de pierre",
+"Drop un Warden Heart.",
+"Preuve Discord"
+],[
+"La Poignée du destin",
+"Drop un Necron's Handle.",
+"Preuve Discord"
+],[
+"Excalibur",
+"Drop une Dark Claymore.",
+"Preuve Discord"
+],[
+"Jack et le Haricot magique",
+"Drop une Giant's Sword.",
+"Preuve Discord"
+],[
+"Mue royale",
+"Drop un Titanoboa Shed.",
+"Preuve Discord"
+],[
+"Vaiana",
+"Drop un Tiki Mask.",
+"Preuve Discord"
+],[
+"Tchernobyl",
+"Drop une Radioactive Vial.",
+"Preuve Discord"
+],[
+"Fahrenheit 451",
+"Drop des Burnt Texts.",
+"Preuve Discord"
+],[
+"Einstein en herbe",
+"Obtenir un enchant de tier 7 à l'Experimentation Table.",
+"Preuve Discord"
+],[
+"Game of Thrones : Drogon",
+"Faire apparaître et tuer un Superior Dragon.",
+"Bestiary · Superior Dragon"
+],[
+"Ragnarök",
+"Drop une Ragnarock Axe.",
+"Preuve Discord"
+],[
+"Les Dents de la mer 2",
+"Faire apparaître et tuer Lord Jawbus.",
+"Bestiary · Lord Jawbus"
+],[
+"Tiki Taka",
+"Faire apparaître et tuer un Wiki Tiki.",
+"Bestiary · Wiki Tiki"
+],[
+"Ça brille !",
+"Drop un Sparkling Critter.",
+"Preuve Discord"
+],[
+"Wither Me This",
+"Drop une pièce d'armure Wither en Floor 7.",
+"Preuve Discord"
+],[
+"Shine Bright Like a Diamond",
+"Drop un objet Shiny en Master 7.",
+"Preuve Discord"
+],[
+"Le Septième Sceau",
+"Terminer une run de Floor 7.",
+"Dungeons · F7"
+],[
+"Burn Baby Burn",
+"Terminer un Kuudra en Burning, Fiery ou Infernal.",
+"Kuudra · Burning+"
+],[
+"Le Disciple",
+"Avoir l'armure Kuudra Follower complète.",
+"Armure · Kuudra Follower"
+],[
+"Pompéi",
+"Drop un livre Pyroclasm VI.",
+"Preuve Discord"
+],[
+"Braises ardentes",
+"Drop un livre Smoldering.",
+"Preuve Discord"
+],[
+"Jurassic Park",
+"Drop un Digested Mosquito.",
+"Preuve Discord"
+],[
+"Bzzz",
+"Drop un Shriveled Wasp.",
+"Preuve Discord"
+],[
+"Diamants sur canapé",
+"Pêcher un Trophy Fish de rang Diamond.",
+"Trophy Fish · Diamond"
+],[
+"Le Renne au nez rouge",
+"Faire apparaître et tuer un Reindrake.",
+"Bestiary · Reindrake",
+0
+],[
+"La Grande Faucheuse",
+"Faire apparaître et tuer un Grim Reaper.",
+"Bestiary · Grim Reaper",
+0
+],[
+"Archimage",
+"Atteindre 1200 de Magical Power.",
+"Accessoires · MP ≥ 1200"
+],[
+"Heigh-Ho 10",
+"Atteindre Heart of the Mountain tier 10.",
+"Mining · HotM 10"
+],[
+"Bob le Bricoleur",
+"Reconstruire un bâtiment du Hub sur ton île privée.",
+"Preuve Discord · captures"
+],[
+"Minecraft Architect",
+"Construire un build massif sur ton île privée.",
+"Preuve Discord · captures"
+],[
+"Dracula",
+"Tuer un Riftstalker Bloodfiend tier 5.",
+"Slayer · Vampire T5"
+],[
+"Mère des dragons",
+"Avoir tous les pets dragon du jeu.",
+"Pets · dragons"
+],[
+"Les Quatre Cavaliers",
+"Terminer un M4.",
+"Dungeons · M4"
+],[
+"Le Cinquième Élément 2",
+"Terminer un M5.",
+"Dungeons · M5"
+],[
+"Six Pack de Master",
+"Terminer un M6.",
+"Dungeons · M6"
+],[
+"Le Boss final",
+"Terminer un M7.",
+"Dungeons · M7"
+],[
+"S+ comme Super",
+"Faire un S+ sur M5.",
+"Dungeons · M5 S+"
+],[
+"Perfection",
+"Faire un S+ sur F7.",
+"Dungeons · F7 S+"
+],[
+"Quarantaine",
+"Atteindre Catacombs 40.",
+"Dungeons · Catacombs 40"
+],[
+"Hall of Fame",
+"Atteindre Catacombs 50.",
+"Dungeons · Catacombs 50"
+],[
+"Professeur Xavier",
+"Atteindre le niveau 50 dans une classe.",
+"Dungeons · Classe 50"
+],[
+"Fury",
+"Drop une Shadow Fury.",
+"Preuve Discord"
+],[
+"Étoile filante",
+"Drop un Fifth Master Star.",
+"Preuve Discord"
+],[
+"Avada Kedavra",
+"Drop un scroll de Hyperion (Wither Shield, Implosion ou Shadow Warp).",
+"Preuve Discord"
+],[
+"Recombo Robot",
+"Drop un Auto Recombobulator.",
+"Preuve Discord"
+],[
+"Speedrun World Record",
+"Terminer un F7 en moins de 7 minutes.",
+"Dungeons · F7 < 7:00"
+],[
+"Résurrection",
+"Tuer un Revenant Horror tier 5.",
+"Slayer · Zombie T5"
+],[
+"L'Enfer de Dante",
+"Tuer un Inferno Demonlord tier 4.",
+"Slayer · Blaze T4"
+],[
+"La Reine des araignées",
+"Tuer une Tarantula Broodfather tier 5.",
+"Slayer · Spider T5"
+],[
+"Neuf vies",
+"Atteindre le niveau 9 dans un slayer.",
+"Slayer · niveau 9"
+],[
+"The Witcher",
+"Atteindre le niveau 9 dans tous les slayers.",
+"Slayer · niveaux"
+],[
+"La Faucheuse",
+"Drop une Scythe Blade.",
+"Preuve Discord"
+],[
+"Déchiqueté",
+"Drop un Shard of the Shredded.",
+"Preuve Discord"
+],[
+"L'Œuf du dragon rouge",
+"Drop un Red Claw Egg.",
+"Preuve Discord"
+],[
+"L'Appât du gain",
+"Drop un Grizzly Bait.",
+"Preuve Discord"
+],[
+"Café, clope, Voidgloom",
+"Drop une Pocket Espresso Machine.",
+"Preuve Discord"
+],[
+"Flash",
+"Tuer un Revenant tier 5 en moins de 30 secondes.",
+"Preuve Discord"
+],[
+"L'Alchimiste",
+"Drop un Divan's Alloy.",
+"Preuve Discord"
+],[
+"Le Précurseur",
+"Drop un Precursor Apparatus.",
+"Preuve Discord"
+],[
+"Divan, la légende",
+"Avoir l'armure Divan complète.",
+"Armure · Divan"
+],[
+"Mineur de l'apocalypse",
+"Atteindre Mining 60.",
+"Skills · Mining 60"
+],[
+"Plhleg-quoi ?",
+"Tuer un Plhlegblast.",
+"Bestiary · Plhlegblast"
+],[
+"Trèfle à quatre feuilles",
+"Drop un Lucky Clover Core.",
+"Preuve Discord"
+],[
+"Abyss",
+"Drop un Deep Sea Orb.",
+"Preuve Discord"
+],[
+"Megalodon",
+"Drop un pet Megalodon Legendary.",
+"Pets · Megalodon"
+],[
+"Le Yéti des neiges",
+"Drop un pet Baby Yeti Legendary.",
+"Pets · Baby Yeti",
+0
+],[
+"Golden Boy",
+"Avoir toutes les espèces de Trophy Fish en Gold.",
+"Trophy Fish"
+],[
+"Poséidon",
+"Atteindre Fishing 50.",
+"Skills · Fishing 50"
+],[
+"Disque de platine",
+"Gagner une médaille Platinum à un Jacob's Contest.",
+"Jacob · Platinum"
+],[
+"Diamonds Are Forever",
+"Gagner une médaille Diamond à un Jacob's Contest.",
+"Jacob · Diamond"
+],[
+"Le Seigneur des récoltes",
+"Atteindre Farming 60.",
+"Skills · Farming 60"
+],[
+"Jardinier en chef",
+"Atteindre Garden niveau 25.",
+"Garden · Lvl 25"
+],[
+"Supérieur, c'est mieux",
+"Avoir l'armure Superior Dragon complète.",
+"Armure · Superior"
+],[
+"Dragon légendaire",
+"Drop un pet Ender Dragon Legendary.",
+"Pets · Ender Dragon"
+],[
+"Dragon Slayer",
+"Tuer 100 dragons.",
+"Bestiary · Dragons"
+],[
+"John Wick",
+"Atteindre Combat 60.",
+"Skills · Combat 60"
+],[
+"Inferno",
+"Terminer un Kuudra Infernal.",
+"Kuudra · Infernal"
+],[
+"Rage Against the Machine",
+"Drop un Enrager.",
+"Preuve Discord"
+],[
+"Terminator",
+"Avoir l'armure Terror complète.",
+"Armure · Terror"
+],[
+"Le Roi Lion",
+"Atteindre le rang maximum d'une faction de la Crimson Isle.",
+"Crimson Isle · Réputation"
+],[
+"Milliardaire",
+"Avoir 1B de networth.",
+"Networth ≥ 1B"
+],[
+"Jeff Bezos",
+"Avoir 5B de networth.",
+"Networth ≥ 5B"
+],[
+"Merlin l'Enchanteur",
+"Atteindre 1500 de Magical Power.",
+"Accessoires · MP ≥ 1500"
+],[
+"Einstein",
+"Atteindre une moyenne de skills de 55.",
+"Skills · Moyenne 55"
+],[
+"300 : This Is Sparta",
+"Atteindre le SkyBlock level 300.",
+"SkyBlock Level 300"
+],[
+"Hyperion : le retour",
+"Avoir un Hyperion.",
+"Inventaire · Hyperion"
+],[
+"Terminator 2",
+"Avoir un Terminator.",
+"Inventaire · Terminator"
+],[
+"Pokédex légendaire",
+"Avoir 10 pets Legendary au niveau 100.",
+"Pets · Legendary 100"
+],[
+"Âmes sœurs",
+"Trouver toutes les Enigma Souls de la Rift.",
+"Rift · Enigma Souls"
+],[
+"Chimère",
+"Drop un Chimera I.",
+"Preuve Discord",
+0
+],[
+"Relique sacrée",
+"Drop un Minos Relic.",
+"Preuve Discord",
+0
+],[
+"Tortues Ninja",
+"Drop un Dwarf Turtle Shelmet.",
+"Preuve Discord",
+0
+],[
+"Le Lapin blanc",
+"Trouver un lapin Mythic pendant le Hoppity's Hunt.",
+"Preuve Discord",
+0
+],[
+"Tie & Dye",
+"Drop une dye, n'importe laquelle.",
+"Preuve Discord"
+],[
+"La Ligue des justiciers",
+"Terminer un M7 avec une équipe 100 % guilde.",
+"Preuve Discord"
+],[
+"Les Gardiens de la Galaxie",
+"Terminer un Kuudra Infernal avec une équipe 100 % guilde.",
+"Preuve Discord"
+],[
+"À poil !",
+"Terminer une run de donjon sans armure (floor au choix du staff).",
+"Preuve Discord"
+]
+]
 };
 
 const BASE_MAP=new Map();
-TIER_KEYS.forEach(t=>BASE[t].forEach(([name,desc,stat],i)=>{const id=`${t[0]}${String(i+1).padStart(2,"0")}`;BASE_MAP.set(id,{id,tier:t,name,desc,stat,active:true})}));
+TIER_KEYS.forEach(t=>BASE[t].forEach(([name,desc,stat,on],i)=>{const id=`g${t[0]}${String(i+1).padStart(3,"0")}`;BASE_MAP.set(id,{id,tier:t,name,desc,stat,active:on!==0})}));
 const PALIERS=[10,25,50,100,500,1000];
 const DEFAULT_GRADES={10:"Grinder",25:"Sweaty",50:"RNG Hunter",100:"Skyblock Addict",500:"No Life",1000:"RNG God"};
 const PALIER_COLORS=[["#8f8f8f","#d8d8d8","#ffffff"],["#c99a12","#ffcc33","#fff2a6"],["#1c9c94","#4fe0d6","#c8fffa"],["#1f8a45","#3ddc6a","#c6ffd6"],["#6a2fb0","#b36bff","#ecd6ff"],["#a01c1c","#ff4d4d","#ffd0d0"]];
@@ -1374,7 +2405,7 @@ function renderClaims(){
 }
 let editingId=null,confirmDel=null;
 function renderChallengeList(){
-  $("seed-hint").hidden=!usingBase;
+  $("seed-hint").hidden=true;renderGuildLoad();
   const f=$("ch-filter").value,todayIds=new Set(TIER_KEYS.map(t=>pick(t,TODAY)?.id));
   const list=[...challenges.values()].filter(c=>f==="all"||c.tier===f).sort((a,b)=>TIER_KEYS.indexOf(a.tier)-TIER_KEYS.indexOf(b.tier)||a.name.localeCompare(b.name,"fr"));
   $("ch-list").innerHTML=list.map(c=>`<li class="${c.active===false?"off":""}"><span class="pill ${TIERS[c.tier].cls}">${TIERS[c.tier].label}</span><div class="grow"><b>${esc(c.name)}${todayIds.has(c.id)?' <span class="pill ok">Aujourd\'hui</span>':""}</b><small>${esc(c.desc)}${c.stat?` · ${esc(c.stat)}`:""}</small></div><div class="actions"><button class="btn small ghost" type="button" data-edit="${c.id}">Modifier</button><button class="btn small ghost" type="button" data-toggle="${c.id}">${c.active===false?"Activer":"Désactiver"}</button><button class="btn small" type="button" data-del="${c.id}">${confirmDel===c.id?"Confirmer":"Supprimer"}</button></div></li>`).join("")||`<li class="tip">Aucun défi dans cette catégorie.</li>`;
@@ -1556,9 +2587,23 @@ async function giveGrade(id,btn){
   try{await updateDoc(doc(fb.db,"claims",id),{status:"given",givenBy:me.uid,givenAt:serverTimestamp()});toast("Grade marqué comme donné");if(c)announce({title:"🎖️ Nouveau grade",description:`**${c.pseudo}** reçoit le grade **${gradeName(c.palier)}** (${c.palier} défis réussis sur HyPass) !`,color:0xffd23f,thumbnail:{url:headUrl(c.pseudo,64)}},true)}
   catch(e){console.error(e);toast("Action refusée");btn.disabled=false}
 }
-async function ensureSeeded(){if(!usingBase)return;const b=writeBatch(fb.db);BASE_MAP.forEach(c=>b.set(doc(fb.db,"challenges",c.id),{tier:c.tier,name:c.name,desc:c.desc,stat:c.stat,active:true}));await b.commit();usingBase=false}
+async function ensureSeeded(){if(!usingBase)return;const b=writeBatch(fb.db);BASE_MAP.forEach(c=>b.set(doc(fb.db,"challenges",c.id),{tier:c.tier,name:c.name,desc:c.desc,stat:c.stat,active:c.active}));await b.commit();usingBase=false}
 async function freezeToday(){const s=schedule[TODAY]||{},patch={};TIER_KEYS.forEach(t=>{if(!s[t]){const c=autoPick(t,TODAY);if(c)patch[t]=c.id}});if(Object.keys(patch).length)await setDoc(doc(fb.db,"schedule",TODAY),patch,{merge:true})}
 async function beforeEdit(){await ensureSeeded();await freezeToday()}
+let loadConfirm=false;
+function renderGuildLoad(){const n={facile:0,moyen:0,rng:0};let ev=0;BASE_MAP.forEach(c=>{n[c.tier]++;if(!c.active)ev++});const present=[...BASE_MAP.keys()].filter(id=>challenges.has(id)).length;$("guild-load-txt").textContent=`${BASE_MAP.size} défis (${n.facile} Facile, ${n.moyen} Moyen, ${n.rng} RNG carried), dont ${ev} d'événement désactivés par défaut. ${usingBase?"Déjà affichée sur le site, pas encore enregistrée.":present===BASE_MAP.size?"Déjà chargée.":`${present} déjà chargés.`} Charger la liste remplace et désactive les anciens défis (ils ne sont pas supprimés).`;$("guild-load-btn").textContent=loadConfirm?"Confirmer le chargement":"Charger la liste"}
+$("guild-load-btn").onclick=async()=>{
+  if(!loadConfirm){loadConfirm=true;renderGuildLoad();return}
+  loadConfirm=false;const btn=$("guild-load-btn");btn.disabled=true;
+  try{
+    if(!usingBase)await freezeToday();
+    const b=writeBatch(fb.db);let off=0;
+    BASE_MAP.forEach(c=>b.set(doc(fb.db,"challenges",c.id),{tier:c.tier,name:c.name,desc:c.desc,stat:c.stat,active:c.active}));
+    if(!usingBase)challenges.forEach((c,id)=>{if(!BASE_MAP.has(id)&&c.active!==false){b.update(doc(fb.db,"challenges",id),{active:false});off++}});
+    await b.commit();usingBase=false;toast(`Liste chargée : ${BASE_MAP.size} défis${off?`, ${off} anciens désactivés`:""}`);
+  }catch(e){console.error(e);toast("Chargement refusé")}
+  finally{btn.disabled=false;renderGuildLoad()}
+};
 $("seed-btn").onclick=async()=>{try{await ensureSeeded();toast("Défis de base enregistrés")}catch(e){console.error(e);toast("Action refusée")}};
 function startEdit(id){const c=challenges.get(id);if(!c)return;editingId=id;$("ch-tier").value=c.tier;$("ch-name").value=c.name;$("ch-desc").value=c.desc;$("ch-stat").value=c.stat||"";$("ch-form-title").textContent=`Modifier « ${c.name} »`;$("ch-save").textContent="Enregistrer les modifications";$("ch-cancel").hidden=false;$("ch-err").textContent="";$("ch-form").scrollIntoView({behavior:"smooth",block:"start"});$("ch-name").focus()}
 function resetEditor(){editingId=null;$("ch-form").reset();$("ch-form-title").textContent="Nouveau défi";$("ch-save").textContent="Ajouter le défi";$("ch-cancel").hidden=true;$("ch-err").textContent=""}
