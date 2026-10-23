@@ -280,13 +280,111 @@ input[type=text],input[type=url],input[type=password],input[type=date],select{ba
 @media (max-width:640px){.toast{bottom:calc(80px + env(safe-area-inset-bottom,0px))}}
 footer{color:var(--muted);font-size:13px;padding-block:0 40px}
 @media (prefers-reduced-motion:reduce){.flip-inner,.tilt,.qbar i,.route .fill{transition:none}}
+
+/* ---------- Pseudos colorés et titres ---------- */
+:root{--c-uncommon:#55ff55;--c-rare:#5599ff;--c-epic:#c95cff;--c-legendary:#ffaa00;--c-mythic:#ff55ff;--c-god:#ff4d4d;--c-divine:#55ffff;--c-or:#ffd23f;--c-arc:#ff9ad5}
+.nm{font-weight:700;color:var(--fg)}
+.nm.c-uncommon{color:var(--c-uncommon)}.nm.c-rare{color:var(--c-rare)}.nm.c-epic{color:var(--c-epic)}.nm.c-legendary{color:var(--c-legendary)}.nm.c-mythic{color:var(--c-mythic)}.nm.c-divine{color:var(--c-divine)}.nm.c-or{color:var(--c-or);text-shadow:0 0 8px rgba(255,210,63,.45)}
+.nm.c-god,.nm.c-arc{background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:nmflow 3.5s linear infinite}
+.nm.c-god{background-image:linear-gradient(90deg,#ff3b3b,#ffd23f,#ff3b3b,#ffd23f)}
+.nm.c-arc{background-image:linear-gradient(90deg,#ff5555,#ffaa00,#ffff55,#55ff55,#55ffff,#5599ff,#ff55ff,#ff5555)}
+@keyframes nmflow{to{background-position:-200% 0}}
+.ttl{display:inline-block;margin-left:6px;font:500 11px/1.3 var(--f-mono);color:#cfc6ea;border:1px solid #4a3f6e;background:#1a1530;padding:1px 5px;vertical-align:middle;white-space:nowrap}
+.pl{appearance:none;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer;text-align:left}
+.pl:hover .nm{text-decoration:underline;text-underline-offset:3px}
+.board td .pl{white-space:nowrap}
+
+/* ---------- Coffre du jour ---------- */
+.chest-strip{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;padding:14px 16px;background:linear-gradient(90deg,#2a1d0c,var(--panel) 60%);border:2px solid #6b4a14}
+.chest-strip canvas{width:64px;height:64px;image-rendering:pixelated;flex:none;filter:drop-shadow(0 3px 0 rgba(0,0,0,.4))}
+.chest-strip.ready{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,210,63,.25),0 0 24px rgba(255,210,63,.18)}
+.chest-strip.ready canvas{animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px) rotate(-3deg)}}
+.chest-strip .grow h3{margin:0;font:700 20px var(--f-display);color:var(--gold)}
+.chest-strip .grow p{margin:2px 0 0;color:#d4cfe4;font-size:15px}
+.chest-strip .t{font:700 14px var(--f-mono);color:var(--gold);font-variant-numeric:tabular-nums}
+.chest-dialog{text-align:center;align-items:center;background:radial-gradient(circle at 50% 35%,#3a2614,var(--tooltip) 70%)}
+#chest-cv3{width:300px;height:260px;max-width:100%}
+.chest-dialog .lbl{font:500 13px var(--f-mono);color:#c9c9dc;text-transform:uppercase;letter-spacing:.1em}
+.chest-dialog .rar{font:700 15px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;min-height:1.2em}
+.chest-dialog .gname{font:700 28px/1.15 var(--f-display);color:#fff;text-shadow:3px 3px 0 #000;text-wrap:balance}
+
+/* ---------- Carte de joueur ---------- */
+.pcard{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:18px;margin-bottom:12px;background:radial-gradient(circle at 0% 0%,#2b1f55,var(--panel) 60%);border:2px solid #4a3f6e;position:relative;overflow:hidden}
+.pcard::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(255,210,63,.12),transparent 70%);pointer-events:none}
+.pc-head{width:128px;height:128px;flex:none;display:grid;place-items:center;background:repeating-linear-gradient(45deg,#1a1530 0 8px,#16122a 8px 16px);border:2px solid #4a3f6e;position:relative}
+.pc-head img{width:96px;height:96px;image-rendering:pixelated;filter:drop-shadow(0 4px 0 rgba(0,0,0,.4))}
+.pc-head canvas{position:absolute;inset:0;width:100%;height:100%}
+.pcard.empty .pc-head::after{content:"?";font:700 54px var(--f-display);color:#4a3f6e}
+.pc-body{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.pc-name{font:700 30px/1.1 var(--f-display);overflow-wrap:anywhere}
+.pc-name .ttl{font-size:13px;margin-left:10px}
+.pc-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font:600 12px/1 var(--f-mono);padding:5px 7px;background:#0d0e18;border:1px solid var(--line);color:var(--muted)}
+.tag.gold{color:var(--gold);border-color:#7a5a10}.tag.fire{color:#ff9a3c;border-color:#7a3a10}
+.pc-bio{margin:0;color:#e4dff5;font-style:italic;overflow-wrap:anywhere}
+.pc-bio.empty{color:var(--muted);font-style:normal;font-size:14px}
+.pc-show{display:flex;flex-wrap:wrap;gap:8px}
+.pc-show .hint{color:var(--muted);font-size:13px}
+.badge{--c:var(--muted);display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;background:#0d0e18;border:2px solid var(--c);font:600 13px var(--f-body);color:var(--fg)}
+.badge i{font:700 11px var(--f-display);font-style:normal;min-width:26px;height:26px;padding:0 3px;display:grid;place-items:center;background:var(--c);color:#141a26;box-shadow:inset -2px -2px 0 rgba(0,0,0,.25),inset 2px 2px 0 rgba(255,255,255,.3)}
+.prof-dialog{max-width:620px}
+.prof-dialog .pcard{margin:0}
+.pm-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.pm-stats .stat b{font-size:22px}
+@media (max-width:520px){.pm-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pc-head{width:96px;height:96px}.pc-head img{width:72px;height:72px}.pc-name{font-size:24px}}
+
+/* ---------- Personnaliser ---------- */
+.cust{max-width:600px}
+.cust .preview{padding:14px;background:#0d0e18;border:2px solid var(--line);font:700 22px var(--f-display);text-align:center;overflow-wrap:anywhere}
+.cust h4{margin:0 0 8px;font:700 15px var(--f-display);color:#e4dff5}
+.cos-grid{display:flex;flex-wrap:wrap;gap:6px}
+.cos{appearance:none;cursor:pointer;background:#0d0e18;border:2px solid var(--line);color:var(--fg);padding:7px 10px;font:600 14px var(--f-body);display:inline-flex;flex-direction:column;align-items:flex-start;gap:1px;text-align:left}
+.cos small{font:500 10px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.cos[aria-pressed="true"]{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.cos.locked{opacity:.45;cursor:not-allowed}
+.cust .hint{color:var(--muted);font-size:13px}
+
+/* ---------- Succès ---------- */
+.ach-wrap{display:flex;flex-direction:column;gap:18px}
+.ach-cat h3{margin:0 0 8px;font:700 16px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.ach-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:960px){.ach-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.ach-grid{grid-template-columns:1fr}}
+.ach{--c:var(--muted);display:flex;gap:12px;align-items:center;background:var(--panel);border:2px solid var(--line);padding:10px 12px;min-width:0}
+.ach .ico{flex:none;width:44px;height:44px;display:grid;place-items:center;background:#0d0e18;border:2px solid var(--line);font:700 13px var(--f-display);color:#5c6372}
+.ach .grow0{min-width:0;flex:1}
+.ach b{display:block;font:600 15px/1.2 var(--f-body);color:var(--muted)}
+.ach small{display:block;color:#7a849a;font-size:13px;line-height:1.35}
+.ach.on{border-color:var(--c);background:linear-gradient(135deg,color-mix(in srgb,var(--c) 10%,var(--panel)),var(--panel) 60%)}
+.ach.on .ico{color:#141a26;background:var(--c);border-color:var(--c);box-shadow:inset -3px -3px 0 rgba(0,0,0,.25),inset 3px 3px 0 rgba(255,255,255,.3)}
+.ach.on b{color:var(--fg)}.ach.on small{color:var(--muted)}
+.ach .pin{font-size:12px}
+.abar{height:6px;background:#0d0e18;margin-top:6px}.abar i{display:block;height:100%;background:var(--c)}
+.ach small.av{font:500 11px var(--f-mono);margin-top:2px}
+
+/* ---------- Bulle de succès façon Minecraft ---------- */
+.advs{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:12px;z-index:60;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.adv{--c:var(--gold);display:flex;align-items:center;gap:10px;min-width:240px;max-width:min(320px,calc(100vw - 24px));background:#212121;border:3px solid #555;box-shadow:inset 0 0 0 2px #000,0 6px 0 rgba(0,0,0,.35);padding:8px 12px 8px 8px;animation:advin .45s cubic-bezier(.2,.9,.3,1.3)}
+.adv i{flex:none;width:40px;height:40px;display:grid;place-items:center;font:700 13px var(--f-display);font-style:normal;background:var(--c);color:#141a26;box-shadow:inset -3px -3px 0 rgba(0,0,0,.25),inset 3px 3px 0 rgba(255,255,255,.3)}
+.adv b{display:block;font:700 15px var(--f-display);color:#ffff55}
+.adv span{display:block;font:600 14px var(--f-body);color:#fff}
+.adv.out{animation:advout .5s ease-in forwards}
+@keyframes advin{from{transform:translateX(120%)}to{transform:none}}
+@keyframes advout{to{transform:translateX(130%)}}
+
+/* ---------- Bulle de la scène 3D ---------- */
+.scene-tip{position:absolute;z-index:3;pointer-events:none;background:rgba(16,0,16,.92);border:2px solid var(--tooltip-edge);box-shadow:0 0 0 2px #100010;padding:6px 9px;font:500 13px/1.4 var(--f-mono);color:#e8e2f8;max-width:240px;transform:translate(14px,14px)}
+.scene-tip b{color:var(--gold)}
+@media (prefers-reduced-motion:reduce){.nm.c-god,.nm.c-arc,.chest-strip.ready canvas,.adv,.adv.out{animation:none}}
 </style>
 </head>
 <body>
 <div class="banner staff" id="config-banner" hidden>Configuration Firebase manquante.</div>
 
 <header class="hero">
-  <canvas id="scene" aria-label="La route HyPass en 3D : une île flottante par palier. Glisse pour la faire tourner."></canvas>
+  <canvas id="scene" aria-label="La route HyPass en 3D : une île flottante par palier, du départ jusqu'à l'End. Glisse pour la faire tourner, clique sur une gemme ou sur le coffre."></canvas>
+  <div class="scene-tip" id="scene-tip" hidden></div>
   <div class="hero-ui wrap">
     <div class="hero-top">
       <a class="brand" href="#defis">
@@ -302,7 +400,7 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
     <div class="hero-bottom">
       <div>
         <h1>3 défis par jour.<br>6 paliers.<br><em>Jusqu'à RNG God.</em></h1>
-        <p class="hint">Glisse pour faire tourner la route</p>
+        <p class="hint">Glisse pour tourner · clique une gemme ou le coffre</p>
       </div>
       <div class="timer" aria-live="polite">
         <span>Nouveaux défis dans</span>
@@ -340,6 +438,13 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <div class="tomorrow" id="tomorrow"></div>
     </section>
     <section>
+      <div class="chest-strip" id="chest-strip">
+        <canvas id="chest-cv" width="16" height="16" aria-hidden="true"></canvas>
+        <div class="grow"><h3>Coffre du jour</h3><p id="chest-txt"></p></div>
+        <button class="btn gold" type="button" id="chest-btn" disabled>Ouvrir le coffre</button>
+      </div>
+    </section>
+    <section>
       <div class="sec-head">
         <h2>Tes quêtes de la semaine</h2>
         <p>10 défis rien que pour toi, à faire quand tu veux avant dimanche minuit. Elles comptent pour tes paliers comme les défis du jour.</p>
@@ -357,13 +462,25 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
     <section>
       <div class="sec-head">
         <h2>Mon HyPass</h2>
-        <p>Chaque défi approuvé te fait avancer d'une case. À chaque palier, ton emblème devient doré et tu réclames ton grade sur Discord.</p>
+        <p>Ta carte de joueur, visible par toute la guilde quand on clique sur ton pseudo.</p>
+      </div>
+      <div class="pcard" id="pcard">
+        <div class="pc-head"><img id="pc-img" alt="" hidden><canvas id="pc-cv" width="128" height="128" hidden aria-hidden="true"></canvas></div>
+        <div class="pc-body" id="pc-body"></div>
       </div>
       <div class="pass-top" id="pass-stats"></div>
     </section>
     <section>
+      <div class="sec-head">
+        <h2>La route</h2>
+        <p>Chaque défi approuvé te fait avancer d'une case. À chaque palier, ton emblème devient doré et tu réclames ton grade sur Discord.</p>
+      </div>
       <div class="card"><div class="route" id="route"><div class="fill" id="route-fill"></div></div></div>
       <p class="tip" id="route-hint" style="margin-top:12px"></p>
+    </section>
+    <section>
+      <div class="sec-head"><h2>Succès</h2><p id="ach-count"></p></div>
+      <div class="ach-wrap" id="ach-wrap"></div>
     </section>
     <section>
       <div class="sec-head"><h2>Mes derniers défis</h2></div>
@@ -409,7 +526,7 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       </div>
       <div class="board-box">
         <table class="board">
-          <thead><tr><th>#</th><th>Joueur</th><th>Grade</th><th>Points</th><th>Défis</th><th>Quêtes</th><th>Duels gagnés</th></tr></thead>
+          <thead><tr><th>#</th><th>Joueur</th><th>Grade</th><th>Points</th><th>Défis</th><th>Série</th><th>Succès</th><th>Duels gagnés</th></tr></thead>
           <tbody id="board"></tbody>
         </table>
       </div>
@@ -530,6 +647,38 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
     <div class="row"><button type="button" class="btn ghost" id="tuto-skip">Passer</button><button type="button" class="btn go" id="tuto-next">Suivant</button></div>
   </div>
 </div>
+<div class="modal" id="chest-modal" hidden>
+  <div class="dialog chest-dialog" role="dialog" aria-modal="true" aria-labelledby="cm-text">
+    <span class="lbl">Coffre du jour</span>
+    <canvas id="chest-cv3" width="600" height="520" aria-hidden="true"></canvas>
+    <span class="rar" id="cm-rar"></span>
+    <span class="gname" id="cm-text" aria-live="polite"></span>
+    <p id="cm-sub"></p>
+    <div class="row" style="justify-content:center"><button type="button" class="btn ghost" id="cm-close">Fermer</button><button type="button" class="btn gold" id="cm-equip" hidden>Équiper</button></div>
+  </div>
+</div>
+
+<div class="modal" id="prof-modal" hidden>
+  <div class="dialog prof-dialog" role="dialog" aria-modal="true" aria-label="Profil du joueur">
+    <div class="pcard"><div class="pc-head"><img id="pm-img" alt="" hidden><canvas id="pm-cv" width="128" height="128" hidden aria-hidden="true"></canvas></div><div class="pc-body" id="pm-body"></div></div>
+    <div class="pm-stats" id="pm-stats"></div>
+    <div class="row"><button type="button" class="btn ghost" id="pm-close">Fermer</button></div>
+  </div>
+</div>
+
+<div class="modal" id="cust-modal" hidden>
+  <form class="dialog cust" id="cust-form" novalidate>
+    <h3>Personnaliser mon profil</h3>
+    <div class="preview" id="cust-preview" aria-live="polite"></div>
+    <div><h4>Couleur du pseudo</h4><div class="cos-grid" id="cust-colors"></div></div>
+    <div><h4>Titre</h4><div class="cos-grid" id="cust-titles"></div></div>
+    <div class="field"><label for="cust-bio">Ta phrase (80 caractères max)</label><input type="text" id="cust-bio" maxlength="80" placeholder="ex. Je drop des Judgement Core en dormant" autocomplete="off"></div>
+    <div><h4>Succès exposés sur ta carte <span id="cust-show-count" style="color:var(--muted);font-family:var(--f-mono);font-size:13px"></span></h4><div class="cos-grid" id="cust-show"></div></div>
+    <p class="err" id="cust-err"></p>
+    <div class="row"><button type="button" class="btn ghost" id="cust-cancel">Annuler</button><button type="submit" class="btn go" id="cust-save">Enregistrer</button></div>
+  </form>
+</div>
+<div class="advs" id="advs" aria-live="polite"></div>
 <div class="toast" id="toast" hidden></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -548,7 +697,7 @@ const firebaseConfig = {
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, collection, query, where, limit, onSnapshot, writeBatch, increment, serverTimestamp, deleteField, documentId } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, collection, query, where, limit, onSnapshot, writeBatch, increment, arrayUnion, serverTimestamp, deleteField, documentId } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* ================= DONNÉES ================= */
 const TIERS={
@@ -611,6 +760,54 @@ const DEFAULT_GRADES={10:"Grinder",25:"Sweaty",50:"RNG Hunter",100:"Skyblock Add
 const PALIER_COLORS=[["#8f8f8f","#d8d8d8","#ffffff"],["#c99a12","#ffcc33","#fff2a6"],["#1c9c94","#4fe0d6","#c8fffa"],["#1f8a45","#3ddc6a","#c6ffd6"],["#6a2fb0","#b36bff","#ecd6ff"],["#a01c1c","#ff4d4d","#ffd0d0"]];
 const QUEST_MIX={facile:5,moyen:3,rng:2};
 const DUEL_BONUS=3;
+
+/* Cosmétiques : couleurs de pseudo (paliers ou coffre) et titres (grades, succès, coffre) */
+const NAME_COLORS=[
+  {k:"uncommon",label:"Vert",hex:"#55ff55",palier:10},
+  {k:"rare",label:"Bleu",hex:"#5599ff",palier:25},
+  {k:"epic",label:"Violet",hex:"#c95cff",palier:50},
+  {k:"legendary",label:"Orange",hex:"#ffaa00",palier:100},
+  {k:"mythic",label:"Rose",hex:"#ff55ff",palier:500},
+  {k:"god",label:"RNG God",hex:"#ff4d4d",palier:1000},
+  {k:"divine",label:"Cyan Divine",hex:"#55ffff",chest:true},
+  {k:"or",label:"Doré",hex:"#ffd23f",chest:true},
+  {k:"arc",label:"Arc-en-ciel",hex:"#ff9ad5",chest:true}
+];
+const COLOR_BY=Object.fromEntries(NAME_COLORS.map(c=>[c.k,c]));
+const CHEST_TITLES=["Chanceux","Farmer","Mineur de l'extrême","Pêcheur du dimanche","Dungeoneer","Slayer","Ami des minions","Enchanteur fou","Collectionneur","Bazar addict","Roi du Garden","Kuudra enjoyer"];
+const MYTHIC_TITLE="Touché par la RNG";
+const RARITY={common:{label:"Commun",hex:"#cfd8ea"},rare:{label:"Rare",hex:"#5599ff"},epic:{label:"Epic",hex:"#c95cff"},mythic:{label:"Mythique",hex:"#ff55ff"}};
+const FORTUNES=["La RNG te regarde. Elle ricane.","Ton prochain drop sera légendaire. Ou pas.","Les minions travaillent, toi aussi.","Le Bazar dit : achète bas, vends haut.","Un Necron's Handle t'attend… dans une autre vie.","Kuudra a entendu parler de toi.","Reviens demain : la chance tourne à minuit.","Même la poussière brille un peu, si on plisse les yeux."];
+
+/* Succès : calculés à partir des compteurs du profil (val = progression, goal = objectif) */
+const nv=(u,k)=>u?.[k]||0;
+const hasCos=(u,c)=>(u?.cosmetics||[]).includes(c);
+const ACH=[
+  {cat:"Défis",id:"pas",ico:"1",name:"Premier pas",desc:"Réussir ton premier défi.",c:"uncommon",val:u=>nv(u,"ok"),goal:1},
+  {cat:"Défis",id:"tout",ico:"3",name:"Touche-à-tout",desc:"Réussir un défi de chaque catégorie.",c:"uncommon",val:u=>TIER_KEYS.filter(t=>nv(u,t)>0).length,goal:3},
+  {cat:"Défis",id:"carried",ico:"R",name:"Carried par la RNG",desc:"Réussir un défi RNG carried.",c:"epic",val:u=>nv(u,"rng"),goal:1},
+  {cat:"Défis",id:"chelem",ico:"GC",name:"Grand chelem",desc:"Réussir les 3 défis du jour le même jour.",c:"epic",val:u=>nv(u,"slams"),goal:1},
+  {cat:"Défis",id:"centu",ico:"100",name:"Centurion",desc:"Cumuler 100 points.",c:"epic",val:u=>nv(u,"points"),goal:100},
+  {cat:"Défis",id:"bras",ico:"25M",name:"Gros bras",desc:"Réussir 25 défis Moyen.",c:"legendary",val:u=>nv(u,"moyen"),goal:25},
+  {cat:"Défis",id:"trefle",ico:"10R",name:"Trèfle à 4 feuilles",desc:"Réussir 10 défis RNG carried.",c:"legendary",val:u=>nv(u,"rng"),goal:10},
+  {cat:"Défis",id:"chelem5",ico:"5GC",name:"Roi du chelem",desc:"Faire 5 Grands chelems.",c:"legendary",val:u=>nv(u,"slams"),goal:5},
+  {cat:"Défis",id:"vet",ico:"250",name:"Vétéran",desc:"Réussir 250 défis.",c:"mythic",val:u=>nv(u,"ok"),goal:250},
+  {cat:"Défis",id:"mille",ico:"1K",name:"Légende de la guilde",desc:"Cumuler 1000 points.",c:"mythic",val:u=>nv(u,"points"),goal:1000},
+  {cat:"Séries",id:"chauffe",ico:"3j",name:"Ça chauffe",desc:"Valider des défis 3 jours d'affilée.",c:"uncommon",val:u=>nv(u,"best"),goal:3},
+  {cat:"Séries",id:"feu",ico:"7j",name:"En feu",desc:"Valider des défis 7 jours d'affilée.",c:"epic",val:u=>nv(u,"best"),goal:7},
+  {cat:"Séries",id:"stop",ico:"30j",name:"Inarrêtable",desc:"Valider des défis 30 jours d'affilée.",c:"legendary",val:u=>nv(u,"best"),goal:30},
+  {cat:"Séries",id:"cent",ico:"100j",name:"Centenaire",desc:"Valider des défis 100 jours d'affilée.",c:"mythic",val:u=>nv(u,"best"),goal:100},
+  {cat:"Quêtes et duels",id:"aven",ico:"Q",name:"Aventurier",desc:"Réussir ta première quête perso.",c:"uncommon",val:u=>nv(u,"quests"),goal:1},
+  {cat:"Quêtes et duels",id:"duel",ico:"VS",name:"Duelliste",desc:"Gagner un duel.",c:"epic",val:u=>nv(u,"duelsWon"),goal:1},
+  {cat:"Quêtes et duels",id:"parfaite",ico:"10Q",name:"Semaine parfaite",desc:"Réussir tes 10 quêtes d'une même semaine.",c:"legendary",val:u=>nv(u,"questWeeks"),goal:1},
+  {cat:"Quêtes et duels",id:"globe",ico:"50Q",name:"Globe-trotter",desc:"Réussir 50 quêtes perso.",c:"legendary",val:u=>nv(u,"quests"),goal:50},
+  {cat:"Quêtes et duels",id:"glad",ico:"10V",name:"Gladiateur",desc:"Gagner 10 duels.",c:"legendary",val:u=>nv(u,"duelsWon"),goal:10},
+  {cat:"Coffre",id:"curieux",ico:"C",name:"Curieux",desc:"Ouvrir ton premier coffre du jour.",c:"uncommon",val:u=>nv(u,"chests"),goal:1},
+  {cat:"Coffre",id:"habitue",ico:"7C",name:"Habitué",desc:"Ouvrir 7 coffres.",c:"uncommon",val:u=>nv(u,"chests"),goal:7},
+  {cat:"Coffre",id:"fashion",ico:"5★",name:"Fashion week",desc:"Gagner 5 titres ou couleurs dans le coffre.",c:"epic",val:u=>(u?.cosmetics||[]).length,goal:5},
+  {cat:"Coffre",id:"accro",ico:"30C",name:"Accro au loot",desc:"Ouvrir 30 coffres.",c:"legendary",val:u=>nv(u,"chests"),goal:30},
+  {cat:"Coffre",id:"beni",ico:"✦",name:"Béni par la RNG",desc:"Trouver un objet mythique dans le coffre.",c:"mythic",val:u=>hasCos(u,"t:"+MYTHIC_TITLE)||hasCos(u,"c:arc")?1:0,goal:1}
+];
 
 /* ================= DATES (Europe/Zurich) ================= */
 function zurichParts(d=new Date()){const f=new Intl.DateTimeFormat("en-CA",{timeZone:"Europe/Zurich",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"});const o={};f.formatToParts(d).forEach(p=>o[p.type]=p.value);return o}
@@ -678,7 +875,7 @@ function renderCards(){
     const c=pick(t,TODAY),T=TIERS[t];
     if(!c)return `<article class="dcard ${T.cls}"><div class="tilt"><div class="flip-inner"><div class="face front"><div class="name">Pas de défi</div><p class="desc">Aucun défi actif dans cette catégorie.</p><div class="rarity">${T.rarity}</div></div></div></div></article>`;
     const who=daily.filter(d=>d.tier===t&&d.status!=="rejected");
-    const names=who.slice(0,4).map(d=>`<b>${esc(d.pseudo)}</b>${d.status==="pending"?" (en attente)":""}`).join(", ")+(who.length>4?` +${who.length-4}`:"");
+    const names=who.slice(0,4).map(d=>`${nameOf(d.uid,d.pseudo,{noTitle:true})}${d.status==="pending"?" (en attente)":""}`).join(", ")+(who.length>4?` +${who.length-4}`:"");
     const mine=me&&daily.find(d=>d.tier===t&&d.uid===me.uid),st=submitState(mine);
     const key=t+"|"+TODAY+"|"+(me?.uid||""),was=cardSeen[key];cardSeen[key]=st.done?"done":"no";
     const animate=st.done&&was==="no";if(animate)flipNow.push(t);
@@ -727,7 +924,7 @@ function renderQuests(){
 function renderBanners(){
   const out=[];
   if(profile){
-    duelsTo.filter(d=>d.status==="proposed"&&!duelExpired(d)).forEach(d=>out.push(`<div class="banner"><b>Duel !</b><span><b style="font:600 15px var(--f-body);color:var(--fg)">${esc(d.fromPseudo)}</b> te défie sur ${esc(d.challengeName)} (${TIERS[d.tier]?.label}).</span><span class="acts"><button class="btn small go" type="button" data-baccept="${d.id}">Accepter</button><button class="btn small" type="button" data-bdecline="${d.id}">Refuser</button></span></div>`));
+    duelsTo.filter(d=>d.status==="proposed"&&!duelExpired(d)).forEach(d=>out.push(`<div class="banner"><b>Duel !</b><span>${nameOf(d.from,d.fromPseudo,{noTitle:true})} te défie sur ${esc(d.challengeName)} (${TIERS[d.tier]?.label}).</span><span class="acts"><button class="btn small go" type="button" data-baccept="${d.id}">Accepter</button><button class="btn small" type="button" data-bdecline="${d.id}">Refuser</button></span></div>`));
   }
   if(isOfficer&&(pendingDocs.length||openClaims.length))out.push(`<div class="banner staff"><b>Staff</b><span>${[pendingDocs.length?plural(pendingDocs.length,"validation")+" à vérifier":"",openClaims.length?plural(openClaims.length,"grade")+" à donner":""].filter(Boolean).join(" · ")}</span><span class="acts"><a class="btn small go" href="#staff">Ouvrir</a></span></div>`);
   $("banners").innerHTML=out.join("");$("banners").hidden=!out.length;
@@ -748,7 +945,7 @@ function drawEmblem(cv,i,on){
 function renderPass(){
   const ok=profile?.ok||0,rows=boardRows("all"),rank=profile?rows.findIndex(r=>r.u.id===me.uid)+1:0;
   const next=PALIERS.find(k=>ok<k),pal=reachedPalier(ok);
-  $("pass-stats").innerHTML=[[profile?ok:"—","Défis réussis"],[profile?(profile.points||0):"—","Points"],[pal?esc(gradeName(pal)):"—","Grade actuel"],[rank?`#${rank}`:"—","Classement"]].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+  $("pass-stats").innerHTML=[[profile?ok:"—","Défis réussis"],[profile?(profile.points||0):"—","Points"],[profile?`${curStreak(profile)} j`:"—",profile?`Série · record ${profile.best||0} j`:"Série"],[rank?`#${rank}`:"—","Classement"]].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
   $("route").innerHTML=`<div class="fill" id="route-fill"></div>`+PALIERS.map((k,i)=>{
     const has=profile&&ok>=k,claim=myClaims.get(k),isNext=profile&&k===next;let state=`${k} défis`,btn="";
     if(has){if(claim?.status==="given")state="Grade obtenu ✔";else if(claim?.status==="requested")state="Demande envoyée";else{state="Débloqué !";btn=`<button class="btn small gold" type="button" data-claim="${k}">Réclamer</button>`}}
@@ -768,14 +965,157 @@ function renderPass(){
   $("hero-mini").hidden=!profile;
   if(profile)$("hero-mini").innerHTML=next?`${esc(profile.pseudo)} · <b>${ok}</b> / ${next} défis pour « ${esc(gradeName(next))} »`:`${esc(profile.pseudo)} · <b>RNG God</b>`;
   window.hyProgress=profile?ok:-1;window.hyRoute?.setProgress(window.hyProgress);
+  window.hyPlayer=profile;window.hyRoute?.setPlayer(profile);
+  renderProfileCard();renderAchievements();
 }
 function kindPill(d){const k=d.kind||"daily";if(k==="quest")return `<span class="pill pending">Quête</span>`;if(k==="duel")return `<span class="pill duel">Duel</span>`;return `<span class="pill ${TIERS[d.tier]?.cls||""}">${TIERS[d.tier]?.label||""}</span>`}
+
+/* ================= PROFIL : PSEUDOS, TITRES, SUCCÈS ================= */
+const heads={},skinCache=new Map();
+const achDone=(a,u)=>!!u&&a.val(u)>=a.goal;
+const achOf=u=>ACH.filter(a=>achDone(a,u));
+const curStreak=u=>u&&(u.lastDay===TODAY||u.lastDay===addDays(TODAY,-1))?(u.streak||0):0;
+function colorUnlocked(u,k){const c=COLOR_BY[k];if(!c||!u)return false;return c.palier?(u.ok||0)>=c.palier:hasCos(u,"c:"+k)}
+function titlesOf(u){
+  if(!u)return [];const out=[],seen=new Set();
+  PALIERS.forEach(k=>{if((u.ok||0)>=k)out.push({t:gradeName(k),src:"Grade"})});
+  achOf(u).forEach(a=>out.push({t:a.name,src:"Succès"}));
+  (u.cosmetics||[]).filter(c=>c.startsWith("t:")).forEach(c=>out.push({t:c.slice(2),src:"Coffre"}));
+  return out.filter(x=>!seen.has(x.t)&&seen.add(x.t));
+}
+const titleValid=(u,t)=>!!t&&titlesOf(u).some(x=>x.t===t);
+const shownColor=u=>u?.color&&colorUnlocked(u,u.color)?u.color:"";
+// Pseudo coloré + titre. Seuls les titres et couleurs réellement débloqués s'affichent.
+function nameHtml(u,opt={}){
+  if(!u)return `<span class="nm">${esc(opt.fallback||"?")}</span>`;
+  const col=shownColor(u),ttl=opt.noTitle||!titleValid(u,u.title)?"":`<span class="ttl">${esc(u.title)}</span>`;
+  const inner=`<span class="nm${col?" c-"+col:""}">${esc(u.pseudo)}</span>${ttl}`;
+  return opt.link===false||!u.id?inner:`<button type="button" class="pl" data-profile="${esc(u.id)}" aria-label="Voir le profil de ${esc(u.pseudo)}">${inner}</button>`;
+}
+const userById=uid=>me&&uid===me.uid&&profile?{...profile,id:me.uid}:usersById.get(uid);
+const nameOf=(uid,pseudo,opt={})=>nameHtml(userById(uid)||(pseudo?{pseudo}:null),{fallback:pseudo,...opt});
+const achTile=a=>`<span class="badge" style="--c:var(--c-${a.c})" title="${esc(a.desc)}"><i aria-hidden="true">${esc(a.ico)}</i>${esc(a.name)}</span>`;
+
+function cardBody(u,mine){
+  const pal=reachedPalier(u.ok||0),st=curStreak(u),got=achOf(u).length;
+  const show=(u.showcase||[]).map(id=>ACH.find(a=>a.id===id)).filter(a=>a&&achDone(a,u));
+  return `<div class="pc-name">${nameHtml(u,{link:false})}</div>
+    <div class="pc-tags">${pal?`<span class="tag gold">${esc(gradeName(pal))}</span>`:`<span class="tag">Pas encore de grade</span>`}${st>1?`<span class="tag fire">🔥 ${st} jours d'affilée</span>`:""}<span class="tag">${got} / ${ACH.length} succès</span></div>
+    ${u.bio?`<p class="pc-bio">« ${esc(u.bio)} »</p>`:mine?`<p class="pc-bio empty">Pas encore de phrase sur ton profil.</p>`:""}
+    <div class="pc-show">${show.length?show.map(achTile).join(""):mine?`<span class="hint">Expose jusqu'à 3 succès ici.</span>`:""}</div>
+    ${mine?`<button class="btn small gold" type="button" id="pc-edit">Personnaliser</button>`:`<a class="btn small ghost" href="${skyUrl(u.pseudo)}" target="_blank" rel="noopener">Voir son SkyCrypt</a>`}`;
+}
+function renderProfileCard(){
+  const u=profile?{...profile,id:me.uid}:null;
+  $("pcard").classList.toggle("empty",!u);
+  if(!u){$("pc-body").innerHTML=`<div class="pc-name"><span class="nm">${me?"Pseudo à choisir":"Ta carte de joueur"}</span></div><p class="pc-bio empty">${me?"Choisis ton pseudo pour créer ta carte.":"Connecte-toi pour créer ta carte : couleur de pseudo, titre, phrase et succès exposés."}</p>`;mountHead("pc",null);return}
+  $("pc-body").innerHTML=cardBody(u,true);$("pc-edit").onclick=openCustom;
+  mountHead("pc",u);
+}
+function renderAchievements(){
+  const u=profile,show=new Set(u?.showcase||[]);
+  $("ach-count").textContent=u?`${achOf(u).length} / ${ACH.length} débloqués. Chaque succès débloque aussi un titre.`:`${ACH.length} succès à débloquer. Chacun débloque un titre pour ton pseudo.`;
+  const cats=[...new Set(ACH.map(a=>a.cat))];
+  $("ach-wrap").innerHTML=cats.map(cat=>`<div class="ach-cat"><h3>${cat}</h3><div class="ach-grid">${ACH.filter(a=>a.cat===cat).map(a=>{
+    const on=achDone(a,u),v=u?Math.min(a.val(u),a.goal):0;
+    return `<div class="ach ${on?"on":""}" style="--c:var(--c-${a.c})"><div class="ico" aria-hidden="true">${esc(a.ico)}</div><div class="grow0"><b>${esc(a.name)}${on&&show.has(a.id)?' <span class="pin" title="Exposé sur ton profil">📌</span>':""}</b><small>${esc(a.desc)}</small>${!on&&u&&a.goal>1?`<div class="abar" role="img" aria-label="${v} sur ${a.goal}"><i style="width:${v/a.goal*100}%"></i></div><small class="av">${v} / ${a.goal}</small>`:""}</div></div>`}).join("")}</div></div>`).join("");
+}
+let prevAch=null,prevAchUid="";
+function checkNewAchievements(){
+  if(!profile||!me){prevAch=null;return}
+  const now=new Set(achOf(profile).map(a=>a.id));
+  if(prevAch&&prevAchUid===me.uid)ACH.filter(a=>now.has(a.id)&&!prevAch.has(a.id)).forEach((a,i)=>setTimeout(()=>advToast(a),i*900));
+  prevAch=now;prevAchUid=me.uid;
+}
+function advToast(a){
+  if(!chestShown)return setTimeout(()=>advToast(a),500);
+  const el=document.createElement("div");el.className="adv";el.style.setProperty("--c",`var(--c-${a.c})`);
+  el.innerHTML=`<i aria-hidden="true">${esc(a.ico)}</i><div><b>Succès obtenu !</b><span>${esc(a.name)}</span></div>`;
+  $("advs").appendChild(el);setTimeout(()=>el.classList.add("out"),4200);setTimeout(()=>el.remove(),4800);
+}
+
+/* ================= PROFIL : FENÊTRE D'UN JOUEUR ================= */
+function openProfile(uid){
+  const u=userById(uid);if(!u)return;
+  $("pm-body").innerHTML=cardBody(u,false);
+  $("pm-stats").innerHTML=[[u.ok||0,"Défis"],[u.points||0,"Points"],[`${curStreak(u)} j`,`Série · record ${u.best||0}`],[u.duelsWon||0,"Duels gagnés"]].map(([v,l])=>`<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+  $("prof-modal").hidden=false;mountHead("pm",u);$("pm-close").focus();
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-profile]");if(b){e.preventDefault();openProfile(b.dataset.profile)}});
+
+/* ================= PROFIL : PERSONNALISER ================= */
+let draft=null;
+function openCustom(){
+  if(!profile)return;
+  draft={title:titleValid(profile,profile.title)?profile.title:"",color:shownColor(profile),bio:profile.bio||"",showcase:(profile.showcase||[]).filter(id=>{const a=ACH.find(x=>x.id===id);return a&&achDone(a,profile)})};
+  $("cust-bio").value=draft.bio;$("cust-err").textContent="";renderCustom();$("cust-modal").hidden=false;
+}
+function renderCustom(){
+  const u=profile;if(!u||!draft)return;
+  $("cust-preview").innerHTML=nameHtml({...u,id:null,title:draft.title,color:draft.color},{link:false});
+  $("cust-colors").innerHTML=`<button type="button" class="cos" data-c="" aria-pressed="${!draft.color}"><span class="nm">Blanc</span><small>de base</small></button>`+NAME_COLORS.map(c=>{const has=colorUnlocked(u,c.k);return `<button type="button" class="cos ${has?"":"locked"}" data-c="${c.k}" aria-pressed="${draft.color===c.k}" ${has?"":"disabled"}><span class="nm c-${c.k}">${esc(c.label)}</span><small>${has?(c.palier?`palier ${c.palier}`:"coffre"):`🔒 ${c.palier?`palier ${c.palier}`:"coffre du jour"}`}</small></button>`}).join("");
+  const T=titlesOf(u);
+  $("cust-titles").innerHTML=`<button type="button" class="cos" data-t="" aria-pressed="${!draft.title}">Aucun titre<small>&nbsp;</small></button>`+T.map(x=>`<button type="button" class="cos" data-t="${esc(x.t)}" aria-pressed="${draft.title===x.t}">${esc(x.t)}<small>${x.src}</small></button>`).join("")+(T.length?"":`<span class="hint">Tes grades, tes succès et le coffre du jour te donnent des titres.</span>`);
+  const got=achOf(u);
+  $("cust-show").innerHTML=got.length?got.map(a=>`<button type="button" class="cos" data-s="${a.id}" aria-pressed="${draft.showcase.includes(a.id)}">${esc(a.name)}<small>${a.cat}</small></button>`).join(""):`<span class="hint">Débloque des succès pour les exposer sur ta carte.</span>`;
+  $("cust-show-count").textContent=`${draft.showcase.length} / 3`;
+  $("cust-colors").querySelectorAll("[data-c]:not([disabled])").forEach(b=>b.onclick=()=>{draft.color=b.dataset.c;renderCustom()});
+  $("cust-titles").querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{draft.title=b.dataset.t;renderCustom()});
+  $("cust-show").querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{const id=b.dataset.s,i=draft.showcase.indexOf(id);if(i>=0)draft.showcase.splice(i,1);else if(draft.showcase.length<3)draft.showcase.push(id);else return toast("3 succès maximum : retire-en un d'abord");renderCustom()});
+}
+$("cust-bio").oninput=()=>{if(draft)draft.bio=$("cust-bio").value};
+$("cust-cancel").onclick=closeAll;
+$("cust-form").addEventListener("submit",async e=>{
+  e.preventDefault();if(!profile||!draft)return;
+  const data={title:draft.title,color:draft.color,bio:draft.bio.trim().slice(0,80),showcase:draft.showcase.slice(0,3)};
+  $("cust-save").disabled=true;
+  try{await updateDoc(doc(fb.db,"users",me.uid),data);closeAll();toast("Profil enregistré")}
+  catch(err){console.error(err);$("cust-err").textContent="Enregistrement refusé. Recharge la page et réessaie."}
+  finally{$("cust-save").disabled=false}
+});
+
+/* ================= COFFRE DU JOUR ================= */
+function drawChest(cv,open,glow){
+  const g=cv.getContext("2d");cv.width=cv.height=16;g.clearRect(0,0,16,16);
+  if(glow){g.fillStyle=glow;g.globalAlpha=.3;g.fillRect(0,0,16,16);g.globalAlpha=1}
+  const dark="#4a2c10",wood="#b07a34",light="#d9a050",metal="#d9d9e6";
+  g.fillStyle=dark;g.fillRect(1,7,14,8);g.fillStyle=wood;g.fillRect(2,8,12,6);g.fillStyle=light;g.fillRect(2,8,12,1);
+  if(open){g.fillStyle=dark;g.fillRect(1,1,14,4);g.fillStyle=wood;g.fillRect(2,2,12,2);g.fillStyle="#ffe7a0";g.fillRect(3,5,10,2)}
+  else{g.fillStyle=dark;g.fillRect(1,3,14,5);g.fillStyle=wood;g.fillRect(2,4,12,3);g.fillStyle=light;g.fillRect(2,4,12,1)}
+  g.fillStyle=metal;g.fillRect(7,open?4:6,2,3);
+}
+function rollChest(uid,day,owned){
+  const r=mulberry(hashStr(uid+"|chest|"+day)),x=r(),free=list=>list.filter(i=>!owned.has(i));
+  const pickFrom=list=>list[Math.floor(r()*list.length)];
+  const titles=free(CHEST_TITLES.map(t=>"t:"+t)),epics=free(["c:divine","c:or"]),myth=free(["t:"+MYTHIC_TITLE,"c:arc"]);
+  let rarity="common",item=null;
+  if(x<.02&&myth.length){rarity="mythic";item=myth[0]}
+  else if(x<.10&&epics.length){rarity="epic";item=pickFrom(epics)}
+  else if(x<.40&&titles.length){rarity="rare";item=pickFrom(titles)}
+  const fortune=pickFrom(FORTUNES);
+  if(!item)return {rarity,item:null,text:"Poussière RNG",sub:fortune};
+  if(item.startsWith("t:"))return {rarity,item,text:`Titre « ${item.slice(2)} »`,sub:"Nouveau titre ! Équipe-le pour l'afficher à côté de ton pseudo."};
+  const c=COLOR_BY[item.slice(2)];
+  return {rarity,item,text:`Pseudo ${c.label}`,sub:"Nouvelle couleur de pseudo ! Équipe-la pour briller dans le classement."};
+}
+function renderChest(){
+  const can=!!profile&&profile.lastChest!==TODAY,L=profile?.lastLoot;
+  $("chest-strip").classList.toggle("ready",can);
+  $("chest-btn").disabled=!can;
+  $("chest-btn").textContent=can?"Ouvrir le coffre":profile?"Déjà ouvert":"Ouvrir le coffre";
+  $("chest-txt").innerHTML=!me?"Un coffre gratuit chaque jour : titres, couleurs de pseudo… ou de la poussière. Connecte-toi pour l'ouvrir."
+    :!profile?"Choisis ton pseudo pour ouvrir ton coffre."
+    :can?`Titre, couleur de pseudo ou poussière : la RNG décide. ${plural(profile.chests||0,"coffre")} ouvert${(profile.chests||0)>1?"s":""} jusqu'ici.`
+    :`Aujourd'hui : <strong style="color:${RARITY[L?.rarity]?.hex||"#fff"}">${esc(L?.day===TODAY?L.text:"ouvert")}</strong>. Prochain coffre dans <span class="t" id="chest-left"></span>.`;
+  drawChest($("chest-cv"),!can&&!!profile,can?"#ffd23f":null);
+  window.hyChestReady=can;window.hyRoute?.setChestReady(can);
+}
 
 /* ================= RENDU : CLASSEMENT ================= */
 function renderBoard(){
   const rows=boardRows(period).slice(0,50);
-  $("board").innerHTML=rows.length?rows.map((r,i)=>{const p=reachedPalier(r.u.ok||0);return `<tr class="${i===0?"top1":""} ${me&&r.u.id===me.uid?"me":""}"><td class="rk">${i+1}</td><td><a href="${skyUrl(r.u.pseudo)}" target="_blank" rel="noopener">${esc(r.u.pseudo)}</a></td><td>${p?esc(gradeName(p)):"—"}</td><td class="n">${r.pts}</td><td>${r.cnt}</td><td>${r.u.quests||0}</td><td>${r.u.duelsWon||0}</td></tr>`}).join("")
-    :`<tr><td colspan="7" class="empty">${fb?(period==="week"?"Personne n'a encore marqué de points cette semaine.":"Aucun défi approuvé pour l'instant. Le premier validé ouvre le classement."):"Chargement du classement…"}</td></tr>`;
+  $("board").innerHTML=rows.length?rows.map((r,i)=>{const p=reachedPalier(r.u.ok||0);return `<tr class="${i===0?"top1":""} ${me&&r.u.id===me.uid?"me":""}"><td class="rk">${i+1}</td><td>${nameHtml(r.u)}</td><td>${p?esc(gradeName(p)):"—"}</td><td class="n">${r.pts}</td><td>${r.cnt}</td><td>${curStreak(r.u)>1?`🔥 ${curStreak(r.u)}`:"—"}</td><td>${achOf(r.u).length}</td><td>${r.u.duelsWon||0}</td></tr>`}).join("")
+    :`<tr><td colspan="8" class="empty">${fb?(period==="week"?"Personne n'a encore marqué de points cette semaine.":"Aucun défi approuvé pour l'instant. Le premier validé ouvre le classement."):"Chargement du classement…"}</td></tr>`;
 }
 document.querySelectorAll("[data-period]").forEach(b=>b.onclick=()=>{period=b.dataset.period;document.querySelectorAll("[data-period]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderBoard()});
 
@@ -801,7 +1141,7 @@ function renderDuels(){
     else if(d.status==="declined")state='<span class="pill no">Refusé</span>';
     else if(d.status==="proposed"){state='<span class="pill pending">En attente</span>';actions=mineFrom?`<button class="btn small ghost" type="button" data-dcancel="${d.id}">Annuler</button>`:`<button class="btn small go" type="button" data-daccept="${d.id}">Accepter</button><button class="btn small" type="button" data-ddecline="${d.id}">Refuser</button>`}
     else if(d.status==="accepted"){state='<span class="pill rng">En cours</span>';actions=`${st.reason?`<span class="reason">Motif du refus : ${esc(st.reason)}</span>`:""}<button class="btn small ${st.dis?"":"go"}" type="button" data-dsubmit="${d.id}" ${st.dis?"disabled":""}>${st.label==="Valider ce défi"?"Valider":st.label}</button>`}
-    return `<li><div class="grow"><b>${esc(mineFrom?"Toi":d.fromPseudo)} <span class="vs">VS</span> ${esc(mineFrom?d.toPseudo:"toi")}</b><small>${TIERS[d.tier]?.label} · ${esc(d.challengeName)} · ${d.status==="done"?`gagné par ${esc(d.winnerPseudo)}`:"jusqu'à dimanche"}</small></div>${state}<div class="actions">${actions}</div></li>`;
+    return `<li><div class="grow"><b>${mineFrom?"Toi":nameOf(d.from,d.fromPseudo,{noTitle:true})} <span class="vs">VS</span> ${mineFrom?nameOf(d.to,d.toPseudo,{noTitle:true}):"toi"}</b><small>${TIERS[d.tier]?.label} · ${esc(d.challengeName)} · ${d.status==="done"?`gagné par ${nameOf(d.winner,d.winnerPseudo,{noTitle:true})}`:"jusqu'à dimanche"}</small></div>${state}<div class="actions">${actions}</div></li>`;
   }).join(""):`<li class="teaser">Aucun duel pour l'instant. Défie quelqu'un ci-dessus !</li>`;
   const L=$("duel-list");
   L.querySelectorAll("[data-daccept]").forEach(b=>b.onclick=()=>duelAnswer(b.dataset.daccept,"accepted",b));
@@ -813,7 +1153,7 @@ function renderDuels(){
 /* ================= RENDU : COMPTE + STAFF ================= */
 function renderAccount(){
   $("login-btn").hidden=!!me;$("logout-btn").hidden=!me;$("me-chip").hidden=!me;
-  if(me){$("me-label").innerHTML=profile?`${esc(profile.pseudo)} · ${profile.points||0} pts${isOfficer?' <span class="off">· officier</span>':""}`:"Pseudo à choisir";$("me-head").src=profile?headUrl(profile.pseudo):"";$("me-head").hidden=!profile}
+  if(me){$("me-label").innerHTML=profile?`${nameHtml({...profile,id:null},{link:false,noTitle:true})} · ${profile.points||0} pts${isOfficer?' <span class="off">· officier</span>':""}`:"Pseudo à choisir";$("me-head").src=profile?headUrl(profile.pseudo):"";$("me-head").hidden=!profile}
   $("nav-staff").hidden=!isOfficer;
   const k=pendingDocs.length+openClaims.length;$("c-staff").hidden=!k;$("c-staff").textContent=k;
 }
@@ -858,7 +1198,7 @@ function renderSettings(){
   $("hook-url").value=webhook;
 }
 function renderStaff(){if(!isOfficer)return;renderPending();renderClaims();renderChallengeList();renderPlan();renderSettings()}
-function renderAll(){renderAccount();renderBanners();renderCards();renderQuests();renderPass();renderBoard();renderDuels();renderStaff()}
+function renderAll(){renderAccount();renderBanners();renderCards();renderChest();renderQuests();renderPass();renderBoard();renderDuels();renderStaff()}
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",x===b));document.querySelectorAll(".tabpanel").forEach(p=>p.hidden=p.id!==b.dataset.tab)});
 $("ch-filter").onchange=renderChallengeList;
 
@@ -886,8 +1226,9 @@ function openSubmit(ctx){
   $("f-proof").value="";$("f-err").textContent="";$("modal").hidden=false;$("f-proof").focus();
 }
 function openPseudo(){$("p-err").textContent="";$("pmodal").hidden=false;$("p-pseudo").focus()}
-const MODALS=["modal","pmodal","emblem-modal","tuto-modal"];
-function closeAll(){if(!$("tuto-modal").hidden)closeTuto();if(!$("emblem-modal").hidden)closeEmblem();MODALS.forEach(id=>$(id).hidden=true)}
+const MODALS=["modal","pmodal","emblem-modal","tuto-modal","chest-modal","prof-modal","cust-modal"];
+function closeAll(){if(!$("tuto-modal").hidden)closeTuto();if(!$("emblem-modal").hidden)closeEmblem();if(!$("chest-modal").hidden){if($("cm-close").disabled)return;closeChest()}if(!$("prof-modal").hidden)mountHead("pm",null);MODALS.forEach(id=>$(id).hidden=true)}
+$("pm-close").onclick=closeAll;
 $("f-cancel").onclick=closeAll;$("p-cancel").onclick=closeAll;
 MODALS.forEach(id=>$(id).addEventListener("click",e=>{if(e.target===$(id))closeAll()}));
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
@@ -956,6 +1297,19 @@ $("duel-form").addEventListener("submit",async e=>{
 async function duelAnswer(id,status,btn){btn.disabled=true;try{await updateDoc(doc(fb.db,"duels",id),{status,answeredAt:serverTimestamp()});toast(status==="accepted"?"Duel accepté. Que le meilleur gagne !":"Duel refusé")}catch(e){console.error(e);toast("Action refusée");btn.disabled=false}}
 async function duelCancel(id,btn){btn.disabled=true;try{await deleteDoc(doc(fb.db,"duels",id));toast("Duel annulé")}catch(e){console.error(e);toast("Action refusée");btn.disabled=false}}
 
+let chestBusy=false;
+$("chest-btn").onclick=()=>openChest();
+async function openChest(){
+  if(!profile||profile.lastChest===TODAY||chestBusy)return;chestBusy=true;
+  const owned=new Set(profile.cosmetics||[]),loot=rollChest(me.uid,TODAY,owned);
+  const data={chests:(profile.chests||0)+1,lastChest:TODAY,lastLoot:{rarity:loot.rarity,text:loot.text,item:loot.item||"",day:TODAY}};
+  if(loot.item)data.cosmetics=arrayUnion(loot.item);
+  playChest(loot,updateDoc(doc(fb.db,"users",me.uid),data));
+}
+async function equip(patch){
+  try{await updateDoc(doc(fb.db,"users",me.uid),patch);return true}catch(e){console.error(e);toast("Changement refusé");return false}
+}
+
 /* ================= DISCORD ================= */
 async function announce(embed,silent=false){
   if(!webhook)return false;
@@ -978,6 +1332,12 @@ async function decide(id,status,btn,reason=""){
     else if(!u.weekKey||wk>u.weekKey)Object.assign(patch,{weekKey:wk,weekPoints:pts,weekCount:1});
     if(kind==="quest")patch.quests=increment(1);
     if(kind==="duel")patch.duelsWon=increment(1);
+    // série : jours d'affilée avec au moins un défi approuvé
+    const last=u.lastDay||"";
+    if(!last||d.day>last){const s=last&&dayIndex(d.day)-dayIndex(last)===1?(u.streak||0)+1:1;Object.assign(patch,{streak:s,lastDay:d.day,best:Math.max(u.best||0,s)})}
+    let slam=false,perfect=false;
+    if(kind==="daily"){try{const same=(await getDocs(query(collection(fb.db,"completions"),where("uid","==",d.uid),where("day","==",d.day)))).docs.map(x=>({id:x.id,...x.data()}));const tiers=new Set(same.filter(x=>isKind(x,"daily")&&x.status==="approved"&&x.id!==id).map(x=>x.tier));if(tiers.size===2&&!tiers.has(d.tier)){patch.slams=increment(1);slam=true}}catch(e){console.error(e)}}
+    if(kind==="quest"){try{const q=(await getDoc(doc(fb.db,"quests",`${d.uid}_${d.week}`))).data();const done=(await getDocs(query(collection(fb.db,"completions"),where("uid","==",d.uid),where("week","==",d.week)))).docs.filter(x=>x.id!==id&&x.data().kind==="quest"&&x.data().status==="approved").length;if(q&&done+1===q.ids.length){patch.questWeeks=increment(1);perfect=true}}catch(e){console.error(e)}}
     const b=writeBatch(fb.db);
     b.update(doc(fb.db,"completions",id),{status,decidedBy:me.uid,decidedAt:serverTimestamp(),points:pts});
     b.update(doc(fb.db,"users",d.uid),patch);
@@ -986,6 +1346,8 @@ async function decide(id,status,btn,reason=""){
     toast(`Approuvé : ${d.pseudo} (+${pts})`);
     const okAfter=(u.ok||0)+1,next=PALIERS.find(k=>okAfter<k);
     const lines=[`**${d.pseudo}** a réussi ${kind==="quest"?"la quête perso":kind==="duel"?"son duel sur":"le défi"} **${TIERS[d.tier].label} : ${d.challengeName}** (+${plural(pts,"point")})`];
+    if(slam)lines.push("🎯 **Grand chelem** : les 3 défis du jour !");
+    if(perfect)lines.push("📜 **Semaine parfaite** : 10 quêtes sur 10 !");
     if(duel)lines.push(`⚔️ Victoire en duel contre **${duel.from===d.uid?duel.toPseudo:duel.fromPseudo}** !`);
     if(PALIERS.includes(okAfter))lines.push(`🏅 **Palier ${okAfter} atteint** : grade **${gradeName(okAfter)}** à réclamer sur HyPass !`);
     else if(next)lines.push(`Route HyPass : ${okAfter} / ${next} défis`);
@@ -1040,7 +1402,8 @@ const TUTO=[
   {art:"HyPass",title:"Bienvenue sur HyPass",body:`<p>Le site de défis de la guilde 404 RNG not found. Chaque défi Hypixel SkyBlock réussi te fait avancer sur ta route HyPass.</p>`},
   {art:"3×",title:"Les défis du jour",body:`<ul><li><b>Facile</b> (1 point), <b>Moyen</b> (2) et <b>RNG carried</b> (5), renouvelés à minuit.</li><li>Poste ta preuve sur Discord, clique « Valider » et colle le lien du message.</li><li>Un officier vérifie ton SkyCrypt et approuve.</li></ul>`},
   {art:"10",title:"Quêtes et duels",body:`<ul><li><b>10 quêtes perso</b> rien que pour toi chaque lundi.</li><li>Des <b>duels</b> contre les autres membres : le premier validé gagne +3 points.</li></ul>`},
-  {art:"🏆",title:"Ta route HyPass",body:`<p>6 paliers : 10, 25, 50, 100, 500 et 1000 défis. À chaque palier, ton emblème devient doré et tu réclames ton grade Discord, jusqu'à <b>RNG God</b>.</p>`}
+  {art:"🏆",title:"Ta route HyPass",body:`<p>6 paliers : 10, 25, 50, 100, 500 et 1000 défis, une île par palier jusqu'à l'End. À chaque palier, ton emblème devient doré, tu réclames ton grade Discord et tu débloques une couleur de pseudo.</p>`},
+  {art:"✦",title:"Coffre, succès et profil",body:`<ul><li>Un <b>coffre gratuit</b> chaque jour : titres et couleurs de pseudo.</li><li><b>24 succès</b> à débloquer, chacun donne un titre.</li><li>Dans « Mon HyPass », personnalise ta carte : couleur, titre, phrase et 3 succès exposés.</li></ul>`}
 ];
 let tutoStep=0;
 function renderTuto(){const s=TUTO[tutoStep];$("tuto-art").textContent=s.art;$("tuto-title").textContent=s.title;$("tuto-body").innerHTML=s.body;$("tuto-dots").innerHTML=TUTO.map((_,i)=>`<i class="${i===tutoStep?"on":""}"></i>`).join("");$("tuto-next").textContent=tutoStep===TUTO.length-1?(me?"C'est parti !":"Se connecter"):"Suivant";$("tuto-skip").hidden=tutoStep===TUTO.length-1}
@@ -1079,7 +1442,7 @@ function listenUser(){
   pendingDocs=[];openClaims=[];myClaims=new Map();myDocs=[];myQuests=null;webhook="";duelsFrom=[];duelsTo=[];questsFor="";
   if(!me)return;
   let first=true;
-  unsubs.profile=onSnapshot(doc(fb.db,"users",me.uid),s=>{profile=s.exists()?{id:s.id,...s.data()}:null;renderAll();if(first){first=false;if(!profile)openPseudo();else if(!tutoSeen())openTuto()}listenQuests();checkNewPalier()},console.error);
+  unsubs.profile=onSnapshot(doc(fb.db,"users",me.uid),s=>{profile=s.exists()?{id:s.id,...s.data()}:null;renderAll();if(first){first=false;if(!profile)openPseudo();else if(!tutoSeen())openTuto()}listenQuests();checkNewPalier();checkNewAchievements()},console.error);
   unsubs.claims=onSnapshot(query(collection(fb.db,"claims"),where("uid","==",me.uid)),s=>{myClaims=new Map(s.docs.map(d=>[d.data().palier,d.data()]));renderPass()},console.error);
   unsubs.mine=onSnapshot(query(collection(fb.db,"completions"),where("uid","==",me.uid)),s=>{myDocs=s.docs.map(mapDoc);renderQuests();renderDuels();renderPass()},console.error);
   unsubs.dfrom=onSnapshot(query(collection(fb.db,"duels"),where("from","==",me.uid)),s=>{duelsFrom=s.docs.map(mapDoc);renderDuels();renderBanners()},console.error);
@@ -1112,139 +1475,367 @@ function start(){
 function tick(){
   const p=zurichParts(),left=86400-(+p.hour*3600+ +p.minute*60+ +p.second);
   const fmt=s=>[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,"0")).join(":");
-  $("countdown").textContent=fmt(left);if($("tomorrow-left"))$("tomorrow-left").textContent="révélé dans "+fmt(left);
+  $("countdown").textContent=fmt(left);if($("tomorrow-left"))$("tomorrow-left").textContent="révélé dans "+fmt(left);if($("chest-left"))$("chest-left").textContent=fmt(left);
   const k=dayKey();if(k!==TODAY){TODAY=k;WEEK=isoWeek(k);if(fb){listenDay();listenQuests()}renderAll()}
 }
 tick();setInterval(tick,1000);renderAll();showView(currentView());start();
 if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("sw.js").catch(()=>{});
 
-/* ================= 3D : TEXTURES PARTAGÉES ================= */
+/* ================= 3D : OUTILS PARTAGÉS ================= */
 const R3=mulberry(404);
+const REDUCE=matchMedia("(prefers-reduced-motion: reduce)").matches;
 function pixTex(fn,size=16){const c=document.createElement("canvas");c.width=c.height=size;const g=c.getContext("2d");fn(g,size);const t=new THREE.CanvasTexture(c);t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestFilter;return t}
-const noiseTex=(base,v)=>(g,s)=>{for(let y=0;y<s;y++)for(let x=0;x<s;x++){const k=(R3()-.5)*v;g.fillStyle=`rgb(${base[0]+k},${base[1]+k},${base[2]+k})`;g.fillRect(x,y,1,1)}};
+const rgbS=(c,k=0)=>`rgb(${Math.round(c[0]+k)},${Math.round(c[1]+k)},${Math.round(c[2]+k)})`;
+const noiseTex=(base,v)=>(g,s)=>{for(let y=0;y<s;y++)for(let x=0;x<s;x++){g.fillStyle=rgbS(base,(R3()-.5)*v);g.fillRect(x,y,1,1)}};
+const topRows=(top,v,min=3,max=6)=>(g,s)=>{for(let x=0;x<s;x++){const h=min+Math.floor(R3()*(max-min));for(let y=0;y<h;y++){g.fillStyle=rgbS(top,(R3()-.5)*v);g.fillRect(x,y,1,1)}}};
+const dots=(col,p)=>(g,s)=>{for(let y=0;y<s;y++)for(let x=0;x<s;x++)if(R3()<p){g.fillStyle=col;g.fillRect(x,y,1,1)}};
+const border=col=>(g,s)=>{g.fillStyle=col;g.fillRect(0,0,s,1);g.fillRect(0,s-1,s,1);g.fillRect(0,0,1,s);g.fillRect(s-1,0,1,s)};
+const both=(...f)=>(g,s)=>f.forEach(fn=>fn(g,s));
+function canvasTex(w,h,fn){const c=document.createElement("canvas");c.width=w;c.height=h;fn(c.getContext("2d"),w,h);return new THREE.CanvasTexture(c)}
+let _glow=null;const GLOW=()=>_glow||(_glow=canvasTex(64,64,(g)=>{const r=g.createRadialGradient(32,32,0,32,32,32);r.addColorStop(0,"rgba(255,255,255,1)");r.addColorStop(.3,"rgba(255,255,255,.5)");r.addColorStop(1,"rgba(255,255,255,0)");g.fillStyle=r;g.fillRect(0,0,64,64)}));
+let _beam=null;const BEAM=()=>_beam||(_beam=canvasTex(4,64,(g)=>{const r=g.createLinearGradient(0,0,0,64);r.addColorStop(0,"rgba(255,255,255,0)");r.addColorStop(.6,"rgba(255,255,255,.55)");r.addColorStop(1,"rgba(255,255,255,1)");g.fillStyle=r;g.fillRect(0,0,4,64)}));
+function textTex(text,{w=256,h=64,size=40,fill="#fff",stroke="#1b1440",bg=null}={}){
+  return canvasTex(w,h,(g)=>{if(bg){g.fillStyle=bg;g.fillRect(0,0,w,h)}let fs=size;g.font=`700 ${fs}px 'Pixelify Sans', monospace`;while(g.measureText(text).width>w-24&&fs>12){fs-=2;g.font=`700 ${fs}px 'Pixelify Sans', monospace`}g.textAlign="center";g.textBaseline="middle";g.lineJoin="round";g.lineWidth=Math.max(4,fs/5);g.strokeStyle=stroke;g.strokeText(text,w/2,h/2+2);g.fillStyle=fill;g.fillText(text,w/2,h/2+2)});
+}
+
+/* Skin Minecraft (pour les têtes 3D). Si le serveur refuse le partage, on garde l'image 2D. */
+function loadSkin(u){
+  const key=(u.uuid||u.pseudo||"").toLowerCase();if(skinCache.has(key))return skinCache.get(key);
+  const urls=[u.uuid?`https://crafatar.com/skins/${u.uuid}`:null,`https://mc-heads.net/skin/${encodeURIComponent(u.pseudo)}`,`https://minotar.net/skin/${encodeURIComponent(u.pseudo)}`].filter(Boolean);
+  const p=new Promise(res=>{let i=0;const next=()=>{if(i>=urls.length)return res(null);const im=new Image();im.crossOrigin="anonymous";const to=setTimeout(()=>{im.src="";i++;next()},6000);im.onload=()=>{clearTimeout(to);res(im.width>=64?im:null)};im.onerror=()=>{clearTimeout(to);i++;next()};im.src=urls[i]};next()});
+  skinCache.set(key,p);return p;
+}
+function buildHead(skin){
+  const faces=(ox)=>[[16,8],[0,8],[8,0],[16,0],[8,8],[24,8]].map(([x,y])=>{const c=document.createElement("canvas");c.width=c.height=8;const g=c.getContext("2d");g.drawImage(skin,x+ox,y,8,8,0,0,8,8);const t=new THREE.CanvasTexture(c);t.magFilter=t.minFilter=THREE.NearestFilter;return {t,g}});
+  const grp=new THREE.Group(),inner=faces(0),hat=faces(32);
+  grp.add(new THREE.Mesh(new THREE.BoxGeometry(1,1,1),inner.map(f=>new THREE.MeshLambertMaterial({map:f.t}))));
+  // calque « chapeau » : ignoré s'il est entièrement opaque et uni (vieux skins)
+  const px=hat[4].g.getImageData(0,0,8,8).data;let opaque=0,same=true;for(let i=0;i<px.length;i+=4){if(px[i+3]>200)opaque++;if(px[i]!==px[0]||px[i+1]!==px[1]||px[i+2]!==px[2])same=false}
+  if(!(opaque===64&&same)&&opaque>0)grp.add(new THREE.Mesh(new THREE.BoxGeometry(1.13,1.13,1.13),hat.map(f=>new THREE.MeshLambertMaterial({map:f.t,transparent:true,alphaTest:.5,side:THREE.DoubleSide}))));
+  return grp;
+}
+/* Petite scène « tête qui suit la souris » pour les cartes de joueur */
+function mountHead(slot,u){
+  const H=heads[slot]||(heads[slot]={key:"",dispose:null}),img=$(slot+"-img"),cv=$(slot+"-cv");
+  const key=u?(u.uuid||u.pseudo):"";if(H.key===key&&u)return;
+  H.dispose?.();H.dispose=null;H.key=key;cv.hidden=true;
+  if(!u){img.hidden=true;img.removeAttribute("src");return}
+  img.src=headUrl(u.pseudo,128);img.hidden=false;
+  if(!window.THREE)return;
+  loadSkin(u).then(skin=>{if(!skin||H.key!==key)return;const d=headViewer(cv,skin);if(d){H.dispose=d;cv.hidden=false;img.hidden=true}});
+}
+function headViewer(cv,skin){
+  let r;try{r=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){return null}
+  r.setPixelRatio(Math.min(devicePixelRatio,2));r.setSize(128,128,false);
+  const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(30,1,.1,20);cam.position.set(0,0,3.6);
+  scene.add(new THREE.AmbientLight(0xffffff,.6));const k=new THREE.DirectionalLight(0xffffff,.75);k.position.set(1.5,2,3);scene.add(k);
+  const head=buildHead(skin);scene.add(head);
+  let tx=0,ty=0,raf=0,t=0,last=performance.now();
+  const onMove=e=>{const b=cv.getBoundingClientRect();if(!b.width)return;tx=Math.max(-1,Math.min(1,(e.clientX-(b.left+b.width/2))/400));ty=Math.max(-1,Math.min(1,(e.clientY-(b.top+b.height/2))/400))};
+  addEventListener("pointermove",onMove);
+  const f=now=>{raf=requestAnimationFrame(f);const dt=Math.min(.05,(now-last)/1000);last=now;if(document.hidden||!cv.offsetParent)return;t+=dt;
+    const idle=REDUCE?0:Math.sin(t*.8)*.25;head.rotation.y+=((tx*.9+idle)-head.rotation.y)*.12;head.rotation.x+=((ty*.5)-head.rotation.x)*.12;head.position.y=REDUCE?0:Math.sin(t*1.6)*.04;r.render(scene,cam)};
+  raf=requestAnimationFrame(f);
+  return ()=>{cancelAnimationFrame(raf);removeEventListener("pointermove",onMove);r.dispose()};
+}
+
+/* Coffre façon Minecraft (route + fenêtre d'ouverture) */
+let _chestMats=null;
+function chestMats(){
+  if(_chestMats)return _chestMats;
+  const wood=[158,106,48];
+  const side=pixTex(both(noiseTex(wood,22),(g,s)=>{g.fillStyle="rgba(70,40,12,.55)";for(let y=5;y<s;y+=5)g.fillRect(1,y,s-2,1)},border("#3e240c")));
+  const top=pixTex(both(noiseTex(wood,22),(g,s)=>{g.fillStyle="rgba(70,40,12,.5)";for(let x=5;x<s;x+=5)g.fillRect(x,1,1,s-2)},border("#3e240c")));
+  const inner=pixTex(noiseTex([52,32,14],14));
+  const L=t=>new THREE.MeshLambertMaterial({map:t});
+  return _chestMats={side:L(side),top:L(top),inner:L(inner),latch:new THREE.MeshLambertMaterial({color:0xc8c8d8,emissive:0x2a2a2a})};
+}
+function buildChest(){
+  const M=chestMats(),grp=new THREE.Group(),u=1/16;
+  const base=new THREE.Mesh(new THREE.BoxGeometry(14*u,10*u,14*u),[M.side,M.side,M.inner,M.top,M.side,M.side]);base.position.y=5*u;
+  const pivot=new THREE.Group();pivot.position.set(0,10*u,-7*u);
+  const lid=new THREE.Mesh(new THREE.BoxGeometry(14*u,5*u,14*u),[M.side,M.side,M.top,M.inner,M.side,M.side]);lid.position.set(0,2.5*u,7*u);
+  const latch=new THREE.Mesh(new THREE.BoxGeometry(2*u,4*u,1*u),M.latch);latch.position.set(0,.5*u,14.5*u);
+  pivot.add(lid,latch);
+  const glow=new THREE.Mesh(new THREE.PlaneGeometry(12*u,12*u),new THREE.MeshBasicMaterial({color:0xffd23f,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false}));glow.rotation.x=-Math.PI/2;glow.position.y=10.05*u;
+  grp.add(base,pivot,glow);grp.userData={pivot,glow,parts:[base,lid,latch]};
+  return grp;
+}
+/* Gerbe de particules réutilisable (feux d'artifice, éclats) */
+function makeBurst(parent,N=360,size=.32){
+  const geo=new THREE.BufferGeometry(),pos=new Float32Array(N*3).fill(-999),col=new Float32Array(N*3),base=new Float32Array(N*3),vel=new Float32Array(N*3),life=new Float32Array(N),max=new Float32Array(N);
+  geo.setAttribute("position",new THREE.BufferAttribute(pos,3));geo.setAttribute("color",new THREE.BufferAttribute(col,3));
+  const pts=new THREE.Points(geo,new THREE.PointsMaterial({size,vertexColors:true,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));parent.add(pts);
+  let next=0;const c=new THREE.Color();
+  return {
+    fire(p,color,n=80,speed=4,up=1.5){c.set(color);for(let k=0;k<n;k++){const j=next;next=(next+1)%N;const a=Math.random()*Math.PI*2,b=Math.acos(2*Math.random()-1),v=speed*(.5+Math.random()*.7);pos[j*3]=p.x;pos[j*3+1]=p.y;pos[j*3+2]=p.z;vel[j*3]=Math.sin(b)*Math.cos(a)*v;vel[j*3+1]=Math.cos(b)*v+up;vel[j*3+2]=Math.sin(b)*Math.sin(a)*v;const w=Math.random()<.3?1:0;base[j*3]=c.r+(1-c.r)*w;base[j*3+1]=c.g+(1-c.g)*w;base[j*3+2]=c.b+(1-c.b)*w;max[j]=life[j]=1.1+Math.random()*.8}},
+    update(dt,g=4){let any=false;for(let j=0;j<N;j++){if(life[j]<=0)continue;any=true;life[j]-=dt;if(life[j]<=0){pos[j*3+1]=-999;continue}vel[j*3+1]-=g*dt;const d=Math.pow(.2,dt);vel[j*3]*=d;vel[j*3+1]*=d;vel[j*3+2]*=d;pos[j*3]+=vel[j*3]*dt;pos[j*3+1]+=vel[j*3+1]*dt;pos[j*3+2]+=vel[j*3+2]*dt;const f=Math.min(1,life[j]/max[j]*1.6);col[j*3]=base[j*3]*f;col[j*3+1]=base[j*3+1]*f;col[j*3+2]=base[j*3+2]*f}if(any){geo.attributes.position.needsUpdate=true;geo.attributes.color.needsUpdate=true}}
+  };
+}
 
 /* ================= 3D : LA ROUTE HYPASS ================= */
 (function(){
   if(!window.THREE)return;
-  const canvas=$("scene"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const canvas=$("scene"),tip=$("scene-tip"),reduce=REDUCE;
   let renderer;try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true})}catch(e){return}
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-  const scene=new THREE.Scene();scene.fog=new THREE.Fog(0x5b3a9a,55,140);
+  const scene=new THREE.Scene();scene.fog=new THREE.Fog(0x5b3a9a,60,150);
   const cam=new THREE.PerspectiveCamera(40,1,.1,400);
-  scene.add(new THREE.HemisphereLight(0xc8b4ff,0xff9a5a,.8));
+  scene.add(new THREE.HemisphereLight(0xc8b4ff,0xff9a5a,.85));
   const sun=new THREE.DirectionalLight(0xffc48a,.95);sun.position.set(-30,22,-25);scene.add(sun);
-  const rim=new THREE.DirectionalLight(0x9ab8ff,.35);rim.position.set(25,12,30);scene.add(rim);
+  const rim=new THREE.DirectionalLight(0x9ab8ff,.4);rim.position.set(25,12,30);scene.add(rim);
 
-  const grassTop=pixTex(noiseTex([104,176,62],40)),dirt=pixTex(noiseTex([134,96,67],34)),stone=pixTex(noiseTex([128,126,138],36));
-  const grassSide=pixTex((g,s)=>{noiseTex([134,96,67],34)(g,s);for(let x=0;x<s;x++){const h=3+Math.floor(R3()*3);for(let y=0;y<h;y++){const k=(R3()-.5)*30;g.fillStyle=`rgb(${104+k},${176+k},${62+k})`;g.fillRect(x,y,1,1)}}});
-  const quartz=pixTex(noiseTex([232,226,240],14));
-  const M=t=>new THREE.MeshLambertMaterial({map:t});
-  const box=new THREE.BoxGeometry(1,1,1);
-  const world=new THREE.Group();scene.add(world);
+  // ---- textures des blocs (16×16, façon Minecraft)
+  const DIRT=[134,96,67];
+  const TX={
+    grassTop:pixTex(noiseTex([104,176,62],40)),grassSide:pixTex(both(noiseTex(DIRT,34),topRows([104,176,62],30))),
+    dirt:pixTex(noiseTex(DIRT,34)),stone:pixTex(noiseTex([128,126,138],36)),
+    sand:pixTex(noiseTex([224,210,160],22)),sandstone:pixTex(both(noiseTex([214,194,138],16),(g,s)=>{g.fillStyle="rgba(140,110,60,.5)";g.fillRect(0,4,s,1);g.fillRect(0,11,s,1)})),
+    snowTop:pixTex(noiseTex([238,244,255],12)),snowSide:pixTex(both(noiseTex(DIRT,34),topRows([238,244,255],12,4,7))),
+    mycTop:pixTex(both(noiseTex([118,100,120],28),dots("#c9b4d4",.08))),mycSide:pixTex(both(noiseTex(DIRT,34),topRows([118,100,120],24,2,4))),
+    nether:pixTex(both(noiseTex([112,52,52],40),dots("#4a1818",.1))),
+    magma:pixTex(both(noiseTex([86,28,18],30),(g,s)=>{g.fillStyle="#ff8a1e";for(let k=0;k<7;k++){const x=Math.floor(R3()*s),y=Math.floor(R3()*s);g.fillRect(x,y,3,1);g.fillRect(x+1,y+1,1,2)}})),
+    glow:pixTex(both((g,s)=>{for(let y=0;y<s;y+=4)for(let x=0;x<s;x+=4){g.fillStyle=rgbS([255,206,110],(R3()-.5)*80);g.fillRect(x,y,4,4)}},dots("#fff4c0",.1))),
+    lava:pixTex(both(noiseTex([240,108,20],60),dots("#ffe060",.12))),
+    endstone:pixTex(both(noiseTex([222,224,166],20),dots("#b8ba86",.12))),obsidian:pixTex(both(noiseTex([24,18,38],18),dots("#5a3a8a",.08))),
+    quartz:pixTex(noiseTex([232,226,240],14)),
+    logSide:pixTex((g,s)=>{for(let x=0;x<s;x++){const k=(R3()-.5)*30;for(let y=0;y<s;y++){g.fillStyle=rgbS([104,80,48],k+(R3()-.5)*14);g.fillRect(x,y,1,1)}}}),
+    spruceSide:pixTex((g,s)=>{for(let x=0;x<s;x++){const k=(R3()-.5)*24;for(let y=0;y<s;y++){g.fillStyle=rgbS([70,48,28],k+(R3()-.5)*12);g.fillRect(x,y,1,1)}}}),
+    logTop:pixTex((g,s)=>{for(let y=0;y<s;y++)for(let x=0;x<s;x++){const r=Math.max(Math.abs(x-7.5),Math.abs(y-7.5));g.fillStyle=r>6.5?"#5c4426":rgbS(Math.floor(r)%2?[176,140,86]:[150,116,68],(R3()-.5)*10);g.fillRect(x,y,1,1)}}),
+    leaves:pixTex((g,s)=>{for(let y=0;y<s;y++)for(let x=0;x<s;x++){if(R3()<.16)continue;g.fillStyle=rgbS([62,140,44],(R3()-.5)*50);g.fillRect(x,y,1,1)}}),
+    spruceLeaves:pixTex((g,s)=>{for(let y=0;y<s;y++)for(let x=0;x<s;x++){if(R3()<.14)continue;g.fillStyle=rgbS([40,86,50],(R3()-.5)*36);g.fillRect(x,y,1,1)}}),
+    cactusSide:pixTex(both(noiseTex([84,140,52],20),(g,s)=>{g.fillStyle="#3c6a24";for(let x=1;x<s;x+=4)g.fillRect(x,0,1,s)},dots("#e8e8c0",.04))),
+    cactusTop:pixTex(both(noiseTex([96,156,60],20),border("#3c6a24"))),
+    pumpSide:pixTex((g,s)=>{for(let x=0;x<s;x++){const k=x%4===0?-55:0;for(let y=0;y<s;y++){g.fillStyle=rgbS([226,138,30],k+(R3()-.5)*20);g.fillRect(x,y,1,1)}}}),
+    pumpTop:pixTex(both(noiseTex([214,128,26],20),(g)=>{g.fillStyle="#5a7a20";g.fillRect(6,6,4,4)})),
+    mushRed:pixTex(both(noiseTex([196,40,36],24),(g)=>{g.fillStyle="#f4ece0";[[2,2],[9,3],[5,9],[12,11],[1,12]].forEach(([x,y])=>g.fillRect(x,y,3,3))})),
+    mushStem:pixTex(noiseTex([214,206,190],16))
+  };
+  TX.lava.wrapS=TX.lava.wrapT=THREE.RepeatWrapping;
+  const L=(t,o={})=>new THREE.MeshLambertMaterial({map:t,...o});
+  const six=(side,top,bot)=>[side,side,top,bot,side,side];
+  const MAT={
+    grass:six(L(TX.grassSide),L(TX.grassTop),L(TX.dirt)),dirt:L(TX.dirt),stone:L(TX.stone),
+    sand:L(TX.sand),sandstone:L(TX.sandstone),
+    snow:six(L(TX.snowSide),L(TX.snowTop),L(TX.dirt)),snowBlock:L(TX.snowTop),
+    myc:six(L(TX.mycSide),L(TX.mycTop),L(TX.dirt)),
+    nether:L(TX.nether),magma:L(TX.magma,{emissive:0x7a2208}),glow:new THREE.MeshBasicMaterial({map:TX.glow}),lava:new THREE.MeshBasicMaterial({map:TX.lava}),
+    endstone:L(TX.endstone),obsidian:L(TX.obsidian),quartz:L(TX.quartz),
+    log:six(L(TX.logSide),L(TX.logTop),L(TX.logTop)),leaves:L(TX.leaves,{alphaTest:.5}),
+    spruce:six(L(TX.spruceSide),L(TX.logTop),L(TX.logTop)),spruceLeaves:L(TX.spruceLeaves,{alphaTest:.5}),
+    cactus:six(L(TX.cactusSide),L(TX.cactusTop),L(TX.cactusTop)),pumpkin:six(L(TX.pumpSide),L(TX.pumpTop),L(TX.pumpTop)),
+    mushRed:L(TX.mushRed),mushStem:L(TX.mushStem)
+  };
 
-  // 7 îles : départ + un palier par île, le long d'une route qui monte en S
+  // ---- 7 îles : départ, puis un biome par palier (prairie, désert, toundra, champignons, Nether, End)
   const NODES=[];for(let i=0;i<7;i++)NODES.push(new THREE.Vector3(i*7.2-21.6,i*2.3-6.5,Math.sin(i*1.05)*5.5-2));
-  const cells={grass:[],dirt:[],stone:[]};
+  const BIOMES=[["grass","dirt","stone"],["grass","dirt","stone"],["sand","sandstone","sandstone"],["snow","dirt","stone"],["myc","dirt","stone"],["nether","nether","nether"],["endstone","endstone","endstone"]];
+  const FLOWER=["#ff4d4d","#ffe14d","#ffffff","#7ab8ff","#ff9ad5"];
+  function plan(i){
+    const B=[],rep={},need=[],fl=[],put=(k,x,y,z)=>B.push([k,x,y,z]);
+    const oak=(x,z,h=4)=>{need.push([x,z]);for(let y=1;y<=h;y++)put("log",x,y,z);for(let y=h-1;y<=h+1;y++){const r=y===h+1?1:2;for(let a=-r;a<=r;a++)for(let b=-r;b<=r;b++){if(Math.abs(a)===r&&Math.abs(b)===r&&(y===h+1||R3()<.6))continue;if(!a&&!b&&y<=h)continue;put("leaves",x+a,y,z+b)}}};
+    const spruce=(x,z)=>{need.push([x,z]);for(let y=1;y<=5;y++)put("spruce",x,y,z);[[2,2],[3,1],[4,2],[5,1],[6,0]].forEach(([y,r])=>{for(let a=-r;a<=r;a++)for(let b=-r;b<=r;b++){if(Math.abs(a)+Math.abs(b)>(r===2?3:r))continue;if(!a&&!b&&y<=5)continue;put("spruceLeaves",x+a,y,z+b)}});put("snowBlock",x,7,z)};
+    const cactus=(x,z,h)=>{need.push([x,z]);for(let y=1;y<=h;y++)put("cactus",x,y,z)};
+    const mushroom=(x,z)=>{need.push([x,z]);for(let y=1;y<=3;y++)put("mushStem",x,y,z);for(let a=-2;a<=2;a++)for(let b=-2;b<=2;b++){if(Math.abs(a)===2&&Math.abs(b)===2)continue;put("mushRed",x+a,4,z+b)}for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)put("mushRed",x+a,5,z+b)};
+    if(i===0){oak(-1,-3,5);fl.push([2,-1,FLOWER[0]],[-2,1,FLOWER[1]],[2,1,FLOWER[3]])}
+    if(i===1){oak(-2,-3,3);put("pumpkin",1,1,-2);put("pumpkin",2,1,-1);put("pumpkin",-2,1,1);fl.push([1,1,FLOWER[0]],[-1,2,FLOWER[1]],[2,1,FLOWER[2]],[0,-2,FLOWER[4]])}
+    if(i===2){cactus(-1,-3,3);cactus(2,-2,2);cactus(-2,1,1)}
+    if(i===3){spruce(-1,-3);put("snowBlock",2,1,-1);fl.push([-2,1,"#d8ecff"])}
+    if(i===4){mushroom(-1,-3);fl.push([2,-1,"#c43a2a"],[-2,1,"#a07850"],[1,2,"#c43a2a"])}
+    if(i===5){["1,1","2,1","1,2","2,0"].forEach(k=>rep[k]="lava");["-1,1","2,-2","-2,-1"].forEach(k=>rep[k]="magma");put("glow",-2,1,-2);put("glow",-2,2,-2);put("glow",-1,1,-3);need.push([-2,-2])}
+    if(i===6){need.push([-2,-3]);for(let y=1;y<=6;y++)for(const [a,b] of [[-2,-3],[-1,-3],[-2,-2],[-1,-2]])put("obsidian",a,y,b)}
+    return {B,rep,need,fl};
+  }
+  const cells={},add=(k,x,y,z)=>(cells[k]||(cells[k]=[])).push([x,y,z]),flowers=[],tops=[];
   NODES.forEach((c,i)=>{
-    const rad=i===0?3.2:2.4+(i===6?.6:0);
-    for(let x=-4;x<=4;x++)for(let z=-4;z<=4;z++){
-      const d=Math.hypot(x,z)+(R3()-.5)*.7;if(d>rad)continue;
-      const X=Math.round(c.x)+x,Z=Math.round(c.z)+z,Y=Math.round(c.y);
-      cells.grass.push([X,Y,Z]);cells.dirt.push([X,Y-1,Z]);
-      const depth=Math.max(1,Math.round((rad-d)*1.5+R3()*1.5));for(let y=2;y<2+depth;y++)cells.stone.push([X,Y-y,Z]);
+    const [top,sub,base]=BIOMES[i],P=plan(i),rad=i===0?3.3:2.9+(i===6?.4:0);
+    const cx=Math.round(c.x),cy=Math.round(c.y),cz=Math.round(c.z),forced=new Set();
+    P.need.forEach(([x,z])=>{for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)forced.add(`${x+a},${z+b}`)});
+    for(let x=-5;x<=5;x++)for(let z=-5;z<=5;z++){
+      const d=Math.hypot(x,z)+(R3()-.5)*.7;if(d>rad&&!forced.has(`${x},${z}`))continue;
+      const X=cx+x,Z=cz+z,r=P.rep[`${x},${z}`];
+      if(r==="lava")add("lava",X,cy-.15,Z);else add(r||top,X,cy,Z);
+      add(sub,X,cy-1,Z);
+      const depth=Math.max(1,Math.round((rad-Math.min(d,rad))*1.5+R3()*1.5));for(let y=2;y<2+depth;y++)add(base,X,cy-y,Z);
     }
+    P.B.forEach(([k,x,y,z])=>add(k,cx+x,cy+y,cz+z));
+    P.fl.forEach(([x,z,col])=>flowers.push([cx+x,cy+.75,cz+z,col]));
+    tops.push(new THREE.Vector3(cx,cy+.5,cz));
   });
-  function inst(list,mat,parent){const m=new THREE.InstancedMesh(box,mat,list.length);const o=new THREE.Object3D();list.forEach((p,i)=>{o.position.set(...p);o.updateMatrix();m.setMatrixAt(i,o.matrix)});parent.add(m);return m}
-  inst(cells.grass,[M(grassSide),M(grassSide),M(grassTop),M(dirt),M(grassSide),M(grassSide)],world);
-  inst(cells.dirt,M(dirt),world);inst(cells.stone,M(stone),world);
-  const tops=NODES.map(c=>new THREE.Vector3(Math.round(c.x),Math.round(c.y)+.5,Math.round(c.z)));
+  const box=new THREE.BoxGeometry(1,1,1),world=new THREE.Group();scene.add(world);
+  function inst(list,mat,geo=box){const im=new THREE.InstancedMesh(geo,mat,list.length);const o=new THREE.Object3D();list.forEach((p,k)=>{o.position.set(p[0],p[1],p[2]);o.updateMatrix();im.setMatrixAt(k,o.matrix)});world.add(im);return im}
+  Object.entries(cells).forEach(([k,list])=>inst(list,MAT[k]));
+  if(flowers.length){const fm=inst(flowers,new THREE.MeshLambertMaterial({color:0xffffff}),new THREE.BoxGeometry(.26,.5,.26));flowers.forEach((f,k)=>fm.setColorAt(k,new THREE.Color(f[3])));fm.instanceColor.needsUpdate=true}
 
-  // pierres flottantes entre les îles (dorées sur la partie déjà parcourue)
-  const STEPS=5,stoneMat=new THREE.MeshLambertMaterial({map:quartz});
-  const steps=new THREE.InstancedMesh(new THREE.BoxGeometry(.8,.4,.8),stoneMat,6*STEPS);
-  const stepPos=[];
+  // ---- cristal de l'End au sommet du pilier d'obsidienne
+  const crystal=new THREE.Group();
+  const cOuter=new THREE.Mesh(new THREE.BoxGeometry(.9,.9,.9),new THREE.MeshBasicMaterial({color:0xff7ad9,transparent:true,opacity:.3,blending:THREE.AdditiveBlending,depthWrite:false}));
+  const cEdges=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(.9,.9,.9)),new THREE.LineBasicMaterial({color:0xffd6f5}));
+  const cInner=new THREE.Mesh(new THREE.BoxGeometry(.42,.42,.42),new THREE.MeshBasicMaterial({color:0xffb8ee}));
+  const cGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW(),color:0xff7ad9,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:.8}));cGlow.scale.set(3,3,1);
+  crystal.add(cOuter,cEdges,cInner,cGlow);crystal.position.set(tops[6].x-1.5,tops[6].y+7.4,tops[6].z-2.5);world.add(crystal);
+  const cLight=new THREE.PointLight(0xff7ad9,1,10);cLight.position.copy(crystal.position);world.add(cLight);
+  const lavaLight=new THREE.PointLight(0xff7a1e,1.2,8);lavaLight.position.set(tops[5].x+1.5,tops[5].y+1,tops[5].z+1);world.add(lavaLight);
+
+  // ---- pierres flottantes entre les îles (dorées sur la partie parcourue)
+  const STEPS=5,steps=new THREE.InstancedMesh(new THREE.BoxGeometry(.8,.4,.8),new THREE.MeshLambertMaterial({map:TX.quartz}),6*STEPS),stepPos=[];
   for(let s=0;s<6;s++)for(let k=1;k<=STEPS;k++){const f=k/(STEPS+1),p=tops[s].clone().lerp(tops[s+1],f);p.y+=Math.sin(f*Math.PI)*1.2+.2;stepPos.push(p)}
+  {const o=new THREE.Object3D();stepPos.forEach((p,i)=>{o.position.copy(p);o.rotation.y=i*.7;o.updateMatrix();steps.setMatrixAt(i,o.matrix)})}
   world.add(steps);
 
-  // piédestaux, gemmes, numéros et faisceaux
-  const gold=new THREE.Color(0xffd23f),gray=new THREE.Color(0x6b6f85);
-  const pads=[],gems=[],beams=[];
-  const numTex=n=>{const c=document.createElement("canvas");c.width=256;c.height=128;const g=c.getContext("2d");g.font="700 84px 'Pixelify Sans', monospace";g.textAlign="center";g.textBaseline="middle";g.lineWidth=12;g.strokeStyle="#1b1440";g.strokeText(String(n),128,68);g.fillStyle="#fff";g.fillText(String(n),128,68);const t=new THREE.CanvasTexture(c);return t};
-  const labels=[];
+  // ---- piédestaux, gemmes, halos, anneaux, faisceaux, numéros
+  const gray=new THREE.Color(0x6b6f85),goldC=new THREE.Color(0xffd23f),whiteC=new THREE.Color(0xffffff);
+  const pads=[],gems=[],beams=[],labels=[],halos=[],rings=[],pick=[];
+  const numTex=n=>textTex(String(n),{w:256,h:128,size:84});
   for(let i=1;i<7;i++){
-    const t=tops[i];
-    const pad=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshLambertMaterial({map:quartz}));pad.position.set(t.x,t.y+.5,t.z);world.add(pad);pads.push(pad);
-    const col=new THREE.Color(PALIER_COLORS[i-1][1]);
-    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.62,0),new THREE.MeshPhongMaterial({color:col,emissive:col.clone().multiplyScalar(.25),shininess:80,flatShading:true,transparent:true}));
-    gem.position.set(t.x,t.y+2.2,t.z);gem.userData.base=t.y+2.2;gem.userData.col=col;world.add(gem);gems.push(gem);
-    const beam=new THREE.Mesh(new THREE.CylinderGeometry(.32,.32,60,10,1,true),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.28,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
-    beam.position.set(t.x,t.y+31,t.z);beam.visible=false;world.add(beam);beams.push(beam);
+    const t=tops[i],col=new THREE.Color(PALIER_COLORS[i-1][1]);
+    const pad=new THREE.Mesh(box,MAT.quartz);pad.position.set(t.x,t.y+.5,t.z);pad.userData={kind:"palier",i:i-1};world.add(pad);pads.push(pad);
+    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.62,0),new THREE.MeshPhongMaterial({color:col,shininess:100,specular:0xffffff,flatShading:true,transparent:true}));
+    gem.position.set(t.x,t.y+2.2,t.z);gem.userData={kind:"palier",i:i-1,base:t.y+2.2,col,s:1};world.add(gem);gems.push(gem);
+    const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW(),color:col,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0}));halo.scale.set(3.6,3.6,1);halo.position.copy(gem.position);world.add(halo);halos.push(halo);
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(1,.05,6,48),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.85}));ring.position.copy(gem.position);ring.visible=false;world.add(ring);rings.push(ring);
+    const beam=new THREE.Mesh(new THREE.CylinderGeometry(.18,.5,40,12,1,true),new THREE.MeshBasicMaterial({map:BEAM(),color:col,transparent:true,opacity:.5,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+    beam.position.set(t.x,t.y+21,t.z);beam.visible=false;world.add(beam);beams.push(beam);
     const lab=new THREE.Sprite(new THREE.SpriteMaterial({map:numTex(PALIERS[i-1]),transparent:true,depthWrite:false}));lab.scale.set(2.6,1.3,1);lab.position.set(t.x,t.y+3.9,t.z);world.add(lab);labels.push(lab);
+    pick.push(gem,pad);
   }
   if(document.fonts?.ready)document.fonts.ready.then(()=>labels.forEach((l,i)=>{l.material.map=numTex(PALIERS[i]);l.material.needsUpdate=true}));
 
-  // marqueur du joueur : orbe doré + anneau
+  // ---- coffre du jour sur l'île de départ
+  const chest=buildChest();chest.scale.setScalar(1.7);chest.position.set(tops[0].x+.6,tops[0].y,tops[0].z+.9);chest.rotation.y=-.45;world.add(chest);
+  chest.userData.parts.forEach(m=>{m.userData={kind:"chest"};pick.push(m)});
+  const chestHalo=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW(),color:0xffd23f,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0}));chestHalo.scale.set(3.4,3.4,1);chestHalo.position.set(chest.position.x,chest.position.y+.9,chest.position.z);world.add(chestHalo);
+  const chestBang=new THREE.Sprite(new THREE.SpriteMaterial({map:textTex("!",{w:64,h:64,size:52,fill:"#ffd23f"}),transparent:true,depthWrite:false}));chestBang.scale.set(.9,.9,1);chestBang.position.set(chest.position.x,chest.position.y+2.4,chest.position.z);chestBang.visible=false;world.add(chestBang);
+  const chestLight=new THREE.PointLight(0xffd23f,0,6);chestLight.position.set(chest.position.x,chest.position.y+1.2,chest.position.z);world.add(chestLight);
+  let chestReady=false;
+
+  // ---- marqueur du joueur : sa tête Minecraft (ou un orbe doré), un anneau et son pseudo
   const marker=new THREE.Group();
   const orb=new THREE.Mesh(new THREE.IcosahedronGeometry(.42,1),new THREE.MeshBasicMaterial({color:0xffe27a}));
-  const ring=new THREE.Mesh(new THREE.TorusGeometry(.75,.07,8,32),new THREE.MeshBasicMaterial({color:0xffd23f,transparent:true,opacity:.85}));
-  const halo=new THREE.Mesh(new THREE.SphereGeometry(.85,16,12),new THREE.MeshBasicMaterial({color:0xffd23f,transparent:true,opacity:.18,blending:THREE.AdditiveBlending,depthWrite:false}));
-  marker.add(orb,ring,halo);const mLight=new THREE.PointLight(0xffd23f,1.2,9);marker.add(mLight);world.add(marker);marker.visible=false;
+  const mRing=new THREE.Mesh(new THREE.TorusGeometry(.78,.06,8,40),new THREE.MeshBasicMaterial({color:0xffd23f,transparent:true,opacity:.85}));
+  const mHalo=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW(),color:0xffd23f,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:.7}));mHalo.scale.set(2.6,2.6,1);
+  const headSlot=new THREE.Group();marker.add(mHalo,orb,mRing,headSlot);
+  const mLight=new THREE.PointLight(0xffd23f,1.2,9);marker.add(mLight);world.add(marker);marker.visible=false;
+  let nameSprite=null,playerSig="";
+  function setPlayer(u){
+    const sig=u?[u.pseudo,u.uuid,shownColor(u)].join("|"):"";if(sig===playerSig)return;playerSig=sig;
+    while(headSlot.children.length)headSlot.remove(headSlot.children[0]);orb.visible=true;
+    if(nameSprite){marker.remove(nameSprite);nameSprite.material.map.dispose();nameSprite=null}
+    if(!u)return;
+    const hex=COLOR_BY[shownColor(u)]?.hex||"#ffffff";
+    nameSprite=new THREE.Sprite(new THREE.SpriteMaterial({map:textTex(u.pseudo,{w:384,h:64,size:36,fill:hex}),transparent:true,depthWrite:false}));nameSprite.scale.set(3.6,.6,1);nameSprite.position.y=1.2;marker.add(nameSprite);
+    loadSkin(u).then(skin=>{if(!skin||playerSig!==sig)return;const h=buildHead(skin);h.scale.setScalar(.9);headSlot.add(h);orb.visible=false});
+  }
 
-  // orbes d'XP qui montent
-  const XP=140,xpGeo=new THREE.BufferGeometry(),xpPos=new Float32Array(XP*3),xpSpd=new Float32Array(XP);
-  for(let i=0;i<XP;i++){xpPos[i*3]=(R3()-.5)*70;xpPos[i*3+1]=(R3()-.5)*30;xpPos[i*3+2]=(R3()-.5)*30-4;xpSpd[i]=.4+R3()*.9}
-  xpGeo.setAttribute("position",new THREE.BufferAttribute(xpPos,3));
-  const xp=new THREE.Points(xpGeo,new THREE.PointsMaterial({color:0xb8ff5a,size:.32,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));world.add(xp);
+  // ---- particules : orbes d'XP, étoiles, braises du Nether, poussière de l'End, feux d'artifice
+  function cloud(n,spread,center,size,color,opacity=.85){const geo=new THREE.BufferGeometry(),pos=new Float32Array(n*3),spd=new Float32Array(n);for(let i=0;i<n;i++){pos[i*3]=center.x+(R3()-.5)*spread.x;pos[i*3+1]=center.y+(R3()-.5)*spread.y;pos[i*3+2]=center.z+(R3()-.5)*spread.z;spd[i]=.4+R3()*.9}geo.setAttribute("position",new THREE.BufferAttribute(pos,3));const p=new THREE.Points(geo,new THREE.PointsMaterial({color,size,transparent:true,opacity,blending:THREE.AdditiveBlending,depthWrite:false}));return {p,pos,spd,geo,n,center,spread}}
+  const xp=cloud(140,new THREE.Vector3(70,30,30),new THREE.Vector3(0,0,-4),.32,0xb8ff5a);world.add(xp.p);
+  const stars=cloud(260,new THREE.Vector3(220,60,10),new THREE.Vector3(0,40,-110),.9,0xffffff,.7);stars.p.material.fog=false;scene.add(stars.p);
+  const embers=cloud(50,new THREE.Vector3(6,5,6),tops[5].clone().add(new THREE.Vector3(0,2,0)),.22,0xff8a2a);world.add(embers.p);
+  const motes=cloud(60,new THREE.Vector3(7,7,7),tops[6].clone().add(new THREE.Vector3(0,3,0)),.2,0xd58cff);world.add(motes.p);
+  const fw=makeBurst(world,420,.36);
 
-  // soleil carré et nuages
+  // ---- ciel : soleil carré, nuages, étoile filante
   const sunMesh=new THREE.Mesh(new THREE.PlaneGeometry(9,9),new THREE.MeshBasicMaterial({color:0xffb46a,fog:false}));sunMesh.position.set(-38,2,-75);scene.add(sunMesh);
+  const sunGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW(),color:0xff9a5a,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,fog:false,opacity:.8}));sunGlow.scale.set(34,34,1);sunGlow.position.copy(sunMesh.position);scene.add(sunGlow);
   const cloudMat=new THREE.MeshLambertMaterial({color:0xffffff,emissive:0xd98aa8,emissiveIntensity:.45,transparent:true,opacity:.92});
   const clouds=[];
   for(let i=0;i<10;i++){const g=new THREE.Group(),n=3+Math.floor(R3()*4);for(let j=0;j<n;j++){const b=new THREE.Mesh(new THREE.BoxGeometry(3+R3()*3,.9,2+R3()*2),cloudMat);b.position.set(j*2.2-n,R3()*.3,(R3()-.5)*2);g.add(b)}g.position.set((R3()-.5)*100,(R3()-.5)*18+4,-16-R3()*40);g.userData.v=.3+R3()*.5;scene.add(g);clouds.push(g)}
+  const shoot=new THREE.Mesh(new THREE.PlaneGeometry(9,.12),new THREE.MeshBasicMaterial({map:canvasTex(64,4,(g)=>{const r=g.createLinearGradient(0,0,64,0);r.addColorStop(0,"rgba(255,255,255,0)");r.addColorStop(1,"rgba(255,255,255,1)");g.fillStyle=r;g.fillRect(0,0,64,4)}),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,fog:false}));
+  shoot.visible=false;scene.add(shoot);let shootT=-1,shootNext=4;
 
-  // progression
+  // ---- progression
   const T=[0,...PALIERS];let progress=-1;
   function setProgress(ok){
-    progress=ok;
-    const reached=i=>ok>=PALIERS[i];
-    gems.forEach((g,i)=>{const on=ok>=0&&reached(i);g.material.color.copy(on?g.userData.col:gray);g.material.emissive.copy(on?g.userData.col.clone().multiplyScalar(.35):new THREE.Color(0));g.material.opacity=on?1:.75;beams[i].visible=on});
+    const prev=progress;progress=ok;
+    gems.forEach((g,i)=>{const on=ok>=0&&ok>=PALIERS[i];g.material.color.copy(on?g.userData.col:gray);g.material.emissive.copy(on?g.userData.col.clone().multiplyScalar(.35):new THREE.Color(0));g.material.opacity=on?1:.7;beams[i].visible=on;rings[i].visible=on;g.userData.on=on});
     let seg=0,f=0;if(ok>=0){for(let s=0;s<6;s++){if(ok<T[s+1]){seg=s;f=(ok-T[s])/(T[s+1]-T[s]);break}seg=5;f=1}}
-    stepPos.forEach((p,i)=>{const s=Math.floor(i/STEPS),k=(i%STEPS+1)/(STEPS+1),done=ok>=0&&(s<seg||(s===seg&&k<=f));steps.setColorAt(i,done?gold:new THREE.Color(0xffffff))});
+    stepPos.forEach((p,i)=>{const s=Math.floor(i/STEPS),k=(i%STEPS+1)/(STEPS+1),done=ok>=0&&(s<seg||(s===seg&&k<=f));steps.setColorAt(i,done?goldC:whiteC)});
     if(steps.instanceColor)steps.instanceColor.needsUpdate=true;
     marker.visible=ok>=0;
-    marker.userData.target=tops[seg].clone().lerp(tops[seg+1],f).add(new THREE.Vector3(0,1.8+Math.sin(f*Math.PI)*1.2,0));
+    marker.userData.target=tops[seg].clone().lerp(tops[seg+1],f).add(new THREE.Vector3(0,1.9+Math.sin(f*Math.PI)*1.2,0));
     if(!marker.userData.placed){marker.position.copy(marker.userData.target);marker.userData.placed=true}
+    if(prev>=0&&ok>prev&&!reduce){
+      PALIERS.forEach((k,i)=>{if(prev<k&&ok>=k)[0,350,700].forEach((d,n)=>setTimeout(()=>fw.fire(gems[i].position.clone().add(new THREE.Vector3((n-1)*1.2,1+n*.6,0)),n===1?0xffd23f:gems[i].userData.col,120,5),900+d))});
+      setTimeout(()=>fw.fire(marker.userData.target,0xb8ff5a,50,3),700);
+    }
   }
-  window.hyRoute={setProgress};
-  setProgress(window.hyProgress??-1);
+  function setChestReady(v){chestReady=!!v}
+  window.hyRoute={setProgress,setPlayer,setChestReady};
+  setProgress(window.hyProgress??-1);setPlayer(window.hyPlayer||null);setChestReady(window.hyChestReady);
 
-  // caméra : cadre toute la route (à droite sur grand écran, laisse la place au titre)
+  // ---- caméra : cadre toute la route (décalée à droite sur grand écran pour laisser la place au titre)
   const center=new THREE.Vector3(0,1,0);let dist=40,shift=0;
   function size(){
     const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;
     renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();
-    const wide=cam.aspect>1.3,half=Math.tan(cam.fov*Math.PI/360),W=wide?52*1.75:44,H=wide?22:30;
-    dist=Math.max((W/2)/(half*cam.aspect),(H/2)/half)*1.05;shift=wide?W*.24:0;
+    const wide=cam.aspect>1.3,half=Math.tan(cam.fov*Math.PI/360),W=wide?57*1.75:44,H=wide?22:30;
+    dist=Math.max((W/2)/(half*cam.aspect),(H/2)/half)*1.05;shift=wide?W*.23:0;
+    scene.fog.near=dist*.95;scene.fog.far=dist*2.6;
   }
   addEventListener("resize",size);size();
-  let yaw=0,pitch=.18,drag=false,lx=0,ly=0,auto=true;
-  canvas.addEventListener("pointerdown",e=>{drag=true;auto=false;lx=e.clientX;ly=e.clientY;canvas.setPointerCapture(e.pointerId)});
-  canvas.addEventListener("pointermove",e=>{if(!drag)return;yaw=Math.max(-.7,Math.min(.7,yaw-(e.clientX-lx)*.004));pitch=Math.max(-.05,Math.min(.55,pitch+(e.clientY-ly)*.003));lx=e.clientX;ly=e.clientY});
-  const up=()=>{drag=false;setTimeout(()=>auto=true,3000)};canvas.addEventListener("pointerup",up);canvas.addEventListener("pointercancel",up);
 
-  let t0=performance.now(),time=0;
+  // ---- interactions : glisser pour tourner, survoler / toucher une gemme ou le coffre
+  let yaw=0,pitch=.18,drag=false,lx=0,ly=0,auto=true,moved=0,hover=null;
+  const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
+  function hit(e){const r=canvas.getBoundingClientRect();ndc.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(ndc,cam);const h=ray.intersectObjects(pick,false)[0];return h?h.object.userData:null}
+  function tipHtml(h){
+    if(h.kind==="chest")return chestReady?"<b>Coffre du jour</b><br>Clique pour l'ouvrir !":!me?"<b>Coffre du jour</b><br>Connecte-toi pour l'ouvrir":"<b>Coffre du jour</b><br>Déjà ouvert, reviens demain";
+    const k=PALIERS[h.i];return `<b>Palier ${k}</b> · ${esc(gradeName(k))}<br>${progress<0?"Connecte-toi pour avancer":progress>=k?"Débloqué ! Clique pour voir l'emblème":`Encore ${plural(k-progress,"défi")}`}`;
+  }
+  function showTip(h,e){
+    hover=h;canvas.style.cursor=h?"pointer":"";
+    if(!h){tip.hidden=true;return}
+    const r=canvas.getBoundingClientRect();tip.innerHTML=tipHtml(h);tip.hidden=false;
+    const x=Math.min(e.clientX-r.left,r.width-260),y=Math.min(e.clientY-r.top,r.height-70);tip.style.left=x+"px";tip.style.top=y+"px";
+  }
+  function activate(h){
+    if(h.kind==="chest"){if(chestReady)openChest();else{location.hash="defis";setTimeout(()=>$("chest-strip").scrollIntoView({behavior:"smooth",block:"center"}),50)}return}
+    if(progress>=PALIERS[h.i])openEmblem(h.i,false);else location.hash="pass";
+  }
+  canvas.addEventListener("pointerdown",e=>{drag=true;moved=0;auto=false;lx=e.clientX;ly=e.clientY;canvas.setPointerCapture(e.pointerId)});
+  canvas.addEventListener("pointermove",e=>{
+    if(drag){const dx=e.clientX-lx,dy=e.clientY-ly;moved+=Math.abs(dx)+Math.abs(dy);yaw=Math.max(-.7,Math.min(.7,yaw-dx*.004));pitch=Math.max(-.05,Math.min(.55,pitch+dy*.003));lx=e.clientX;ly=e.clientY;if(moved>6)showTip(null);return}
+    if(e.pointerType==="mouse")showTip(hit(e),e);
+  });
+  const up=e=>{if(drag&&moved<6){const h=hit(e);if(h){showTip(null);activate(h)}}drag=false;setTimeout(()=>auto=true,3000)};
+  canvas.addEventListener("pointerup",up);canvas.addEventListener("pointercancel",()=>{drag=false});
+  canvas.addEventListener("pointerleave",()=>{if(!drag)showTip(null)});
+
+  // ---- boucle d'animation
+  let t0=performance.now(),time=0,intro=reduce?1:0;
+  const tmp=new THREE.Vector3();
+  function drift(c,dt,fn){for(let i=0;i<c.n;i++)fn(i,c.pos,c.spd,dt);c.geo.attributes.position.needsUpdate=true}
   function frame(now){
     requestAnimationFrame(frame);
     if(document.hidden||!canvas.clientHeight)return;
     const dt=Math.min(.05,(now-t0)/1000);t0=now;if(!reduce)time+=dt;
-    const sway=auto&&!reduce?Math.sin(time*.18)*.22:0,y=yaw+sway;
-    cam.position.set(center.x-shift+Math.sin(y)*dist,center.y+Math.sin(pitch)*dist,center.z+Math.cos(y)*Math.cos(pitch)*dist);
+    if(intro<1)intro=Math.min(1,intro+dt/2.8);const e=1-Math.pow(1-intro,3);
+    const sway=auto&&!reduce?Math.sin(time*.18)*.22:0,y=yaw+sway+(1-e)*.9,pt=pitch+(1-e)*.22,dd=dist*(1+(1-e)*.75);
+    cam.position.set(center.x-shift+Math.sin(y)*dd,center.y+Math.sin(pt)*dd,center.z+Math.cos(y)*Math.cos(pt)*dd);
     cam.lookAt(center.x-shift,center.y,center.z);
-    gems.forEach((g,i)=>{g.rotation.y=time*(1+i*.12);g.position.y=g.userData.base+Math.sin(time*1.6+i)*.18});
-    beams.forEach((b,i)=>{if(b.visible)b.material.opacity=.22+Math.sin(time*2+i)*.06});
-    if(marker.visible){marker.position.lerp(marker.userData.target,.06);marker.position.y+=Math.sin(time*2.4)*.004;ring.rotation.x=time*1.3;ring.rotation.y=time*.9;halo.scale.setScalar(1+Math.sin(time*3)*.12)}
+    gems.forEach((g,i)=>{const hov=hover&&hover.kind==="palier"&&hover.i===i;g.userData.s+=((hov?1.3:1)-g.userData.s)*.15;g.scale.setScalar(g.userData.s);g.rotation.y=time*(1+i*.12)+(hov?time*2:0);g.position.y=g.userData.base+Math.sin(time*1.6+i)*.18;
+      halos[i].position.y=rings[i].position.y=g.position.y;halos[i].material.opacity=g.userData.on?.55+Math.sin(time*2.2+i)*.15:(hov?.25:0);
+      rings[i].rotation.x=Math.PI/2+Math.sin(time*.8+i)*.5;rings[i].rotation.y=time*1.2+i;beams[i].material.opacity=.42+Math.sin(time*2+i)*.1});
+    if(marker.visible){marker.position.lerp(marker.userData.target,.05);mRing.rotation.x=time*1.3;mRing.rotation.y=time*.9;mHalo.material.opacity=.55+Math.sin(time*3)*.15;headSlot.position.y=Math.sin(time*2.4)*.12;
+      tmp.copy(cam.position).sub(world.position);headSlot.rotation.y=Math.atan2(tmp.x-marker.position.x,tmp.z-marker.position.z)+Math.sin(time*.9)*.3;orb.rotation.y=time}
+    const lidT=chestReady?(hover?.kind==="chest"?.55:.18+Math.abs(Math.sin(time*2.2))*.12):0;chest.userData.pivot.rotation.x+=(-lidT-chest.userData.pivot.rotation.x)*.15;
+    chest.userData.glow.material.opacity=chestReady?.9:0;chestHalo.material.opacity=chestReady?.5+Math.sin(time*3)*.2:0;chestLight.intensity=chestReady?1.2+Math.sin(time*3)*.4:0;
+    chestBang.visible=chestReady;chestBang.position.y=chest.position.y+2.3+Math.sin(time*3)*.15;
+    crystal.rotation.y=time*1.1;cOuter.rotation.x=cEdges.rotation.x=time*.9;cInner.rotation.z=time*1.7;crystal.position.y=tops[6].y+7.4+Math.sin(time*1.4)*.25;cLight.intensity=1+Math.sin(time*2)*.3;
+    lavaLight.intensity=1.1+Math.sin(time*4)*.25+Math.sin(time*7.3)*.1;
     world.position.y=Math.sin(time*.6)*.25;
-    if(!reduce){for(let i=0;i<XP;i++){xpPos[i*3+1]+=xpSpd[i]*dt;if(xpPos[i*3+1]>16)xpPos[i*3+1]=-14}xpGeo.attributes.position.needsUpdate=true;clouds.forEach(c=>{c.position.x+=c.userData.v*dt;if(c.position.x>55)c.position.x=-55})}
+    if(!reduce){
+      TX.lava.offset.y=(TX.lava.offset.y+dt*.06)%1;
+      drift(xp,dt,(i,p,s,d)=>{p[i*3+1]+=s[i]*d;if(p[i*3+1]>16)p[i*3+1]=-14});
+      drift(embers,dt,(i,p,s,d)=>{p[i*3+1]+=s[i]*d*1.4;p[i*3]+=Math.sin(time*2+i)*d*.3;if(p[i*3+1]>embers.center.y+4){p[i*3+1]=embers.center.y-2.5;p[i*3]=embers.center.x+(Math.random()-.5)*5}});
+      drift(motes,dt,(i,p,s,d)=>{const a=d*s[i]*.5,cx=motes.center.x,cz=motes.center.z,x=p[i*3]-cx,z=p[i*3+2]-cz;p[i*3]=cx+x*Math.cos(a)-z*Math.sin(a);p[i*3+2]=cz+x*Math.sin(a)+z*Math.cos(a);p[i*3+1]+=Math.sin(time+i)*d*.2});
+      stars.p.material.opacity=.55+Math.sin(time*1.3)*.15;
+      clouds.forEach(c=>{c.position.x+=c.userData.v*dt;if(c.position.x>55)c.position.x=-55});
+      shootNext-=dt;if(shootT<0&&shootNext<=0){shootT=0;shoot.visible=true;shoot.userData={x:-60+Math.random()*60,y:30+Math.random()*12}}
+      if(shootT>=0){shootT+=dt;const k=shootT/1.1;shoot.position.set(shoot.userData.x+k*60,shoot.userData.y-k*22,-80);shoot.rotation.z=-.35;shoot.material.opacity=Math.sin(Math.min(1,k)*Math.PI);if(k>=1){shootT=-1;shoot.visible=false;shootNext=6+Math.random()*8}}
+      fw.update(dt);
+    }
     sunMesh.lookAt(cam.position);
     renderer.render(scene,cam);
   }
@@ -1252,52 +1843,123 @@ const noiseTex=(base,v)=>(g,s)=>{for(let y=0;y<s;y++)for(let x=0;x<s;x++){const 
 })();
 
 /* ================= 3D : EMBLÈME DE PALIER ================= */
-let emRaf=0,emRenderer=null,emIndex=-1;
+let emRaf=0,emRenderer=null,emIndex=-1,emMove=null;
 function openEmblem(i,showClaim,justClaimed){
   const k=PALIERS[i];emIndex=i;
+  const col=NAME_COLORS.find(c=>c.palier===k);
   $("em-lbl").textContent=justClaimed?"Grade réclamé":showClaim?"Palier atteint !":`Palier ${k}`;
   $("em-name").textContent=gradeName(k);
-  $("em-text").textContent=justClaimed?`Un officier va te donner le grade « ${gradeName(k)} » sur Discord.`:showClaim?`${k} défis réussis ! Réclame ton grade Discord.`:`Débloqué à ${k} défis réussis.`;
+  $("em-text").innerHTML=(justClaimed?`Un officier va te donner le grade « ${esc(gradeName(k))} » sur Discord.`:showClaim?`${k} défis réussis ! Réclame ton grade Discord.`:`Débloqué à ${k} défis réussis.`)+(col?`<br><span style="color:var(--muted)">Débloque aussi le titre « ${esc(gradeName(k))} » et le pseudo <span class="nm c-${col.k}">${esc(col.label)}</span>.</span>`:"");
   $("em-claim").hidden=!showClaim;
   $("emblem-modal").hidden=false;
   if(window.THREE)playEmblem(i);
 }
-function closeEmblem(){cancelAnimationFrame(emRaf);emRaf=0;if(emRenderer){emRenderer.dispose();emRenderer=null}$("emblem-modal").hidden=true}
+function closeEmblem(){cancelAnimationFrame(emRaf);emRaf=0;if(emRenderer){emRenderer.dispose();emRenderer=null}if(emMove){removeEventListener("pointermove",emMove);emMove=null}$("emblem-modal").hidden=true}
 $("em-close").onclick=closeEmblem;
 $("em-claim").onclick=async()=>{const k=PALIERS[emIndex];closeEmblem();if(!myClaims.get(k))await claim(k,null)};
+function envCube(main){
+  const face=(top,mid,bot)=>{const c=document.createElement("canvas");c.width=c.height=64;const g=c.getContext("2d"),r=g.createLinearGradient(0,0,0,64);r.addColorStop(0,top);r.addColorStop(.5,mid);r.addColorStop(1,bot);g.fillStyle=r;g.fillRect(0,0,64,64);return c};
+  const m="#"+main.getHexString(),side=face("#ffffff",m,"#120a24");
+  const cube=new THREE.CubeTexture([side,face("#ffe9b0",m,"#1a0f30"),face("#ffffff","#ffffff","#ffffff"),face("#0a0614","#0a0614","#0a0614"),side,face("#d8c8ff",m,"#120a24")]);cube.needsUpdate=true;return cube;
+}
 function playEmblem(i){
-  cancelAnimationFrame(emRaf);if(emRenderer)emRenderer.dispose();
-  const cv=$("emblem-cv"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  cancelAnimationFrame(emRaf);if(emRenderer)emRenderer.dispose();if(emMove)removeEventListener("pointermove",emMove);
+  const cv=$("emblem-cv"),reduce=REDUCE,k=PALIERS[i];
   try{emRenderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){return}
   emRenderer.setPixelRatio(Math.min(devicePixelRatio,2));emRenderer.setSize(260,260,false);
-  const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,50);cam.position.set(0,0,7.2);
-  scene.add(new THREE.AmbientLight(0xffffff,.45));
-  const key=new THREE.DirectionalLight(0xffffff,1.1);key.position.set(3,4,6);scene.add(key);
-  const rimL=new THREE.DirectionalLight(0xc95cff,.8);rimL.position.set(-5,-2,-3);scene.add(rimL);
+  const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,50);cam.position.set(0,0,7.4);
+  scene.add(new THREE.AmbientLight(0xffffff,.35));
+  const key=new THREE.DirectionalLight(0xffffff,1);key.position.set(3,4,6);scene.add(key);
   const [dark,main,light]=PALIER_COLORS[i].map(c=>new THREE.Color(c));
-  // bouclier extrudé
+  const p1=new THREE.PointLight(0xffffff,1.2,12),p2=new THREE.PointLight(main,1.4,12);scene.add(p1,p2);
+  const env=envCube(main);
+  // rayons de lumière derrière l'emblème
+  const raysTex=canvasTex(256,256,(g)=>{g.translate(128,128);for(let n=0;n<18;n++){g.rotate(Math.PI*2/18);const r=g.createLinearGradient(0,0,0,128);r.addColorStop(0,"rgba(255,255,255,.9)");r.addColorStop(1,"rgba(255,255,255,0)");g.fillStyle=r;g.beginPath();g.moveTo(0,0);g.lineTo(-9,128);g.lineTo(9,128);g.closePath();g.fill()}});
+  const rays=new THREE.Mesh(new THREE.PlaneGeometry(9,9),new THREE.MeshBasicMaterial({map:raysTex,color:light,transparent:true,opacity:.5,blending:THREE.AdditiveBlending,depthWrite:false}));rays.position.z=-1.6;scene.add(rays);
+  const back=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW(),color:main,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:.8}));back.scale.set(6,6,1);back.position.z=-1.2;scene.add(back);
+  // bouclier extrudé, métal réfléchissant
   const s=new THREE.Shape();s.moveTo(0,1.45);s.quadraticCurveTo(.75,1.25,1.15,1.3);s.lineTo(1.15,.2);s.quadraticCurveTo(1.05,-.9,0,-1.55);s.quadraticCurveTo(-1.05,-.9,-1.15,.2);s.lineTo(-1.15,1.3);s.quadraticCurveTo(-.75,1.25,0,1.45);
-  const shield=new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:.32,bevelEnabled:true,bevelThickness:.12,bevelSize:.1,bevelSegments:3}),new THREE.MeshPhongMaterial({color:main,emissive:dark.clone().multiplyScalar(.35),specular:0xffffff,shininess:90}));
+  const shield=new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:.32,bevelEnabled:true,bevelThickness:.12,bevelSize:.1,bevelSegments:4}),new THREE.MeshStandardMaterial({color:main,metalness:.85,roughness:.25,envMap:env,emissive:dark,emissiveIntensity:.3}));
   shield.geometry.center();
-  // étoile en relief
-  const st=new THREE.Shape();for(let k=0;k<10;k++){const a=Math.PI/2+k*Math.PI/5,r=k%2?0.32:0.72;const x=Math.cos(a)*r,y=Math.sin(a)*r+.1;k?st.lineTo(x,y):st.moveTo(x,y)}
-  const star=new THREE.Mesh(new THREE.ExtrudeGeometry(st,{depth:.18,bevelEnabled:true,bevelThickness:.05,bevelSize:.04,bevelSegments:2}),new THREE.MeshPhongMaterial({color:light,emissive:light.clone().multiplyScalar(.25),specular:0xffffff,shininess:120}));
+  const st=new THREE.Shape();for(let n=0;n<10;n++){const a=Math.PI/2+n*Math.PI/5,r=n%2?.3:.68;const x=Math.cos(a)*r,y=Math.sin(a)*r+.25;n?st.lineTo(x,y):st.moveTo(x,y)}
+  const star=new THREE.Mesh(new THREE.ExtrudeGeometry(st,{depth:.16,bevelEnabled:true,bevelThickness:.06,bevelSize:.05,bevelSegments:3}),new THREE.MeshStandardMaterial({color:light,metalness:.9,roughness:.15,envMap:env,emissive:light,emissiveIntensity:.15}));
   star.position.z=.28;
-  const emblem=new THREE.Group();emblem.add(shield,star);scene.add(emblem);
-  // gemmes autour selon le rang du palier
-  for(let k=0;k<=i;k++){const a=-Math.PI/2+(k-(i)/2)*.45,g=new THREE.Mesh(new THREE.OctahedronGeometry(.13,0),new THREE.MeshPhongMaterial({color:light,emissive:main,flatShading:true}));g.position.set(Math.cos(a)*1.55,Math.sin(a)*1.55-.2,.2);emblem.add(g)}
-  // éclats
-  const N=reduce?0:70,parts=[],pg=new THREE.BoxGeometry(.09,.09,.09);
-  for(let k=0;k<N;k++){const m=new THREE.Mesh(pg,new THREE.MeshBasicMaterial({color:k%3?main:0xffd23f,transparent:true}));const a=Math.random()*Math.PI*2,b=Math.random()*Math.PI-Math.PI/2,v=2.2+Math.random()*2.6;m.userData.v=new THREE.Vector3(Math.cos(a)*Math.cos(b)*v,Math.sin(b)*v+1.4,Math.sin(a)*Math.cos(b)*v*.5);scene.add(m);parts.push(m)}
+  const num=new THREE.Mesh(new THREE.PlaneGeometry(1.5,.55),new THREE.MeshBasicMaterial({map:textTex(String(k),{w:256,h:96,size:70,fill:"#fff",stroke:"#"+dark.getHexString()}),transparent:true,depthWrite:false}));num.position.set(0,-.62,.36);
+  const emblem=new THREE.Group();emblem.add(shield,star,num);scene.add(emblem);
+  for(let n=0;n<=i;n++){const a=-Math.PI/2+(n-i/2)*.45,g=new THREE.Mesh(new THREE.OctahedronGeometry(.13,0),new THREE.MeshStandardMaterial({color:light,emissive:main,emissiveIntensity:.6,metalness:.5,roughness:.2,envMap:env,flatShading:true}));g.position.set(Math.cos(a)*1.6,Math.sin(a)*1.6-.15,.2);emblem.add(g)}
+  // anneau d'étincelles en orbite + éclats
+  const ringN=70,rg=new THREE.BufferGeometry(),rp=new Float32Array(ringN*3);for(let n=0;n<ringN;n++){const a=n/ringN*Math.PI*2;rp[n*3]=Math.cos(a)*2.15;rp[n*3+1]=Math.sin(a)*2.15;rp[n*3+2]=(Math.random()-.5)*.3}
+  rg.setAttribute("position",new THREE.BufferAttribute(rp,3));const sparkRing=new THREE.Points(rg,new THREE.PointsMaterial({color:light,size:.09,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(sparkRing);
+  const fx=makeBurst(scene,160,.12);if(!reduce){fx.fire(new THREE.Vector3(0,0,0),"#"+main.getHexString(),90,4,1);fx.fire(new THREE.Vector3(0,0,0),"#ffd23f",60,3,1)}
+  let tx=0,ty=0;emMove=e=>{const b=cv.getBoundingClientRect();if(!b.width)return;tx=Math.max(-1,Math.min(1,(e.clientX-(b.left+b.width/2))/(b.width/2)));ty=Math.max(-1,Math.min(1,(e.clientY-(b.top+b.height/2))/(b.height/2)))};addEventListener("pointermove",emMove);
   let t=0,last=performance.now();
   function f(now){
     emRaf=requestAnimationFrame(f);const dt=Math.min(.05,(now-last)/1000);last=now;t+=dt;
-    if(reduce){emblem.rotation.set(0,-.35,0);emblem.scale.setScalar(1)}
-    else{const e=Math.min(1,t/1.1),ease=1-Math.pow(1-e,3),pop=e<1?ease*(1+.18*Math.sin(e*Math.PI)):1;emblem.scale.setScalar(pop);emblem.rotation.y=(1-ease)*Math.PI*-3+Math.sin(t*.9)*.35;emblem.rotation.x=Math.sin(t*.7)*.08}
-    parts.forEach(p=>{p.position.addScaledVector(p.userData.v,dt);p.userData.v.y-=4.2*dt;p.rotation.x+=dt*4;p.rotation.y+=dt*3;p.material.opacity=Math.max(0,1-t/1.8)});
-    emRenderer.render(scene,cam);
+    if(reduce){emblem.rotation.set(0,-.3,0);emblem.scale.setScalar(1)}
+    else{const e=Math.min(1,t/1.1),ease=1-Math.pow(1-e,3),pop=e<1?ease*(1+.18*Math.sin(e*Math.PI)):1;emblem.scale.setScalar(pop);emblem.rotation.y=(1-ease)*Math.PI*-3+Math.sin(t*.9)*.3+tx*.45;emblem.rotation.x=Math.sin(t*.7)*.08+ty*.3}
+    rays.rotation.z=reduce?0:t*.25;rays.material.opacity=.38+Math.sin(t*2)*.12;sparkRing.rotation.z=-t*.5;sparkRing.rotation.x=Math.sin(t*.6)*.4;
+    p1.position.set(Math.cos(t*1.3)*4,Math.sin(t*.9)*3,3);p2.position.set(Math.cos(t*1.3+Math.PI)*4,-Math.sin(t*.9)*3,3);
+    fx.update(dt,3);emRenderer.render(scene,cam);
   }
   emRaf=requestAnimationFrame(f);
+}
+
+/* ================= 3D : OUVERTURE DU COFFRE ================= */
+let cmRaf=0,cmRenderer=null,cmLoot=null,chestShown=true;
+function closeChest(){cancelAnimationFrame(cmRaf);cmRaf=0;if(cmRenderer){cmRenderer.dispose();cmRenderer=null}$("chest-modal").hidden=true}
+$("cm-close").onclick=closeChest;
+$("cm-equip").onclick=async()=>{const it=cmLoot?.item;if(!it)return;$("cm-equip").disabled=true;const ok=await equip(it.startsWith("t:")?{title:it.slice(2)}:{color:it.slice(2)});$("cm-equip").disabled=false;if(ok){closeChest();toast("Équipé ! Regarde ton pseudo dans le classement.")}};
+function playChest(loot,write){
+  cmLoot=loot;chestShown=false;const R=RARITY[loot.rarity],slow=window.THREE&&!REDUCE;
+  $("cm-rar").textContent="";$("cm-text").textContent="La RNG réfléchit…";$("cm-sub").textContent="";$("cm-equip").hidden=true;$("cm-close").disabled=true;
+  $("chest-modal").hidden=false;
+  const scene3=window.THREE?chest3D(loot):null;
+  Promise.all([write,new Promise(r=>setTimeout(r,slow?1600:150))]).then(()=>{
+    scene3?.open();
+    setTimeout(()=>{chestShown=true;$("cm-rar").textContent=R.label;$("cm-rar").style.color=R.hex;$("cm-text").textContent=loot.text;$("cm-sub").textContent=loot.sub;$("cm-equip").hidden=!loot.item;if(loot.rarity==="mythic"||loot.rarity==="epic")$("cm-text").style.color=R.hex;else $("cm-text").style.color=""},slow?650:0);
+  }).catch(e=>{console.error(e);closeChest();toast("Le coffre est resté coincé. Recharge la page et réessaie.")}).finally(()=>{chestBusy=false;$("cm-close").disabled=false});
+}
+function chest3D(loot){
+  cancelAnimationFrame(cmRaf);if(cmRenderer)cmRenderer.dispose();
+  const cv=$("chest-cv3"),reduce=REDUCE;
+  try{cmRenderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){cv.hidden=true;return null}
+  cv.hidden=false;cmRenderer.setPixelRatio(Math.min(devicePixelRatio,2));cmRenderer.setSize(300,260,false);
+  const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(36,300/260,.1,50);cam.position.set(0,2,4.9);cam.lookAt(0,1.05,0);
+  scene.add(new THREE.AmbientLight(0xffffff,.55));const key=new THREE.DirectionalLight(0xfff0d0,.85);key.position.set(2,4,3);scene.add(key);
+  const col=new THREE.Color(RARITY[loot.rarity].hex);
+  const chest=buildChest();chest.scale.setScalar(1.7);chest.rotation.y=-.4;scene.add(chest);
+  const {pivot,glow}=chest.userData;glow.material.color.copy(col);
+  const light=new THREE.PointLight(col,0,7);light.position.set(0,1.4,.2);scene.add(light);
+  const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW(),color:col,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0}));halo.scale.set(4,4,1);halo.position.set(0,1.3,0);scene.add(halo);
+  // faisceaux qui sortent du coffre
+  const rays=new THREE.Group();rays.position.y=1;
+  for(let n=0;n<12;n++){const h=new THREE.Group();h.rotation.y=n*Math.PI/6;const p=new THREE.Mesh(new THREE.PlaneGeometry(.2,3),new THREE.MeshBasicMaterial({map:BEAM(),color:col,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));p.geometry.translate(0,1.5,0);p.rotation.z=n%2?.42:.22;p.material.map=BEAM();h.add(p);rays.add(h)}
+  scene.add(rays);
+  // l'objet gagné : gemme (couleur), étiquette (titre) ou rien (poussière)
+  let item=null;
+  if(loot.item?.startsWith("c:")){const c=COLOR_BY[loot.item.slice(2)],cc=new THREE.Color(c.hex);item=new THREE.Mesh(new THREE.OctahedronGeometry(.34,0),new THREE.MeshPhongMaterial({color:cc,emissive:cc.clone().multiplyScalar(.4),flatShading:true,shininess:110,specular:0xffffff}));item.userData.rainbow=loot.item==="c:arc"}
+  else if(loot.item?.startsWith("t:")){const tex=textTex(loot.item.slice(2),{w:512,h:128,size:54,fill:"#ffffff",stroke:"#000",bg:"#3a2412"});const edge=new THREE.MeshLambertMaterial({color:0x2a180a});item=new THREE.Mesh(new THREE.BoxGeometry(1.9,.48,.05),[edge,edge,edge,edge,new THREE.MeshBasicMaterial({map:tex}),new THREE.MeshBasicMaterial({map:tex})]);item.userData.tag=true}
+  if(item){item.position.set(0,.7,0);item.scale.setScalar(.001);scene.add(item)}
+  const fx=makeBurst(scene,260,.07);
+  let t=0,last=performance.now(),opened=false,to=0,leak=0;
+  function f(now){
+    cmRaf=requestAnimationFrame(f);const dt=Math.min(.05,(now-last)/1000);last=now;t+=dt;
+    if(!opened){
+      const a=reduce?0:Math.min(1,t/1.2);chest.rotation.z=Math.sin(t*38)*.05*a;chest.position.x=Math.sin(t*29)*.03*a;
+      pivot.rotation.x=reduce?0:-(.04+.07*Math.abs(Math.sin(t*11)))*a;glow.material.opacity=.4+.3*Math.sin(t*9);light.intensity=(.5+.4*Math.sin(t*17))*a;
+      leak+=dt;if(!reduce&&leak>.08){leak=0;fx.fire(new THREE.Vector3((Math.random()-.5)*.8,1,(Math.random()-.5)*.6),"#"+col.getHexString(),3,.8,1.2)}
+    }else{
+      const e=Math.min(1,(t-to)/.45),back=1+2.2*Math.pow(e-1,3)+1.2*Math.pow(e-1,2);
+      pivot.rotation.x=-1.95*(reduce?1:back);chest.rotation.z*=.8;chest.position.x*=.8;
+      glow.material.opacity=1;light.intensity=reduce?1.5:2.6-e*.9+Math.sin(t*4)*.2;halo.material.opacity=.6+Math.sin(t*3)*.15;
+      rays.rotation.y+=dt*(reduce?0:.7);rays.children.forEach((h,n)=>h.children[0].material.opacity=Math.min(.55,(t-to)*1.2)*(.75+.25*Math.sin(t*3+n)));
+      if(item){const s=reduce?1:Math.min(1,Math.max(0,(t-to-.15)/.6)),es=1-Math.pow(1-s,3);item.position.y=.7+1.3*es+(s>=1&&!reduce?Math.sin(t*2)*.06:0);item.scale.setScalar(Math.max(.001,es));if(item.userData.tag)item.rotation.y=reduce?0:Math.sin(t*1.2)*.45;else item.rotation.y+=dt*(reduce?0:1.4);if(item.userData.rainbow){item.material.color.setHSL((t*.25)%1,1,.6);item.material.emissive.setHSL((t*.25)%1,1,.25)}}
+    }
+    cam.position.x=reduce?0:Math.sin(t*.35)*.35;cam.lookAt(0,.9,0);
+    fx.update(dt,2.5);cmRenderer.render(scene,cam);
+  }
+  cmRaf=requestAnimationFrame(f);
+  return {open(){if(opened)return;opened=true;to=t;if(!reduce){fx.fire(new THREE.Vector3(0,1.1,0),"#"+col.getHexString(),120,3.2,2.2);fx.fire(new THREE.Vector3(0,1.1,0),"#ffffff",40,2.5,2);if(!loot.item)fx.fire(new THREE.Vector3(0,1,0),"#9a9aa8",70,1.5,1)}}};
 }
 
 </script>
